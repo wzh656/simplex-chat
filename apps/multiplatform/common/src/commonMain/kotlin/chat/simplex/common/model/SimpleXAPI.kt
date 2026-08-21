@@ -190,7 +190,6 @@ class AppPreferences {
   val liveMessageAlertShown = mkBoolPreference(SHARED_PREFS_LIVE_MESSAGE_ALERT_SHOWN, false)
   val signMessageAlertShown = mkBoolPreference(SHARED_PREFS_SIGN_MESSAGE_ALERT_SHOWN, false)
   val showHiddenProfilesNotice = mkBoolPreference(SHARED_PREFS_SHOW_HIDDEN_PROFILES_NOTICE, true)
-  val oneHandUICardShown = mkBoolPreference(SHARED_PREFS_ONE_HAND_UI_CARD_SHOWN, false)
   val addressCreationCardShown = mkBoolPreference(SHARED_PREFS_ADDRESS_CREATION_CARD_SHOWN, false)
   val showMuteProfileAlert = mkBoolPreference(SHARED_PREFS_SHOW_MUTE_PROFILE_ALERT, true)
   val showReportsInSupportChatAlert = mkBoolPreference(SHARED_PREFS_SHOW_REPORTS_IN_SUPPORT_CHAT_ALERT, true)
@@ -267,12 +266,11 @@ class AppPreferences {
   val iosCallKitEnabled = mkBoolPreference(SHARED_PREFS_IOS_CALL_KIT_ENABLED, true)
   val iosCallKitCallsInRecents = mkBoolPreference(SHARED_PREFS_IOS_CALL_KIT_CALLS_IN_RECENTS, false)
 
-  val oneHandUI = mkBoolPreference(SHARED_PREFS_ONE_HAND_UI, true)
+  val oneHandUI = mkBoolPreference(SHARED_PREFS_ONE_HAND_UI, false)
   val chatBottomBar = mkBoolPreference(SHARED_PREFS_CHAT_BOTTOM_BAR, true)
 
   val hintPreferences: List<HintPref> = listOf(
     hintPref(laNoticeShown, false),
-    hintPref(oneHandUICardShown, false),
     hintPref(addressCreationCardShown, false),
     hintPref(liveMessageAlertShown, false),
     hintPref(signMessageAlertShown, false),
@@ -464,7 +462,6 @@ class AppPreferences {
     private const val SHARED_PREFS_LIVE_MESSAGE_ALERT_SHOWN = "LiveMessageAlertShown"
     private const val SHARED_PREFS_SIGN_MESSAGE_ALERT_SHOWN = "SignMessageAlertShown"
     private const val SHARED_PREFS_SHOW_HIDDEN_PROFILES_NOTICE = "ShowHiddenProfilesNotice"
-    private const val SHARED_PREFS_ONE_HAND_UI_CARD_SHOWN = "OneHandUICardShown"
     private const val SHARED_PREFS_ADDRESS_CREATION_CARD_SHOWN = "AddressCreationCardShown"
     private const val SHARED_PREFS_SHOW_MUTE_PROFILE_ALERT = "ShowMuteProfileAlert"
     private const val SHARED_PREFS_SHOW_REPORTS_IN_SUPPORT_CHAT_ALERT = "ShowReportsInSupportChatAlert"
@@ -8431,7 +8428,7 @@ data class AppSettings(
         uiDarkColorScheme = DefaultTheme.SIMPLEX.themeName,
         uiCurrentThemeIds = null,
         uiThemes = null,
-        oneHandUI = true,
+        oneHandUI = false,
         chatBottomBar = true,
       )
 
