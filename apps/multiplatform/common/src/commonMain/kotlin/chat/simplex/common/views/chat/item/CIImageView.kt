@@ -38,7 +38,6 @@ fun CIImageView(
   imageProvider: () -> ImageGalleryProvider,
   showMenu: MutableState<Boolean>,
   smallView: Boolean,
-  senderProfile: LocalProfile?,
   receiveFile: (Long) -> Unit
 ) {
   val blurred = remember { mutableStateOf(appPrefs.privacyMediaBlurRadius.get() > 0) }
@@ -216,14 +215,7 @@ fun CIImageView(
         if (file != null) {
           when {
             file.fileStatus is CIFileStatus.RcvInvitation || file.fileStatus is CIFileStatus.RcvAborted ->
-              if (fileSizeValid(file, senderProfile)) {
-                receiveFile(file.fileId)
-              } else {
-                AlertManager.shared.showAlertMsg(
-                  generalGetString(MR.strings.large_file),
-                  String.format(generalGetString(MR.strings.contact_sent_large_file), formatBytes(getMaxFileSize(file.fileProtocol, senderProfile)))
-                )
-              }
+              receiveFileIfValidSize(file, receiveFile)
             file.fileStatus is CIFileStatus.RcvAccepted ->
               when (file.fileProtocol) {
                 FileProtocol.XFTP ->

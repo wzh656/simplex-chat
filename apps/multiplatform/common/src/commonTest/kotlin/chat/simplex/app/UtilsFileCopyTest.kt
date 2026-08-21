@@ -62,6 +62,7 @@ class UtilsFileCopyTest {
     assertFalse(dest.exists())
   }
 
+
   // Returns at most chunkSize bytes per read to force the copy loop to iterate, regardless of buffer size
   private fun chunkedStream(data: ByteArray, chunkSize: Int): InputStream =
     object : ByteArrayInputStream(data) {

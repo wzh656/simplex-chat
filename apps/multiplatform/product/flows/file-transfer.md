@@ -23,14 +23,14 @@ SimpleX Chat transfers files using two protocols based on file size: inline deli
 | `MAX_VOICE_SIZE_AUTO_RCV` | 522,240 bytes (510 KB) | Auto-receive threshold for voice messages |
 | `MAX_VIDEO_SIZE_AUTO_RCV` | 1,047,552 bytes (1023 KB) | Auto-receive threshold for video thumbnails |
 | `MAX_FILE_SIZE_SMP` | 8,000,000 bytes (~7.6 MB) | Maximum file size for SMP inline transfer |
-| `MAX_FILE_SIZE_XFTP` | 1,073,741,824 bytes (1 GB) | Maximum file size for XFTP transfer |
+| `MAX_FILE_SIZE_XFTP` | 52,428,800 bytes (50 MiB) | Maximum XFTP chat attachment size |
 | `MAX_FILE_SIZE_LOCAL` | `Long.MAX_VALUE` | No limit for local files |
 
 These constants are defined in `views/helpers/Utils.kt`.
 
 The core decides the transfer protocol:
 - Files within the SMP inline threshold are embedded directly in SMP messages.
-- Files exceeding the inline threshold (up to 1 GB) use XFTP with chunked, encrypted upload/download through relay servers.
+- Files exceeding the inline threshold (up to 50 MiB) use XFTP with chunked, encrypted upload/download through relay servers.
 
 ---
 
@@ -104,7 +104,7 @@ Decrypts an encrypted file at `fromPath` to plaintext at `toPath`. Used when exp
 ### 3.1 Attach and Send via ComposeView
 
 1. User attaches a file via the file picker.
-2. File size is validated: `fileSize <= MAX_FILE_SIZE_XFTP` (1 GB).
+2. File size is validated: `fileSize <= MAX_FILE_SIZE_XFTP` (50 MiB).
 3. If valid, `ComposeState.preview` is set to `ComposePreview.FilePreview(fileName, uri)`.
 4. If too large, an alert is shown with the maximum supported size.
 5. On send, the file is copied to the app files directory.

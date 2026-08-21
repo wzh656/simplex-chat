@@ -78,7 +78,7 @@ All message operations flow through the Haskell core via `ChatController.apiSend
 ## 3. Sending Files
 
 1. User picks a file via the file chooser.
-2. File size is validated against `MAX_FILE_SIZE_XFTP` (1 GB).
+2. File size is validated against `MAX_FILE_SIZE_XFTP` (50 MiB).
 3. Compose preview becomes `ComposePreview.FilePreview(fileName, uri)`.
 4. On send, `msgContent` is `MsgContent.MCFile(text)` and the `fileSource` is populated.
 5. Delivery via inline (small files under SMP threshold) or XFTP (large files) is determined by the core.

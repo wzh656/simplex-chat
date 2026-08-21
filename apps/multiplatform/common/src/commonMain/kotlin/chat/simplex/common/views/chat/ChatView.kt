@@ -2897,6 +2897,11 @@ private fun SaveReportsStateOnDispose(chatsCtx: ChatModel.ChatsContext, listStat
   }
 }
 
+fun fileIdsWithinSizeLimit(fileIds: List<Long>, files: Iterable<CIFile>): List<Long> {
+  val filesById = files.associateBy(CIFile::fileId)
+  return fileIds.filter { fileId -> filesById[fileId]?.let(::fileSizeValid) == true }
+}
+
 @Composable
 private fun DownloadFilesButton(
   forwardConfirmation: ForwardConfirmation.FilesNotAccepted,
@@ -2912,13 +2917,24 @@ private fun DownloadFilesButton(
       modifier = modifier,
       onClick = {
         AlertManager.shared.hideAlert()
-
-        withBGApi {
-          controller.receiveFiles(
-            rhId = rhId,
-            fileIds = forwardConfirmation.fileIds,
-            user = user
+        val validFileIds = fileIdsWithinSizeLimit(
+          forwardConfirmation.fileIds,
+          chatModel.chatsContext.chatItems.value.mapNotNull(ChatItem::file)
+        )
+        if (validFileIds.size != forwardConfirmation.fileIds.size) {
+          AlertManager.shared.showAlertMsg(
+            generalGetString(MR.strings.large_file),
+            String.format(generalGetString(MR.strings.contact_sent_large_file), formatBytes(MAX_FILE_SIZE_XFTP))
           )
+        }
+        if (validFileIds.isNotEmpty()) {
+          withBGApi {
+            controller.receiveFiles(
+              rhId = rhId,
+              fileIds = validFileIds,
+              user = user
+            )
+          }
         }
       }
     ) {

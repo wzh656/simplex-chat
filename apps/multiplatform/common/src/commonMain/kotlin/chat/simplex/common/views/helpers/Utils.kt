@@ -121,11 +121,7 @@ const val MAX_VOICE_MILLIS_FOR_SENDING: Int = 300_000
 
 const val MAX_FILE_SIZE_SMP: Long = 8000000
 
-const val MAX_FILE_SIZE_XFTP: Long = 1_073_741_824 // 1GB
-
-// raised XFTP receive limits for files from a sender with a supporter badge (also investor) or a legend badge
-const val MAX_FILE_SIZE_XFTP_SUPPORTER: Long = 2_147_483_648 // 2GB
-const val MAX_FILE_SIZE_XFTP_LEGEND: Long = 5_368_709_120 // 5GB
+const val MAX_FILE_SIZE_XFTP: Long = 52_428_800 // 50 MiB
 
 const val MAX_FILE_SIZE_LOCAL: Long = Long.MAX_VALUE
 
@@ -217,34 +213,27 @@ fun desktopSaveImageInTmp(uri: URI): CryptoFile? {
   }
 }
 
-fun saveAnimImage(uri: URI): CryptoFile? {
+fun saveAnimImage(uri: URI, maxBytes: Long): CryptoFile? =
+  saveFileFromUri(uri, maxBytes, hiddenFileNamePrefix = "IMG")
+
+fun saveFileToTmpFromUri(uri: URI, maxBytes: Long): CryptoFile? {
   return try {
-    val encrypted = chatController.appPrefs.privacyEncryptLocalFiles.get()
-    val filename = getFileName(uri)?.lowercase()
-    var ext = when {
-      // remove everything but extension
-      filename?.contains(".") == true -> filename.replaceBeforeLast('.', "").replace(".", "")
-      else -> "gif"
-    }
-    // Just in case the image has a strange extension
-    if (ext.length < 3 || ext.length > 4) ext = "gif"
-    val destFileName = generateNewFileName("IMG", ext, File(getAppFilePath("")))
-    val destFile = File(getAppFilePath(destFileName))
-    if (encrypted) {
-      try {
-        val args = writeCryptoFile(destFile.absolutePath, uri.inputStream()?.readBytes() ?: return null)
-        CryptoFile(destFileName, args)
-      } catch (e: Exception) {
-        Log.e(TAG, "Unable to read crypto file: " + e.stackTraceToString())
-        AlertManager.shared.showAlertMsg(title = generalGetString(MR.strings.error), text = e.stackTraceToString())
-        null
-      }
-    } else {
-      Files.copy(uri.inputStream(), destFile.toPath())
-      CryptoFile.plain(destFileName)
-    }
+    val fileName = getFileName(uri) ?: return null
+    val destFile = File(tmpDir, uniqueCombine(fileName, tmpDir))
+    val inputStream = uri.inputStream() ?: return null
+    inputStream.use { copyInputStreamToFile(it, destFile, maxBytes) }
+    destFile.deleteOnExit()
+    CryptoFile.plain(destFile.absolutePath)
+  } catch (e: FileTooLargeException) {
+    Log.e(TAG, "Util.kt saveFileToTmpFromUri file too large: ${e.message}")
+    AlertManager.shared.showAlertMsg(
+      generalGetString(MR.strings.large_file),
+      String.format(generalGetString(MR.strings.maximum_supported_file_size), formatBytes(maxBytes))
+    )
+    null
   } catch (e: Exception) {
-    Log.e(TAG, "Util.kt saveAnimImage error: ${e.message}")
+    Log.e(TAG, "Util.kt saveFileToTmpFromUri error: ${e.stackTraceToString()}")
+    showWrongUriAlert()
     null
   }
 }
@@ -474,23 +463,10 @@ fun directoryFileCountAndSize(dir: String): Pair<Int, Long> { // count, size in 
   return fileCount to bytes
 }
 
-fun getMaxFileSize(fileProtocol: FileProtocol, senderProfile: LocalProfile? = null): Long = when (fileProtocol) {
+fun getMaxFileSize(fileProtocol: FileProtocol): Long = when (fileProtocol) {
   FileProtocol.SMP -> MAX_FILE_SIZE_SMP
   FileProtocol.LOCAL -> MAX_FILE_SIZE_LOCAL
-  // a sender's active badge raises the XFTP limit: legend to 5GB, any other (supporter/investor) to 2GB
-  FileProtocol.XFTP -> {
-    val badge = senderProfile?.localBadge
-    if (badge == null || badge.status != BadgeStatus.Active) MAX_FILE_SIZE_XFTP
-    else if (badge.badge.badgeType == BadgeType.Legend) MAX_FILE_SIZE_XFTP_LEGEND
-    else MAX_FILE_SIZE_XFTP_SUPPORTER
-  }
-}
-
-// the profile of whoever sent a received chat item - the group member, or the direct chat's contact
-fun ciSenderProfile(ci: ChatItem, chatInfo: ChatInfo): LocalProfile? = when (val dir = ci.chatDir) {
-  is CIDirection.GroupRcv -> dir.groupMember.memberProfile
-  is CIDirection.DirectRcv -> (chatInfo as? ChatInfo.Direct)?.contact?.profile
-  else -> null
+  FileProtocol.XFTP -> MAX_FILE_SIZE_XFTP
 }
 
 expect suspend fun getBitmapFromVideo(uri: URI, timestamp: Long? = null, random: Boolean = true, withAlertOnException: Boolean = true): VideoPlayerInterface.PreviewAndDuration

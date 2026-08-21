@@ -38,7 +38,6 @@ fun CIFileView(
   showTimestamp: Boolean,
   showMenu: MutableState<Boolean>,
   smallView: Boolean = false,
-  senderProfile: LocalProfile?,
   receiveFile: (Long) -> Unit
 ) {
   val saveFileLauncher = rememberSaveFileLauncher(ciFile = file)
@@ -76,16 +75,8 @@ fun CIFileView(
   fun fileAction() {
     if (file != null) {
       when {
-        file.fileStatus is CIFileStatus.RcvInvitation || file.fileStatus is CIFileStatus.RcvAborted -> {
-          if (fileSizeValid(file, senderProfile)) {
-            receiveFile(file.fileId)
-          } else {
-            AlertManager.shared.showAlertMsg(
-              generalGetString(MR.strings.large_file),
-              String.format(generalGetString(MR.strings.contact_sent_large_file), formatBytes(getMaxFileSize(file.fileProtocol, senderProfile)))
-            )
-          }
-        }
+        file.fileStatus is CIFileStatus.RcvInvitation || file.fileStatus is CIFileStatus.RcvAborted ->
+          receiveFileIfValidSize(file, receiveFile)
         file.fileStatus is CIFileStatus.RcvAccepted ->
           when (file.fileProtocol) {
             FileProtocol.XFTP ->
@@ -157,7 +148,7 @@ fun CIFileView(
           is CIFileStatus.SndError -> fileIcon(innerIcon = painterResource(MR.images.ic_close))
           is CIFileStatus.SndWarning -> fileIcon(innerIcon = painterResource(MR.images.ic_warning_filled))
           is CIFileStatus.RcvInvitation ->
-            if (fileSizeValid(file, senderProfile))
+            if (fileSizeValid(file))
               fileIcon(innerIcon = painterResource(MR.images.ic_arrow_downward), color = MaterialTheme.colors.primary, topPadding = 10.sp.toDp())
             else
               fileIcon(innerIcon = painterResource(MR.images.ic_priority_high), color = WarningOrange)
@@ -237,9 +228,19 @@ fun CIFileView(
   }
 }
 
-// whether a received file is within the size we accept from its sender
-fun fileSizeValid(file: CIFile, senderProfile: LocalProfile?): Boolean =
-  file.fileSize <= getMaxFileSize(file.fileProtocol, senderProfile)
+// Whether a received file is within the size accepted by this client.
+fun fileSizeValid(file: CIFile): Boolean = file.fileSize <= getMaxFileSize(file.fileProtocol)
+
+fun receiveFileIfValidSize(file: CIFile, receiveFile: (Long) -> Unit) {
+  if (fileSizeValid(file)) {
+    receiveFile(file.fileId)
+  } else {
+    AlertManager.shared.showAlertMsg(
+      generalGetString(MR.strings.large_file),
+      String.format(generalGetString(MR.strings.contact_sent_large_file), formatBytes(getMaxFileSize(file.fileProtocol)))
+    )
+  }
+}
 
 fun showFileErrorAlert(err: FileError, temporary: Boolean = false) {
   val title: String = generalGetString(if (temporary) MR.strings.temporary_file_error else MR.strings.file_error)

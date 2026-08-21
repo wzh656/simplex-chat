@@ -412,11 +412,11 @@ private fun VoiceMsgIndicator(
         }
       )
     file?.fileStatus is CIFileStatus.RcvInvitation ->
-      PlayPauseButton(audioPlaying, sent, 0f, strokeWidth, strokeColor, true, error, sizeMultiplier, { receiveFile(file.fileId) }, {}, longClick = longClick)
+      PlayPauseButton(audioPlaying, sent, 0f, strokeWidth, strokeColor, true, error, sizeMultiplier, { receiveFileIfValidSize(file, receiveFile) }, {}, longClick = longClick)
     file?.fileStatus is CIFileStatus.RcvTransfer || file?.fileStatus is CIFileStatus.RcvAccepted ->
       VoiceMsgLoadingProgressIndicator(sizeMultiplier)
     file?.fileStatus is CIFileStatus.RcvAborted ->
-      PlayPauseButton(audioPlaying, sent, 0f, strokeWidth, strokeColor, true, error, sizeMultiplier, { receiveFile(file.fileId) }, {}, longClick = longClick, icon = MR.images.ic_sync_problem)
+      PlayPauseButton(audioPlaying, sent, 0f, strokeWidth, strokeColor, true, error, sizeMultiplier, { receiveFileIfValidSize(file, receiveFile) }, {}, longClick = longClick, icon = MR.images.ic_sync_problem)
     file != null && file.fileStatus is CIFileStatus.RcvError ->
       FileStatusIcon(
         sent,

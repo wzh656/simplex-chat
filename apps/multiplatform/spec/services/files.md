@@ -12,7 +12,7 @@
 
 ## Executive Summary
 
-SimpleX Chat uses two file transfer mechanisms: inline SMP transfers for small files (embedded in message bodies) and XFTP (eXtended File Transfer Protocol) for larger files up to 1 GB. Files are optionally encrypted at rest using `CryptoFile` functions backed by the chat core's native crypto library. File storage paths are platform-specific: Android uses `Context.dataDir`-based directories while Desktop uses platform-appropriate data directories (XDG on Linux, AppData on Windows, Application Support on macOS). Auto-receive logic automatically accepts images, voice messages, and videos below configurable size thresholds.
+Gray Heterotopia uses two file transfer mechanisms: inline SMP transfers for small files (embedded in message bodies) and XFTP (eXtended File Transfer Protocol) for larger files. Chat attachments are limited to 50 MiB in both send and receive paths. Files are optionally encrypted at rest using `CryptoFile` functions backed by the chat core's native crypto library. File storage paths are platform-specific: Android uses `Context.dataDir`-based directories while Desktop uses platform-appropriate data directories (XDG on Linux, AppData on Windows, Application Support on macOS). Auto-receive logic automatically accepts images, voice messages, and videos below configurable size thresholds.
 
 ---
 
@@ -21,7 +21,7 @@ SimpleX Chat uses two file transfer mechanisms: inline SMP transfers for small f
 File transfer decision logic:
 
 - **Inline (SMP)**: Files small enough to be base64-encoded and embedded directly in an SMP message body. The practical limit is defined by `MAX_IMAGE_SIZE` (255 KB) for compressed images. The maximum SMP inline size is `MAX_FILE_SIZE_SMP` (~7.6 MB).
-- **XFTP**: For files exceeding the inline threshold, up to `MAX_FILE_SIZE_XFTP` (1 GB). XFTP uses dedicated file relay servers with chunked, encrypted transfers.
+- **XFTP**: For files exceeding the inline threshold, up to `MAX_FILE_SIZE_XFTP` (50 MiB). XFTP uses dedicated file relay servers with chunked, encrypted transfers.
 
 The `receiveFile` / `receiveFiles` API commands handle both protocols transparently -- the chat core selects the appropriate transfer mechanism based on file metadata received from the sender.
 
@@ -41,7 +41,7 @@ Defined in [`Utils.kt`](../../common/src/commonMain/kotlin/chat/simplex/common/v
 | `MAX_VIDEO_SIZE_AUTO_RCV` | 1,047,552 | 1023 KB | [L121](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L121) | Auto-receive threshold for video |
 | `MAX_VOICE_MILLIS_FOR_SENDING` | 300,000 | 5 min | [L123](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L123) | Maximum voice message duration |
 | `MAX_FILE_SIZE_SMP` | 8,000,000 | ~7.6 MB | [L125](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L125) | Maximum SMP inline file size |
-| `MAX_FILE_SIZE_XFTP` | 1,073,741,824 | 1 GB | [L127](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L127) | Maximum XFTP transfer size |
+| `MAX_FILE_SIZE_XFTP` | 52,428,800 | 50 MiB | [L124](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L124) | Maximum XFTP chat attachment size, enforced when sending and receiving |
 | `MAX_FILE_SIZE_LOCAL` | `Long.MAX_VALUE` | Unlimited | [L129](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L129) | Local file protocol (no size limit) |
 
 The `getMaxFileSize()` function ([`Utils.kt`](../../common/src/commonMain/kotlin/chat/simplex/common/views/helpers/Utils.kt#L442)) selects the limit based on `FileProtocol`:
@@ -51,6 +51,8 @@ FileProtocol.XFTP -> MAX_FILE_SIZE_XFTP
 FileProtocol.SMP  -> MAX_FILE_SIZE_SMP
 FileProtocol.LOCAL -> MAX_FILE_SIZE_LOCAL
 ```
+
+The XFTP limit is enforced in both directions. Send paths validate file metadata when an attachment is selected, revalidate immediately before sending, and use bounded stream copies so unknown or changed source lengths cannot bypass the limit. Manual receive actions for files, images, videos, and voice messages reject oversized metadata; batch receive filters oversized and unknown file IDs. Static images are recompressed to `MAX_IMAGE_SIZE`, so their source file size is not the uploaded size.
 
 ---
 

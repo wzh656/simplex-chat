@@ -113,9 +113,7 @@ data class ComposeState(
   val inProgress: Boolean = false,
   val progressByTimeout: Boolean = false,
   val useLinkPreviews: Boolean,
-  val mentions: MentionedMembers = emptyMap(),
-  // the max file size the user may attach, raised by their active badge unless the chat is incognito; kept in sync on chat switch
-  val maxFileSize: Long = getMaxFileSize(FileProtocol.XFTP)
+  val mentions: MentionedMembers = emptyMap()
 ) {
   constructor(editingItem: ChatItem, liveMessage: LiveMessage? = null, useLinkPreviews: Boolean): this(
     ComposeMessage(
@@ -319,63 +317,71 @@ private fun isVideoUri(uri: URI): Boolean {
 
 private fun isWebmUri(uri: URI): Boolean = getFileName(uri)?.lowercase()?.endsWith(".webm") == true
 
-fun MutableState<ComposeState>.processPickedFile(uri: URI?, text: String?) {
-  if (uri != null) {
-    val maxFileSize = value.maxFileSize
-    val fileSize = getFileSize(uri)
-    if (fileSize != null && fileSize <= maxFileSize) {
-      val fileName = getFileName(uri)
-      if (fileName != null) {
-        value = value.copy(message = if (text != null) ComposeMessage(text) else value.message, preview = ComposePreview.FilePreview(fileName, uri))
-      }
-    } else if (fileSize != null) {
-      AlertManager.shared.showAlertMsg(
-        generalGetString(MR.strings.large_file),
-        String.format(generalGetString(MR.strings.maximum_supported_file_size), formatBytes(maxFileSize))
-      )
-    } else {
+private fun showAttachmentTooLarge(maxFileSize: Long = MAX_FILE_SIZE_XFTP) {
+  AlertManager.shared.showAlertMsg(
+    generalGetString(MR.strings.large_file),
+    String.format(generalGetString(MR.strings.maximum_supported_file_size), formatBytes(maxFileSize))
+  )
+}
+
+private fun attachmentSizeValid(uri: URI, maxFileSize: Long = MAX_FILE_SIZE_XFTP): Boolean {
+  val fileSize = getFileSize(uri)
+  return when {
+    fileSize == null -> {
       showWrongUriAlert()
+      false
+    }
+    fileSize > maxFileSize -> {
+      showAttachmentTooLarge(maxFileSize)
+      false
+    }
+    else -> true
+  }
+}
+
+fun MutableState<ComposeState>.processPickedFile(uri: URI?, text: String?) {
+  if (uri != null && attachmentSizeValid(uri)) {
+    val fileName = getFileName(uri)
+    if (fileName != null) {
+      value = value.copy(message = if (text != null) ComposeMessage(text) else value.message, preview = ComposePreview.FilePreview(fileName, uri))
     }
   }
 }
 
 suspend fun MutableState<ComposeState>.processPickedMedia(uris: List<URI>, text: String?) {
-  val maxFileSize = value.maxFileSize
   val content = ArrayList<UploadContent>()
   val imagesPreview = ArrayList<String>()
   uris.forEach { uri ->
     var bitmap: ImageBitmap?
     val uploadContent: UploadContent? = when {
       isImage(uri) -> {
-        // Image
         val drawable = getDrawableFromUri(uri)
-        // Do not show alert in case it's already shown from the function above
-        bitmap = getBitmapFromUri(uri, withAlertOnException = !AlertManager.shared.hasAlertsShown())
         if (isAnimImage(uri, drawable)) {
-          // It's a gif or webp
-          val fileSize = getFileSize(uri)
-          if (fileSize != null && fileSize <= maxFileSize) {
+          // Validate animated images before decoding their full contents.
+          if (attachmentSizeValid(uri)) {
+            bitmap = getBitmapFromUri(uri, withAlertOnException = !AlertManager.shared.hasAlertsShown())
             UploadContent.AnimatedImage(uri)
           } else {
             bitmap = null
-            AlertManager.shared.showAlertMsg(
-              generalGetString(MR.strings.large_file),
-              String.format(generalGetString(MR.strings.maximum_supported_file_size), formatBytes(maxFileSize))
-            )
             null
           }
-        } else if (bitmap != null) {
-          UploadContent.SimpleImage(uri)
         } else {
-          null
+          // Static images are recompressed before upload, so the source file may exceed the transfer limit.
+          bitmap = getBitmapFromUri(uri, withAlertOnException = !AlertManager.shared.hasAlertsShown())
+          if (bitmap != null) UploadContent.SimpleImage(uri) else null
         }
       }
       else -> {
-        // Video
-        val res = getBitmapFromVideo(uri, withAlertOnException = true)
-        bitmap = res.preview
-        val durationMs = res.duration
-        UploadContent.Video(uri, durationMs?.div(1000)?.toInt() ?: 0)
+        // Validate videos before extracting a preview frame.
+        if (!attachmentSizeValid(uri)) {
+          bitmap = null
+          null
+        } else {
+          val res = getBitmapFromVideo(uri, withAlertOnException = true)
+          bitmap = res.preview
+          val durationMs = res.duration
+          UploadContent.Video(uri, durationMs?.div(1000)?.toInt() ?: 0)
+        }
       }
     }
     // content and imagesPreview must stay index-aligned and equal-length: both consumers
@@ -526,7 +532,7 @@ fun ComposeView(
     if (live) {
       composeState.value = composeState.value.copy(inProgress = false, progressByTimeout = false)
     } else {
-      composeState.value = ComposeState(useLinkPreviews = useLinkPreviews, maxFileSize = composeState.value.maxFileSize)
+      composeState.value = ComposeState(useLinkPreviews = useLinkPreviews)
       resetLinkPreview()
     }
     recState.value = RecordingState.NotStarted
@@ -867,11 +873,13 @@ fun ComposeView(
                 if (remoteHost == null) saveImage(it.uri)
                 else desktopSaveImageInTmp(it.uri)
               is UploadContent.AnimatedImage ->
-                if (remoteHost == null) saveAnimImage(it.uri)
-                else CryptoFile.desktopPlain(it.uri)
+                if (!attachmentSizeValid(it.uri)) null
+                else if (remoteHost == null) saveAnimImage(it.uri, MAX_FILE_SIZE_XFTP)
+                else saveFileToTmpFromUri(it.uri, MAX_FILE_SIZE_XFTP)
               is UploadContent.Video ->
-                if (remoteHost == null) saveFileFromUri(it.uri, cs.maxFileSize, hiddenFileNamePrefix = "video")
-                else CryptoFile.desktopPlain(it.uri)
+                if (!attachmentSizeValid(it.uri)) null
+                else if (remoteHost == null) saveFileFromUri(it.uri, MAX_FILE_SIZE_XFTP, hiddenFileNamePrefix = "video")
+                else saveFileToTmpFromUri(it.uri, MAX_FILE_SIZE_XFTP)
             }
             if (file != null) {
               files.add(file)
@@ -886,7 +894,10 @@ fun ComposeView(
         is ComposePreview.VoicePreview -> {
           val tmpFile = File(preview.voice)
           AudioPlayer.stop(tmpFile.absolutePath)
-          if (remoteHost == null) {
+          if (tmpFile.length() > MAX_FILE_SIZE_XFTP) {
+            showAttachmentTooLarge()
+            tmpFile.delete()
+          } else if (remoteHost == null) {
             val actualFile = File(getAppFilePath(tmpFile.name.replaceAfter(RecorderInterface.extension, "")))
             val file = withContext(Dispatchers.IO) {
               if (chatController.appPrefs.privacyEncryptLocalFiles.get()) {
@@ -918,10 +929,11 @@ fun ComposeView(
           }
         }
         is ComposePreview.FilePreview -> {
-          val file = if (remoteHost == null) {
-            saveFileFromUri(preview.uri, cs.maxFileSize)
+          val file = if (!attachmentSizeValid(preview.uri)) null
+          else if (remoteHost == null) {
+            saveFileFromUri(preview.uri, MAX_FILE_SIZE_XFTP)
           } else {
-            CryptoFile.desktopPlain(preview.uri)
+            saveFileToTmpFromUri(preview.uri, MAX_FILE_SIZE_XFTP)
           }
           if (file != null) {
             files.add((file))
@@ -938,11 +950,13 @@ fun ComposeView(
         if (index > 0) delay(100)
         var file = files.getOrNull(index)
         if (remoteHost != null && file != null) {
+          val localFile = File(file.filePath)
           file = controller.storeRemoteFile(
             rhId = remoteHost.remoteHostId,
             storeEncrypted = if (content is MsgContent.MCVideo) false else null,
             localPath = file.filePath
           )
+          if (localFile.parentFile == tmpDir) localFile.delete()
         }
         val sendResult = send(toChat, content, if (index == 0) quotedItemId else null, file,
           live = if (content !is MsgContent.MCVoice && index == msgs.lastIndex) live else false,
@@ -1171,7 +1185,7 @@ fun ComposeView(
     if (composeState.value.contextItem != ComposeContextItem.NoContextItem || composeState.value.preview != ComposePreview.NoPreview) return
     val lastEditable = chatsCtx.chatItems.value.findLast { it.meta.editable }
     if (lastEditable != null) {
-      composeState.value = ComposeState(editingItem = lastEditable, useLinkPreviews = useLinkPreviews).copy(maxFileSize = composeState.value.maxFileSize)
+      composeState.value = ComposeState(editingItem = lastEditable, useLinkPreviews = useLinkPreviews)
     }
   }
 
@@ -1416,11 +1430,6 @@ fun ComposeView(
       clearCurrentDraft()
       clearState()
     }
-  }
-  // keep the attach size limit in sync with the chat: the user's active badge raises it, but not in incognito chats where no badge is presented
-  LaunchedEffect(chat.chatInfo) {
-    val incognito = if (chat.chatInfo.profileChangeProhibited) chat.chatInfo.incognito else chatModel.controller.appPrefs.incognito.get()
-    composeState.value = composeState.value.copy(maxFileSize = getMaxFileSize(FileProtocol.XFTP, if (incognito) null else chatModel.currentUser.value?.profile))
   }
   if (appPlatform.isDesktop) {
     // the same ComposeView is reused when switching chats, so `chat` captured by onDispose would be the chat opened first, not the current one
