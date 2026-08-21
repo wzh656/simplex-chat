@@ -339,7 +339,7 @@ private fun ConnectBannerCard() {
           }
         }
       ) {
-        if (BuildConfigCommon.SIMPLEX_ASSETS) {
+        if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
           Image(
             painterResource(if (isDark) MR.images.banner_create_link_light else MR.images.banner_create_link),
             contentDescription = null,
@@ -352,7 +352,7 @@ private fun ConnectBannerCard() {
           }
         }
         Box(Modifier.fillMaxWidth().background(labelBg).padding(vertical = 8.dp), contentAlignment = Alignment.Center) {
-          if (BuildConfigCommon.SIMPLEX_ASSETS) {
+          if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
               Icon(painterResource(MR.images.ic_add_link), contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colors.primary)
               Text(stringResource(MR.strings.new_1_time_link), style = MaterialTheme.typography.body2, color = MaterialTheme.colors.onBackground)
@@ -370,7 +370,7 @@ private fun ConnectBannerCard() {
           }
         }
       ) {
-        if (BuildConfigCommon.SIMPLEX_ASSETS) {
+        if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
           Image(
             painterResource(if (isDark) MR.images.banner_paste_link_light else MR.images.banner_paste_link),
             contentDescription = null,
@@ -383,7 +383,7 @@ private fun ConnectBannerCard() {
           }
         }
         Box(Modifier.fillMaxWidth().background(labelBg).padding(vertical = 8.dp), contentAlignment = Alignment.Center) {
-          if (BuildConfigCommon.SIMPLEX_ASSETS) {
+          if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
               Icon(painterResource(MR.images.ic_qr_code_scanner), contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colors.primary)
               Text(stringResource(if (appPlatform.isAndroid) MR.strings.scan_paste_link else MR.strings.paste_link), style = MaterialTheme.typography.body2, color = MaterialTheme.colors.onBackground)

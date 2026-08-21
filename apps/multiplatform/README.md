@@ -1,10 +1,10 @@
 # Android App Development
 
-This is a guide to contributing to the develop of the SimpleX android and desktop apps.
+This is a guide to contributing to the development of the Gray Heterotopia Android and desktop apps.
 
 ## Project Overview
 
-This is the **Kotlin Multiplatform (KMP)** mobile and desktop client for SimpleX Chat, sharing code between Android and Desktop (JVM) platforms using Compose Multiplatform for UI.
+This is the **Kotlin Multiplatform (KMP)** mobile and desktop client for Gray Heterotopia, based on SimpleX Chat and sharing code between Android and Desktop (JVM) platforms using Compose Multiplatform for UI.
 
 ## Build Commands
 
@@ -74,7 +74,7 @@ The app calls into a Haskell core library via JNI/FFI:
 compression.level=0          # APK compression (0-9)
 enable_debuggable=true       # Debug mode
 application_id.suffix=.debug # Multiple app instances on same device
-app.name=SimpleX Debug       # App name for debug builds
+app.name=@string/app_name    # App name for debug builds
 ```
 
 ### `gradle.properties`

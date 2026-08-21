@@ -86,7 +86,7 @@ fun getAppFilePath(fileName: String): String {
   return if (rh == null) {
     appFilesDir.absolutePath + s + fileName
   } else {
-    remoteHostsDir.absolutePath + s + rh.storePath + s + "simplex_v1_files" + s + fileName
+    remoteHostsDir.absolutePath + s + rh.storePath + s + "grayheterotopia_v1_files" + s + fileName
   }
 }
 
@@ -96,7 +96,7 @@ fun getWallpaperFilePath(fileName: String): String {
   val path = if (rh == null) {
     wallpapersDir.absolutePath + s + fileName
   } else {
-    remoteHostsDir.absolutePath + s + rh.storePath + s + "simplex_v1_assets" + s + "wallpapers" + s + fileName
+    remoteHostsDir.absolutePath + s + rh.storePath + s + "grayheterotopia_v1_assets" + s + "wallpapers" + s + fileName
   }
   File(path).parentFile.mkdirs()
   return path

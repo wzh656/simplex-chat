@@ -309,7 +309,7 @@ actual class VideoPlayer actual constructor(
           override fun mediaPlayerReady(mediaPlayer: MediaPlayer?) {
             playerThread.execute {
               // Do not call setVolume here: on Windows VLCJ routes it through WASAPI ISimpleAudioVolume,
-              // which resets SimpleX Chat's per-app volume in the Windows Volume Mixer on every playback
+              // which resets the app's per-process volume in the Windows Volume Mixer on every playback
               // (VLCJ issue #985). A fresh VLCJ MediaPlayer already defaults to volume 100, so this was redundant.
               mediaPlayer?.audio()?.isMute = false
             }

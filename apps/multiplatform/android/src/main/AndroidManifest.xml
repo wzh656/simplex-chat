@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="chat.simplex.app">
+    xmlns:tools="http://schemas.android.com/tools">
 
   <uses-feature android:name="android.hardware.camera" />
 
@@ -31,27 +30,27 @@
   </queries>
 
   <application
-      android:name="SimplexApp"
+      android:name="com.grayheterotopia.app.SimplexApp"
       android:allowBackup="false"
       android:fullBackupOnly="false"
-      android:icon="@mipmap/icon"
+      android:icon="@mipmap/grayheterotopia"
       android:label="${app_name}"
       android:largeHeap="true"
       android:extractNativeLibs="${extract_native_libs}"
       android:supportsRtl="true"
-      android:theme="@style/Theme.SimpleX">
+      android:theme="@style/Theme.GrayHeterotopia">
     <!--      android:localeConfig="@xml/locales_config"-->
 
     <!-- Main activity -->
     <activity
-        android:name=".MainActivity"
+        android:name="com.grayheterotopia.app.MainActivity"
         android:launchMode="singleTask"
         android:colorMode="wideColorGamut"
         android:exported="true"
         android:label="${app_name}"
         android:windowSoftInputMode="adjustResize"
         android:configChanges="uiMode"
-        android:theme="@style/Theme.SimpleX">
+        android:theme="@style/Theme.GrayHeterotopia">
       <intent-filter>
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
@@ -79,11 +78,11 @@
     </activity>
 
     <activity-alias
-        android:name=".MainActivity_default"
+        android:name="com.grayheterotopia.app.MainActivity_default"
         android:exported="true"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/grayheterotopia"
         android:enabled="true"
-        android:targetActivity=".MainActivity">
+        android:targetActivity="com.grayheterotopia.app.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -91,11 +90,11 @@
     </activity-alias>
 
     <activity-alias
-        android:name=".MainActivity_dark_blue"
+        android:name="com.grayheterotopia.app.MainActivity_dark_blue"
         android:exported="true"
-        android:icon="@mipmap/icon_dark_blue"
+        android:icon="@mipmap/grayheterotopia"
         android:enabled="false"
-        android:targetActivity=".MainActivity">
+        android:targetActivity="com.grayheterotopia.app.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -114,13 +113,13 @@
 
     <!-- NtfManager action processing (buttons in notifications) -->
     <receiver
-        android:name=".model.NtfManager$NtfActionReceiver"
+        android:name="com.grayheterotopia.app.model.NtfManager$NtfActionReceiver"
         android:enabled="true"
         android:exported="false" />
 
     <!-- SimplexService foreground service -->
     <service
-        android:name=".SimplexService"
+        android:name="com.grayheterotopia.app.SimplexService"
         android:enabled="true"
         android:exported="false"
         android:stopWithTask="false"
@@ -130,7 +129,7 @@
     <!-- SimplexService restart on reboot -->
 
     <receiver
-        android:name=".SimplexService$StartReceiver"
+        android:name="com.grayheterotopia.app.SimplexService$StartReceiver"
         android:enabled="true"
         android:exported="true">
       <intent-filter>
@@ -140,13 +139,13 @@
 
     <!-- SimplexService restart on destruction -->
     <receiver
-        android:name=".SimplexService$AutoRestartReceiver"
+        android:name="com.grayheterotopia.app.SimplexService$AutoRestartReceiver"
         android:enabled="true"
         android:exported="false" />
 
     <!-- SimplexService restart on app update -->
     <receiver
-        android:name=".SimplexService$AppUpdateReceiver"
+        android:name="com.grayheterotopia.app.SimplexService$AppUpdateReceiver"
         android:enabled="true"
         android:exported="false">
       <intent-filter>

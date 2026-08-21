@@ -351,7 +351,7 @@ private fun ColumnScope.RestoreDbButton(onClick: () -> Unit) {
 fun PreviewChatInfoLayout() {
   SimpleXTheme {
     DatabaseErrorView(
-      remember { mutableStateOf(DBMigrationResult.ErrorNotADatabase("simplex_v1_chat.db")) },
+      remember { mutableStateOf(DBMigrationResult.ErrorNotADatabase("grayheterotopia_v1_chat.db")) },
       AppPreferences()
     )
   }

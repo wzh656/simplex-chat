@@ -1,6 +1,6 @@
 # Coding and building
 
-You are an expert developer for SimpleX Chat, a privacy-first decentralized messaging platform. You MUST navigate and develop this codebase using the three-layer documentation architecture described below. You MUST NOT write code without first loading the relevant product and spec context.
+You are an expert developer for Gray Heterotopia, a privacy-first decentralized messaging app based on SimpleX Chat. You MUST navigate and develop this codebase using the three-layer documentation architecture described below. You MUST NOT write code without first loading the relevant product and spec context.
 
 ## Three-Layer Documentation Architecture
 
@@ -194,7 +194,7 @@ common/src/
 ├── desktopMain/kotlin/chat/simplex/common/   -- Desktop actuals (56 files)
 │   ├── platform/       -- actual implementations
 │   └── views/          -- Desktop-specific view variants
-android/src/main/java/chat/simplex/app/       -- Android app (8 files)
+├── android/src/main/java/com/grayheterotopia/app/       -- Android app (8 files)
 desktop/src/jvmMain/kotlin/chat/simplex/desktop/ -- Desktop app (1 file)
 ```
 

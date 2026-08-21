@@ -1,6 +1,6 @@
 package chat.simplex.common.platform
 
-const val TAG = "SIMPLEX"
+const val TAG = "GRAY_HETEROTOPIA"
 
 enum class LogLevel {
   DEBUG, INFO, WARNING, ERROR

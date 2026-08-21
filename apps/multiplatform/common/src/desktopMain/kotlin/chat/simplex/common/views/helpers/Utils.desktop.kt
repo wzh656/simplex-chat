@@ -121,7 +121,7 @@ actual fun getAppFileUri(fileName: String): URI {
   return if (rh == null) {
     createURIFromPath(appFilesDir.absolutePath + "/" + fileName)
   } else {
-    createURIFromPath(dataDir.absolutePath + "/remote_hosts/" + rh.storePath + "/simplex_v1_files/" + fileName)
+    createURIFromPath(dataDir.absolutePath + "/remote_hosts/" + rh.storePath + "/grayheterotopia_v1_files/" + fileName)
   }
 }
 

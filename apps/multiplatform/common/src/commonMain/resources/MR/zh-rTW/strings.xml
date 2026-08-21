@@ -2,13 +2,13 @@
 <resources>
     <string name="chat_item_ttl_week">1 個星期</string>
     <string name="a_plus_b">a + b</string>
-    <string name="about_simplex">關於 SimpleX</string>
+    <string name="about_simplex">關於 Gray Heterotopia</string>
     <string name="accept_call_on_lock_screen">接受</string>
     <string name="accept_feature">接受</string>
     <string name="chat_item_ttl_day">1 天</string>
     <string name="chat_item_ttl_month">1 個月</string>
     <string name="accept_contact_button">接受</string>
-    <string name="about_simplex_chat">關於 SimpleX Chat</string>
+    <string name="about_simplex_chat">關於 Gray Heterotopia</string>
     <string name="accept_connection_request__question">接受連接請求？</string>
     <string name="callstatus_accepted">已接受通話</string>
     <string name="network_enable_socks_info">要在端口啟用 SOCKS 代理伺服器嗎 %d？在啟用這個選項之前，必須先啟用代理伺服器。</string>
@@ -33,8 +33,8 @@
     <string name="allow_to_send_disappearing">允許傳送自動銷毀的訊息。</string>
     <string name="database_initialization_error_title">無法初始化資料庫</string>
     <string name="notifications_mode_service">總是開啟</string>
-    <string name="auth_disable_simplex_lock">關閉 SimpleX 鎖定</string>
-    <string name="auth_enable_simplex_lock">啟用 SimpleX 鎖定</string>
+    <string name="auth_disable_simplex_lock">關閉 Gray Heterotopia 鎖定</string>
+    <string name="auth_enable_simplex_lock">啟用 Gray Heterotopia 鎖定</string>
     <string name="copy_verb">複製</string>
     <string name="reply_verb">回覆</string>
     <string name="share_verb">分享</string>
@@ -60,7 +60,7 @@
     <string name="share_invitation_link">分享一次性連結</string>
     <string name="chat_with_the_founder">傳送問題和想法給開發者</string>
     <string name="how_to_use_simplex_chat">如何使用</string>
-    <string name="install_simplex_chat_for_terminal">使用終端機安裝 SimpleX Chat</string>
+    <string name="install_simplex_chat_for_terminal">使用終端機安裝 Gray Heterotopia</string>
     <string name="app_version_title">應用程式版本</string>
     <string name="all_your_contacts_will_remain_connected">你的所有聯絡人會保持連接。</string>
     <string name="app_version_code">應用程式建構：%s</string>
@@ -169,7 +169,7 @@
     <string name="share_one_time_link">建立一次性邀請連結</string>
     <string name="to_share_with_your_contact">（分享給你的聯絡人）</string>
     <string name="chat_help_tap_button">點擊按鈕</string>
-    <string name="thank_you_for_installing_simplex">感謝你安裝 SimpleX Chat！</string>
+    <string name="thank_you_for_installing_simplex">感謝你安裝 Gray Heterotopia！</string>
     <string name="mute_chat">靜音</string>
     <string name="unmute_chat">解除靜音</string>
     <string name="your_settings">你的設定</string>
@@ -227,7 +227,7 @@
     <string name="v4_5_reduced_battery_usage_descr">更多改進即將推出！</string>
     <string name="v4_5_italian_interface">意大利語言界面</string>
     <string name="v4_5_italian_interface_descr">感謝用戶 - 使用 Weblate 的翻譯貢獻！</string>
-    <string name="app_name">SimpleX</string>
+    <string name="app_name">灰色異托邦</string>
     <string name="thousand_abbreviation">k</string>
     <string name="connect_via_contact_link">透過聯絡人地址連接？</string>
     <string name="connect_via_invitation_link">透過一次性連結連接？</string>
@@ -256,7 +256,7 @@
     <string name="periodic_notifications_disabled">定期通知已禁用！</string>
     <string name="enter_passphrase_notification_title">需要使用密碼</string>
     <string name="notification_preview_mode_contact_desc">只顯示聯絡人名稱</string>
-    <string name="auth_device_authentication_is_disabled_turning_off">裝置內的螢幕鎖定已關閉。正在關閉 SimpleX 鎖定。</string>
+    <string name="auth_device_authentication_is_disabled_turning_off">裝置內的螢幕鎖定已關閉。正在關閉 Gray Heterotopia 鎖定。</string>
     <string name="save_verb">儲存</string>
     <string name="images_limit_title">太多圖片！</string>
     <string name="error_saving_file">儲存檔案的時候出錯</string>
@@ -276,7 +276,7 @@
     <string name="service_notifications">即時通知！</string>
     <string name="service_notifications_disabled">已禁用即時通知功能！</string>
     <string name="database_initialization_error_desc">資料庫目前沒有正常運作。點擊查看更多</string>
-    <string name="ntf_channel_calls">SimpleX Chat 通話來電</string>
+    <string name="ntf_channel_calls">Gray Heterotopia 通話來電</string>
     <string name="settings_notifications_mode_title">通知服務</string>
     <string name="settings_notification_preview_mode_title">顯示預覽</string>
     <string name="settings_notification_preview_title">通知預覽</string>
@@ -322,10 +322,10 @@
     <string name="turn_off_battery_optimization"><![CDATA[在下一個對話框中<b>允許它</b>以接收實時通知。]]></string>
     <string name="enter_passphrase_notification_desc">在接收通知之前，請你輸入資料庫的密碼</string>
     <string name="periodic_notifications_desc">應用程式會定期取得新的訊息 — 它每天會消耗百分之幾的電量。應用程式將不使用推送通知 — 你裝置中的數據不會傳送至伺服器。</string>
-    <string name="simplex_service_notification_title">SimpleX Chat 服務</string>
+    <string name="simplex_service_notification_title">Gray Heterotopia 服務</string>
     <string name="simplex_service_notification_text">正在接收訊息…</string>
     <string name="hide_notification">隱藏</string>
-    <string name="ntf_channel_messages">SimpleX Chat 訊息</string>
+    <string name="ntf_channel_messages">Gray Heterotopia 訊息</string>
     <string name="notifications_mode_off">當應用程式是開啟</string>
     <string name="notifications_mode_periodic">定期啟動</string>
     <string name="notification_preview_mode_message_desc">顯示聯絡人名稱和訊息內容</string>
@@ -333,12 +333,12 @@
     <string name="notification_preview_somebody">隱藏聯絡人：</string>
     <string name="notification_preview_new_message">新訊息</string>
     <string name="notification_contact_connected">已連接</string>
-    <string name="la_notice_title_simplex_lock">SimpleX 鎖定</string>
-    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">為了保護你的個人訊息，開啟 SimpleX 鎖定。
+    <string name="la_notice_title_simplex_lock">Gray Heterotopia 鎖定</string>
+    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">為了保護你的個人訊息，開啟 Gray Heterotopia 鎖定。
 \n在啟用此功能之前，系統將提示你完成螢幕鎖定的功能。</string>
     <string name="la_notice_turn_on">開啟</string>
-    <string name="auth_simplex_lock_turned_on">已開啟SimpleX 鎖定</string>
-    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">你的裝置沒有啟用螢幕鎖定。你可以通過設定內啟用螢幕鎖定，當你啟用後就可以使用 SimpleX 鎖定。</string>
+    <string name="auth_simplex_lock_turned_on">已開啟Gray Heterotopia 鎖定</string>
+    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">你的裝置沒有啟用螢幕鎖定。你可以通過設定內啟用螢幕鎖定，當你啟用後就可以使用 Gray Heterotopia 鎖定。</string>
     <string name="edit_verb">編輯</string>
     <string name="delete_verb">刪除</string>
     <string name="reveal_verb">展露</string>
@@ -358,7 +358,7 @@
     <string name="send_live_message_desc">傳送實況訊息 - 這會即時顯示你在輸入中的文字</string>
     <string name="connect_via_link_or_qr_from_clipboard_or_in_person">（掃描或使用剪貼薄貼上）</string>
     <string name="toast_permission_denied">權限被拒絕！</string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[為了保護隱私，<b>SimpleX 在背景運作</b>而不是使用推送通知。]]></string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[為了保護隱私，<b>Gray Heterotopia 在背景運作</b>而不是使用推送通知。]]></string>
     <string name="periodic_notifications">定期通知</string>
     <string name="notifications_mode_periodic_desc">每十分鐘會檢查一次訊息，最快可設為每分鐘檢查一次</string>
     <string name="notification_preview_mode_message">訊息文字</string>
@@ -400,7 +400,7 @@
     <string name="scan_QR_code">掃描二維碼</string>
     <string name="only_stored_on_members_devices">(僅由群組成員儲存)</string>
     <string name="contact_wants_to_connect_with_you">想和你對話！</string>
-    <string name="image_descr_simplex_logo">SimpleX 徽標</string>
+    <string name="image_descr_simplex_logo">Gray Heterotopia 徽標</string>
     <string name="connect_via_link">透過連結連接</string>
     <string name="smp_servers_preset_server">預設伺服器</string>
     <string name="smp_servers_your_server_address">你的伺服器地址</string>
@@ -448,9 +448,9 @@
     <string name="image_descr_qr_code">QR 圖碼</string>
     <string name="image_descr_profile_image">個人檔案頭像</string>
     <string name="image_descr_link_preview">預覧連結圖片</string>
-    <string name="icon_descr_address">SimpleX 地址</string>
+    <string name="icon_descr_address">Gray Heterotopia 地址</string>
     <string name="icon_descr_help">幫助</string>
-    <string name="icon_descr_simplex_team">SimpleX 團隊</string>
+    <string name="icon_descr_simplex_team">Gray Heterotopia 團隊</string>
     <string name="icon_descr_email">電郵</string>
     <string name="icon_descr_more_button">更多</string>
     <string name="show_QR_code">顯示二維碼</string>
@@ -480,9 +480,9 @@
     <string name="smp_servers_use_server_for_new_conn">用於新的連接</string>
     <string name="smp_servers_invalid_address">無效的伺服器地址！</string>
     <string name="smp_servers_per_user">此伺服器用於你目前的個人檔案</string>
-    <string name="use_simplex_chat_servers__question">使用 SimpleX Chat 伺服器？</string>
+    <string name="use_simplex_chat_servers__question">使用 Gray Heterotopia 伺服器？</string>
     <string name="your_SMP_servers">你的 SMP 伺服器</string>
-    <string name="using_simplex_chat_servers">目前使用 SimpleX Chat 伺服器。</string>
+    <string name="using_simplex_chat_servers">目前使用 Gray Heterotopia 伺服器。</string>
     <string name="how_to">如何</string>
     <string name="configure_ICE_servers">配置 ICE 伺服器</string>
     <string name="saved_ICE_servers_will_be_removed">已儲存的 WebRTC ICE 伺服器將移除。</string>
@@ -491,7 +491,7 @@
     <string name="network_use_onion_hosts_required">需要</string>
     <string name="network_use_onion_hosts_prefer_desc">Onion 主機會在可用時啟用。</string>
     <string name="delete_address__question">刪除地址？</string>
-    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">你的個人檔案只會儲存於你的裝置和只會分享給你的聯絡人。 SimpleX 伺服器並不會看到你的個人檔案。</string>
+    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">你的個人檔案只會儲存於你的裝置和只會分享給你的聯絡人。 Gray Heterotopia 伺服器並不會看到你的個人檔案。</string>
     <string name="save_and_notify_contact">儲存並通知你的聯絡人</string>
     <string name="save_and_notify_contacts">儲存並通知你的多個聯絡人</string>
     <string name="your_profile_is_stored_on_your_device">你的個人檔案，聯絡人和傳送的訊息只會儲存於你的個人裝置內。</string>
@@ -515,7 +515,7 @@
     <string name="we_do_not_store_contacts_or_messages_on_servers">我們不會在伺服器內儲存你的任何聯絡人和訊息（一旦傳送）。</string>
     <string name="create_profile">建立個人檔案</string>
     <string name="callstate_received_confirmation">已確認回應…</string>
-    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[你可以透過 <font color="#0088ff">連接到 SimpleX Chat 開發人員提出任何問題並同意更新</font>。]]></string>
+    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[你可以透過 <font color="#0088ff">連接到 Gray Heterotopia 開發人員提出任何問題並同意更新</font>。]]></string>
     <string name="to_start_a_new_chat_help_header">開啟新的對話</string>
     <string name="set_contact_name">設定聯絡人名稱</string>
     <string name="you_invited_a_contact">你已邀請了你的聯絡人</string>
@@ -534,7 +534,7 @@
     <string name="your_chat_profiles">你的個人檔案</string>
     <string name="database_passphrase_and_export">資料庫密碼和匯出</string>
     <string name="send_us_an_email">傳送電郵</string>
-    <string name="chat_lock">SimpleX 鎖定</string>
+    <string name="chat_lock">Gray Heterotopia 鎖定</string>
     <string name="smp_servers">SMP 伺服器</string>
     <string name="smp_servers_preset_address">預設伺服器地址</string>
     <string name="smp_servers_test_server">測試伺服器</string>
@@ -555,7 +555,7 @@
     <string name="no_call_on_lock_screen">停用</string>
     <string name="icon_descr_call_missed">已錯過通話</string>
     <string name="open_verb">開啟</string>
-    <string name="open_simplex_chat_to_accept_call">開啟  SimpleX Chat 以接受通話</string>
+    <string name="open_simplex_chat_to_accept_call">開啟  Gray Heterotopia 以接受通話</string>
     <string name="icon_descr_call_rejected">已拒絕通話</string>
     <string name="show_call_on_lock_screen">顯示</string>
     <string name="icon_descr_call_connecting">連接通話中</string>
@@ -667,7 +667,7 @@
     <string name="settings_section_title_device">裝置</string>
     <string name="settings_section_title_help">幫助</string>
     <string name="settings_section_title_settings">設定</string>
-    <string name="settings_section_title_support">幫助 SimpleX Chat</string>
+    <string name="settings_section_title_support">幫助 Gray Heterotopia</string>
     <string name="settings_section_title_chats">聊天</string>
     <string name="settings_developer_tools">開發者工具</string>
     <string name="settings_section_title_socks">SOCKS 代理伺服器</string>
@@ -861,7 +861,7 @@
     <string name="description_via_one_time_link">透過一次性連結連接</string>
     <string name="network_session_mode_transport_isolation">傳輸隔離</string>
     <string name="update_network_session_mode_question">更新傳輸隔離模式？</string>
-    <string name="to_protect_privacy_simplex_has_ids_for_queues">為了保護你的隱私，SimpleX 對你的每個聯絡人使用不同的 ID。</string>
+    <string name="to_protect_privacy_simplex_has_ids_for_queues">為了保護你的隱私，Gray Heterotopia 對你的每個聯絡人使用不同的 ID。</string>
     <string name="onboarding_notifications_mode_off">當應用程式是運行中</string>
     <string name="allow_accepting_calls_from_lock_screen">透過設定啟用於上鎖畫面顯示來電通知。</string>
     <string name="delete_chat_profile_action_cannot_be_undone_warning">這操作不能還原 - 你目前的個人檔案，聯絡人，訊息和檔案將不可逆地遺失。</string>
@@ -1018,8 +1018,8 @@
     <string name="la_enter_app_passcode">輸入密碼</string>
     <string name="la_no_app_password">沒有應用程式密碼</string>
     <string name="la_lock_mode_passcode">輸入密碼</string>
-    <string name="la_lock_mode">SimpleX 鎖定模式</string>
-    <string name="lock_not_enabled">未啟用 SimpleX 鎖定！</string>
+    <string name="la_lock_mode">Gray Heterotopia 鎖定模式</string>
+    <string name="lock_not_enabled">未啟用 Gray Heterotopia 鎖定！</string>
     <string name="host_verb">主機</string>
     <string name="disable_onion_hosts_when_not_supported"><![CDATA[如果SOCKS 代理不支援它們，請設定 <i>Use .onion hosts</i>為否。]]></string>
     <string name="lock_mode">鎖定模式</string>
@@ -1079,7 +1079,7 @@
     <string name="xftp_servers">XFTP 伺服器</string>
     <string name="la_lock_mode_system">系統認證</string>
     <string name="la_could_not_be_verified">你未能通過認證；請再試一次。</string>
-    <string name="you_can_turn_on_lock">你可以透過設定啟用 SimpleX 鎖定。</string>
+    <string name="you_can_turn_on_lock">你可以透過設定啟用 Gray Heterotopia 鎖定。</string>
     <string name="la_mode_system">系統</string>
     <string name="alert_text_msg_bad_id">此ID的下一則訊息是錯誤（小於或等於上一則的）。
 \n當一些錯誤出現或你的連結被破壞時會發生。</string>
@@ -1106,7 +1106,7 @@
     <string name="dont_create_address">不用建立聯絡地址</string>
     <string name="enter_welcome_message_optional">輸入歡迎訊息… （可選擇的）</string>
     <string name="email_invite_body">你好！ 
-\n透過 SimpleX Chat 來和我連接吧：%s</string>
+\n透過 Gray Heterotopia 來和我連接吧：%s</string>
     <string name="save_auto_accept_settings">儲存自動接受的設定</string>
     <string name="save_settings_question">儲存設定？</string>
     <string name="invite_friends">邀請朋友</string>
@@ -1114,7 +1114,7 @@
     <string name="enter_welcome_message">輸入歡迎訊息…</string>
     <string name="group_welcome_preview">預覽</string>
     <string name="import_theme">匯入主題</string>
-    <string name="theme_simplex">SimpleX</string>
+    <string name="theme_simplex">Gray Heterotopia</string>
     <string name="export_theme">匯出主題</string>
     <string name="import_theme_error">匯入主題時出錯</string>
     <string name="color_secondary">輔助</string>
@@ -1158,7 +1158,7 @@
     <string name="your_contacts_will_remain_connected">你的聯絡人會保持連接。</string>
     <string name="all_your_contacts_will_remain_connected_update_sent">你的所有聯絡人會保持連接。更新了的個人檔案將傳送給你的聯絡人。</string>
     <string name="add_address_to_your_profile">新增地址至你的個人檔案，以便你的聯絡人可以與其他人分享。更新了的個人檔案將傳送給你的聯絡人。</string>
-    <string name="email_invite_subject">讓我們在 SimpleX Chat中聊天</string>
+    <string name="email_invite_subject">讓我們在 Gray Heterotopia中聊天</string>
     <string name="import_theme_error_desc">確保檔案具有正確的 YAML 語法。匯出主題以獲得主題檔案結構的範例。</string>
     <string name="message_reactions">訊息反應</string>
     <string name="allow_your_contacts_adding_message_reactions">允許你的聯絡人新增訊息互動。</string>
@@ -1913,7 +1913,7 @@
     <string name="button_add_team_members">新增團隊成員</string>
     <string name="accept_pending_member_alert_title">接受成員</string>
     <string name="chat_list_add_list">新增清單</string>
-    <string name="system_restricted_background_desc">SimpleX 無法在背景執行。你只有在應用程式執行時才會收到通知。</string>
+    <string name="system_restricted_background_desc">Gray Heterotopia 無法在背景執行。你只有在應用程式執行時才會收到通知。</string>
     <string name="network_session_mode_session">應用程式工作階段</string>
     <string name="display_name_accepted_invitation">已接受邀請</string>
     <string name="failed_to_create_user_invalid_desc">此顯示名稱無效。請選擇另一個名稱。</string>
@@ -2266,7 +2266,7 @@
     <string name="for_anyone_to_reach_you">讓任何人都能聯絡你</string>
     <string name="no_chats_in_list">列表 %s 中沒有聊天。</string>
     <string name="contact_should_accept">聯絡人需要接受…</string>
-    <string name="address_creation_instruction">稍後可點選選單中的「建立 SimpleX 地址」來建立。</string>
+    <string name="address_creation_instruction">稍後可點選選單中的「建立 Gray Heterotopia 地址」來建立。</string>
     <string name="forward_alert_title_nothing_to_forward">沒有可轉發的內容！</string>
     <string name="forward_alert_forward_messages_without_files">要轉發不含檔案的訊息嗎？</string>
     <string name="forward_files_messages_deleted_after_selection_desc">這些訊息在你選取後已被刪除。</string>
@@ -2337,7 +2337,7 @@
     <string name="unread_mentions">未讀提及</string>
     <string name="duplicated_list_error">所有列表的名稱和 emoji 都應不同。</string>
     <string name="delete_chat_list_warning">所有聊天都將從列表 %s 中移除，且該列表會被刪除</string>
-    <string name="share_simplex_address_on_social_media">在社交媒體上分享 SimpleX 地址。</string>
+    <string name="share_simplex_address_on_social_media">在社交媒體上分享 Gray Heterotopia 地址。</string>
     <string name="share_1_time_link_with_a_friend">與朋友分享一次性連結</string>
     <string name="one_time_link_can_be_used_with_one_contact_only"><![CDATA[一次性連結<i>只能供一名聯絡人使用</i>——請當面分享，或透過任何通訊應用程式分享。]]></string>
     <string name="you_can_set_connection_name_to_remember">你可以設定連線名稱，以記住此連結分享給了誰。</string>
@@ -2377,7 +2377,7 @@
     <string name="or_to_share_privately">或私下分享</string>
     <string name="simplex_address_or_1_time_link">SimpleX 地址還是一次性連結？</string>
     <string name="new_1_time_link">新的一次性連結</string>
-    <string name="onboarding_send_1_time_link">透過任何通訊應用程式傳送連結——這是安全的。請對方貼到 SimpleX。</string>
+    <string name="onboarding_send_1_time_link">透過任何通訊應用程式傳送連結——這是安全的。請對方貼到 Gray Heterotopia。</string>
     <string name="onboarding_or_show_qr_code">或當面顯示二維碼，也可透過視訊通話顯示。</string>
     <string name="onboarding_post_address">在你的社交媒體個人檔案、網站或電子郵件簽名中使用此地址。</string>
     <string name="onboarding_or_use_qr_code">或使用此二維碼——可列印或在線上顯示。</string>
@@ -2388,7 +2388,7 @@
     <string name="share_group_profile_via_link_alert_text">連結將會變短，且群組檔案會透過此連結分享。</string>
     <string name="share_old_address_alert_button">分享舊地址</string>
     <string name="share_old_link_alert_button">分享舊連結</string>
-    <string name="you_can_make_address_visible_via_settings">你可以透過設定，讓你的 SimpleX 聯絡人看見它。</string>
+    <string name="you_can_make_address_visible_via_settings">你可以透過設定，讓你的 Gray Heterotopia 聯絡人看見它。</string>
     <string name="short_descr__field">簡介：</string>
     <string name="bio_too_large">簡介太長</string>
     <string name="save_admission_question">要儲存加入審批設定嗎？</string>
@@ -2399,7 +2399,7 @@
     <string name="onboarding_private_and_secure">私密且安全的通訊。</string>
     <string name="onboarding_first_network">第一個讓你擁有\n自己聯絡人和群組的網路。</string>
     <string name="get_started">開始使用</string>
-    <string name="why_simplex_is_built">SimpleX 的打造初衷。</string>
+    <string name="why_simplex_is_built">Gray Heterotopia 的打造初衷。</string>
     <string name="onboarding_your_profile">你的個人檔案</string>
     <string name="onboarding_on_your_phone">在你的手機上，不在伺服器上。</string>
     <string name="onboarding_no_account">沒有帳戶。沒有電話。沒有電子郵件。沒有 ID。\n最安全的加密。</string>
@@ -2418,10 +2418,10 @@
     <string name="onboarding_conditions_private_chats_not_accessible">營運商承諾：\n- 保持獨立\n- 盡量減少中繼資料使用\n- 執行已驗證的開源程式碼</string>
     <string name="onboarding_conditions_by_using_you_agree">你承諾：\n- 只在公開群組中發佈合法內容\n- 尊重其他使用者——不發送垃圾訊息</string>
     <string name="onboarding_conditions_privacy_policy_and_conditions_of_use">私隱政策與使用條件。</string>
-    <string name="onboarding_network_operators_simplex_flux_agreement">SimpleX Chat 與 Flux 達成協議，將 Flux 營運的伺服器納入應用程式。</string>
+    <string name="onboarding_network_operators_simplex_flux_agreement">Gray Heterotopia 與 Flux 達成協議，將 Flux 營運的伺服器納入應用程式。</string>
     <string name="onboarding_network_operators_app_will_use_different_operators">應用程式會在每個對話中使用不同營運商，以保護你的私隱。</string>
     <string name="onboarding_network_operators_cant_see_who_talks_to_whom">啟用多於一個營運商時，沒有任何一方擁有足以得知誰與誰通訊的中繼資料。</string>
-    <string name="onboarding_network_operators_app_will_use_for_routing">例如，如果你的聯絡人透過 SimpleX Chat 伺服器接收訊息，你的應用程式會透過 Flux 伺服器傳送訊息。</string>
+    <string name="onboarding_network_operators_app_will_use_for_routing">例如，如果你的聯絡人透過 Gray Heterotopia 伺服器接收訊息，你的應用程式會透過 Flux 伺服器傳送訊息。</string>
     <string name="onboarding_select_network_operators_to_use">選擇要使用的網路營運商。</string>
     <string name="how_it_helps_privacy">這如何有助於私隱</string>
     <string name="onboarding_network_operators_configure_via_settings">你可以透過設定配置伺服器。</string>
@@ -2671,7 +2671,7 @@
     <string name="v6_4_1_welcome_contacts_descr">設定個人檔案簡介和歡迎訊息。</string>
     <string name="v6_4_1_keep_chats_clean">保持聊天整潔</string>
     <string name="v6_4_1_keep_chats_clean_descr">預設啟用自動銷毀訊息。</string>
-    <string name="v6_4_1_short_address">短 SimpleX 地址</string>
+    <string name="v6_4_1_short_address">短 Gray Heterotopia 地址</string>
     <string name="v6_4_1_short_address_create">建立你的地址</string>
     <string name="v6_4_1_short_address_update">更新你的地址</string>
     <string name="v6_4_1_short_address_share">分享你的地址</string>
@@ -2850,16 +2850,16 @@
     <string name="close_behavior_dialog_text">如果選擇「關閉」，將無法接收訊息。\n你可以稍後在「外觀」設定中變更。</string>
     <string name="close_behavior_dialog_close">關閉應用程式</string>
     <string name="close_behavior_dialog_minimize">最小化到系統匣</string>
-    <string name="tray_show">顯示 SimpleX</string>
-    <string name="tray_quit">結束 SimpleX</string>
-    <string name="tray_tooltip">SimpleX</string>
-    <string name="tray_tooltip_unread">SimpleX — %d 則未讀</string>
+    <string name="tray_show">顯示 Gray Heterotopia</string>
+    <string name="tray_quit">結束 Gray Heterotopia</string>
+    <string name="tray_tooltip">Gray Heterotopia</string>
+    <string name="tray_tooltip_unread">Gray Heterotopia — %d 則未讀</string>
     <string name="appearance_minimize_to_tray">關閉到系統匣</string>
     <string name="appearance_minimize_to_tray_desc">在背景執行以接收訊息</string>
-    <string name="badge_supports_simplex">%s 支持 SimpleX Chat。</string>
-    <string name="badge_supported_simplex">%1$s 曾支持 SimpleX Chat。此徽章已於 %2$s 過期。</string>
-    <string name="badge_support_from_v7">你可以從應用程式 v7 開始支持 SimpleX。</string>
-    <string name="badge_invested">%s 投資了 SimpleX Chat 眾籌。</string>
+    <string name="badge_supports_simplex">%s 支持 Gray Heterotopia。</string>
+    <string name="badge_supported_simplex">%1$s 曾支持 Gray Heterotopia。此徽章已於 %2$s 過期。</string>
+    <string name="badge_support_from_v7">你可以從應用程式 v7 開始支持 Gray Heterotopia。</string>
+    <string name="badge_invested">%s 投資了 Gray Heterotopia 眾籌。</string>
     <string name="badge_unverified_title">未驗證徽章</string>
     <string name="badge_unverified_desc">無法驗證此徽章，可能並非真實。</string>
     <string name="badge_unknown_key_title">無法驗證徽章</string>

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Gray Heterotopia
+Comment=Private encrypted messenger without user identifiers
+Exec=/opt/grayheterotopia/bin/grayheterotopia
+Icon=/opt/grayheterotopia/lib/grayheterotopia
+Categories=Network;Chat;

@@ -468,7 +468,7 @@ fun ActiveProfilePicker(
 private fun InviteView(rhId: Long?, connLinkInvitation: CreatedConnLink, contactConnection: MutableState<PendingContactConnection?>, onboarding: Boolean = false) {
   val showShortLink = remember { mutableStateOf(true) }
 
-  if (BuildConfigCommon.SIMPLEX_ASSETS) {
+  if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
     Image(
       painterResource(if (isInDarkTheme()) {
         if (onboarding) MR.images.one_time_link_light else MR.images.one_time_link_small_light
@@ -632,7 +632,7 @@ private fun ConnectView(rhId: Long?, showQRCodeScanner: MutableState<Boolean>, p
     }
   }
 
-  if (BuildConfigCommon.SIMPLEX_ASSETS) {
+  if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
     Image(
       painterResource(if (isInDarkTheme()) {
         if (onboarding) MR.images.connect_via_link_light else MR.images.connect_via_link_small_light

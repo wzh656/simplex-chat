@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SimpleX</string>
+    <string name="app_name">Gray Heterotopia</string>
     <string name="thousand_abbreviation">т</string>
     <!-- Connect via Link - MainActivity.kt -->
     <string name="connect_via_contact_link">Соединиться через адрес?</string>
@@ -87,7 +87,7 @@
     <string name="icon_descr_instant_notifications">Мгновенные уведомления</string>
     <string name="service_notifications">Мгновенные уведомления!</string>
     <string name="service_notifications_disabled">Мгновенные уведомления выключены!</string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Чтобы улучшить конфиденциальность, <b>SimpleX выполняется в фоне</b> вместо уведомлений через сервер.]]></string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Чтобы улучшить конфиденциальность, <b>Gray Heterotopia выполняется в фоне</b> вместо уведомлений через сервер.]]></string>
     <string name="it_can_disabled_via_settings_notifications_still_shown"><![CDATA[<b>Он может быть выключен через Настройки</b> - Вы продолжите получать уведомления о сообщениях пока приложение запущено.]]></string>
     <string name="turn_off_battery_optimization"><![CDATA[<b>Разрешите это</b> в следующем окне, чтобы получать уведомления мгновенно.]]></string>
     <string name="turning_off_service_and_periodic">Оптимизация батареи включена, поэтому сервис уведомлений выключен. Вы можете снова включить его через Настройки.</string>
@@ -98,13 +98,13 @@
     <string name="enter_passphrase_notification_desc">Для получения уведомлений, пожалуйста, введите пароль от базы данных</string>
     <string name="database_initialization_error_title">Ошибка базы данных</string>
     <string name="database_initialization_error_desc">Ошибка при инициализации базы данных. Нажмите чтобы узнать больше</string>
-    <!-- SimpleX Chat foreground Service -->
-    <string name="simplex_service_notification_title">SimpleX Chat сервис</string>
+    <!-- Gray Heterotopia foreground service -->
+    <string name="simplex_service_notification_title">Gray Heterotopia сервис</string>
     <string name="simplex_service_notification_text">Приём сообщений…</string>
     <string name="hide_notification">Скрыть</string>
     <!-- Notification channels -->
-    <string name="ntf_channel_messages">SimpleX Chat сообщения</string>
-    <string name="ntf_channel_calls">SimpleX Chat звонки</string>
+    <string name="ntf_channel_messages">Gray Heterotopia сообщения</string>
+    <string name="ntf_channel_calls">Gray Heterotopia звонки</string>
     <!-- Notifications -->
     <string name="settings_notifications_mode_title">Сервис уведомлений</string>
     <string name="settings_notification_preview_mode_title">Показывать уведомления</string>
@@ -126,21 +126,21 @@
     <string name="notification_new_contact_request">Новый запрос на соединение</string>
     <string name="notification_contact_connected">Соединен(а)</string>
     <!-- local authentication notice - SimpleXAPI.kt -->
-    <string name="la_notice_title_simplex_lock">Блокировка SimpleX</string>
-    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Чтобы защитить Вашу информацию, включите блокировку SimpleX Chat.
+    <string name="la_notice_title_simplex_lock">Блокировка Gray Heterotopia</string>
+    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Чтобы защитить Вашу информацию, включите блокировку Gray Heterotopia.
 \nВам будет нужно пройти аутентификацию для включения блокировки.</string>
     <string name="la_notice_turn_on">Включить</string>
     <!-- LocalAuthentication.kt -->
-    <string name="auth_simplex_lock_turned_on">Блокировка SimpleX включена</string>
+    <string name="auth_simplex_lock_turned_on">Блокировка Gray Heterotopia включена</string>
     <string name="auth_you_will_be_required_to_authenticate_when_you_start_or_resume">Вы будете аутентифицированы при запуске и возобновлении приложения, которое было 30 секунд в фоновом режиме.</string>
     <string name="auth_unlock">Разблокировать</string>
     <string name="auth_log_in_using_credential">Пройдите аутентификацию</string>
-    <string name="auth_enable_simplex_lock">Включить блокировку SimpleX</string>
-    <string name="auth_disable_simplex_lock">Отключить блокировку SimpleX</string>
+    <string name="auth_enable_simplex_lock">Включить блокировку Gray Heterotopia</string>
+    <string name="auth_disable_simplex_lock">Отключить блокировку Gray Heterotopia</string>
     <string name="auth_confirm_credential">Пройдите аутентификацию</string>
     <string name="auth_unavailable">Аутентификация недоступна</string>
-    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Аутентификация устройства не включена. Вы можете включить блокировку SimpleX в Настройках после включения аутентификации.</string>
-    <string name="auth_device_authentication_is_disabled_turning_off">Аутентификация устройства выключена. Отключение блокировки SimpleX Chat.</string>
+    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Аутентификация устройства не включена. Вы можете включить блокировку Gray Heterotopia в Настройках после включения аутентификации.</string>
+    <string name="auth_device_authentication_is_disabled_turning_off">Аутентификация устройства выключена. Отключение блокировки Gray Heterotopia.</string>
     <string name="auth_stop_chat">Остановить чат</string>
     <string name="auth_open_chat_console">Открыть консоль</string>
     <!-- Chat Alerts - ChatItemView.kt -->
@@ -261,13 +261,13 @@
     <string name="gallery_video_button">Видео</string>
     <string name="choose_file">Файл</string>
     <!-- help - ChatHelpView.kt -->
-    <string name="thank_you_for_installing_simplex">Спасибо, что установили SimpleX Chat!</string>
+    <string name="thank_you_for_installing_simplex">Спасибо, что установили Gray Heterotopia!</string>
     <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Вы можете <font color="#0088ff">соединиться с разработчиками</font>, чтобы задать любые вопросы или получать уведомления о новых версиях.]]></string>
     <string name="to_start_a_new_chat_help_header">Чтобы начать новый чат</string>
     <string name="chat_help_tap_button">Нажмите кнопку</string>
     <string name="above_then_preposition_continuation">сверху, затем:</string>
     <string name="to_connect_via_link_title">Чтобы соединиться через ссылку</string>
-    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Если Вы получили ссылку с приглашением из SimpleX Chat, Вы можете открыть её в браузере:</string>
+    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Если Вы получили ссылку с приглашением из Gray Heterotopia, Вы можете открыть её в браузере:</string>
     <string name="desktop_scan_QR_code_from_app_via_scan_QR_code"><![CDATA[💻 на компьютере: сосканируйте показанный QR-код из приложения через <b>Сканировать QR-код</b>.]]></string>
     <string name="mobile_tap_open_in_mobile_app_then_tap_connect_in_app"><![CDATA[📱 на мобильном: нажмите кнопку <b>Open in mobile app</b> на веб странице, затем нажмите <b>Соединиться</b> в приложении.]]></string>
     <!-- Contact Request Alert Dialogue - CharListNavLinkView.kt -->
@@ -311,10 +311,10 @@
     <string name="icon_descr_cancel_link_preview">удалить превью ссылки</string>
     <string name="icon_descr_settings">Настройки</string>
     <string name="image_descr_qr_code">QR-код</string>
-    <string name="icon_descr_address">Адрес SimpleX</string>
+    <string name="icon_descr_address">Адрес Gray Heterotopia</string>
     <string name="icon_descr_help">помощь</string>
-    <string name="icon_descr_simplex_team">SimpleX команда</string>
-    <string name="image_descr_simplex_logo">SimpleX логотип</string>
+    <string name="icon_descr_simplex_team">Gray Heterotopia команда</string>
+    <string name="image_descr_simplex_logo">Gray Heterotopia логотип</string>
     <string name="icon_descr_email">Email</string>
     <string name="icon_descr_more_button">Больше</string>
     <!-- Connection info - ContactConnectionInfoView.kt -->
@@ -342,13 +342,13 @@
     <string name="your_settings">Настройки</string>
     <string name="your_simplex_contact_address">Ваш адрес SimpleX</string>
     <string name="database_passphrase_and_export">Пароль и экспорт базы</string>
-    <string name="about_simplex_chat">Информация о SimpleX Chat</string>
+    <string name="about_simplex_chat">Информация о Gray Heterotopia</string>
     <string name="how_to_use_simplex_chat">Как использовать</string>
     <string name="markdown_help">Форматирование сообщений</string>
     <string name="markdown_in_messages">Форматирование сообщений</string>
     <string name="chat_with_the_founder">Вопросы и предложения</string>
     <string name="send_us_an_email">Написать нам письмо</string>
-    <string name="chat_lock">Блокировка SimpleX</string>
+    <string name="chat_lock">Блокировка Gray Heterotopia</string>
     <string name="chat_console">Консоль</string>
     <string name="smp_servers">SMP-серверы</string>
     <string name="smp_servers_preset_address">Адрес сервера по умолчанию</string>
@@ -370,13 +370,13 @@
     <string name="smp_servers_invalid_address">Ошибка в адресе сервера!</string>
     <string name="smp_servers_check_address">Проверьте адрес сервера и попробуйте снова.</string>
     <string name="smp_servers_delete_server">Удалить сервер</string>
-    <string name="install_simplex_chat_for_terminal">SimpleX Chat для терминала</string>
+    <string name="install_simplex_chat_for_terminal">Gray Heterotopia для терминала</string>
     <string name="star_on_github">Поставить звёздочку на GitHub</string>
     <string name="contribute">Внести свой вклад</string>
     <string name="rate_the_app">Оценить приложение</string>
-    <string name="use_simplex_chat_servers__question">Использовать серверы, предоставленные SimpleX Chat?</string>
+    <string name="use_simplex_chat_servers__question">Использовать серверы, предоставленные Gray Heterotopia?</string>
     <string name="your_SMP_servers">Ваши SMP-серверы</string>
-    <string name="using_simplex_chat_servers">Используются серверы, предоставленные SimpleX Chat.</string>
+    <string name="using_simplex_chat_servers">Используются серверы, предоставленные Gray Heterotopia.</string>
     <string name="how_to">Инфо</string>
     <string name="how_to_use_your_servers">Как использовать серверы</string>
     <string name="saved_ICE_servers_will_be_removed">Сохранённые WebRTC ICE-серверы будут удалены.</string>
@@ -412,7 +412,7 @@
     <string name="display_name__field">Имя профиля:</string>
     <string name="full_name__field">Полное имя:</string>
     <string name="your_current_profile">Ваш активный профиль</string>
-    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Ваш профиль хранится на Вашем устройстве и отправляется только Вашим контактам. Серверы SimpleX не могут получить доступ к Вашему профилю.</string>
+    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Ваш профиль хранится на Вашем устройстве и отправляется только Вашим контактам. Серверы Gray Heterotopia не могут получить доступ к Вашему профилю.</string>
     <string name="edit_image">Поменять аватар</string>
     <string name="delete_image">Удалить аватар</string>
     <string name="save_preferences_question">Сохранить предпочтения?</string>
@@ -430,7 +430,7 @@
     <string name="display_name_cannot_contain_whitespace">Имя профиля не может содержать пробелы.</string>
     <string name="display_name">Имя:</string>
     <string name="create_profile_button">Создать</string>
-    <string name="about_simplex">О SimpleX</string>
+    <string name="about_simplex">О Gray Heterotopia</string>
     <!-- markdown demo - MarkdownHelpView.kt -->
     <string name="how_to_use_markdown">Как форматировать</string>
     <string name="you_can_use_markdown_to_format_messages__prompt">Вы можете форматировать сообщения:</string>
@@ -473,7 +473,7 @@
     <string name="make_private_connection">Добавьте контакт</string>
     <string name="how_it_works">Как это работает</string>
     <!-- How SimpleX Works -->
-    <string name="to_protect_privacy_simplex_has_ids_for_queues">Чтобы защитить Вашу конфиденциальность, SimpleX использует разные ID для каждого Вашего контакта.</string>
+    <string name="to_protect_privacy_simplex_has_ids_for_queues">Чтобы защитить Вашу конфиденциальность, Gray Heterotopia использует разные ID для каждого Вашего контакта.</string>
     <string name="only_client_devices_store_contacts_groups_e2e_encrypted_messages">Только пользовательские устройства хранят контакты, группы и сообщения.</string>
     <string name="read_more_in_github_with_link"><![CDATA[Узнайте больше из нашего <font color="#0088ff">GitHub репозитория</font>.]]></string>
     <!-- SetNotificationsMode.kt -->
@@ -507,7 +507,7 @@
     <string name="relay_server_protects_ip">Релей-сервер защищает Ваш IP-адрес, но может отслеживать продолжительность звонка.</string>
     <string name="relay_server_if_necessary">Релей-сервер используется только при необходимости. Другая сторона может видеть Ваш IP-адрес.</string>
     <!-- Call Lock Screen -->
-    <string name="open_simplex_chat_to_accept_call">Откройте SimpleX Chat\nчтобы принять звонок</string>
+    <string name="open_simplex_chat_to_accept_call">Откройте Gray Heterotopia\nчтобы принять звонок</string>
     <string name="allow_accepting_calls_from_lock_screen">Вы можете разрешить принимать звонки на экране блокировки через Настройки.</string>
     <string name="open_verb">Открыть</string>
     <!-- Call overlay -->
@@ -551,7 +551,7 @@
     <string name="settings_section_title_you">Вы</string>
     <string name="settings_section_title_settings">Настройки</string>
     <string name="settings_section_title_help">Помощь</string>
-    <string name="settings_section_title_support">Поддержать SimpleX Chat</string>
+    <string name="settings_section_title_support">Поддержать Gray Heterotopia</string>
     <string name="settings_section_title_device">Устройство</string>
     <string name="settings_section_title_chats">Чаты</string>
     <string name="settings_developer_tools">Инструменты разработчика</string>
@@ -1104,7 +1104,7 @@
     <string name="la_auth_failed">Ошибка аутентификации</string>
     <string name="la_no_app_password">Нет кода доступа</string>
     <string name="la_lock_mode_passcode">Ввод кода доступа</string>
-    <string name="la_lock_mode">Режим Блокировки SimpleX</string>
+    <string name="la_lock_mode">Режим Блокировки Gray Heterotopia</string>
     <string name="la_lock_mode_system">Системная аутентификация</string>
     <string name="la_could_not_be_verified">Ошибка аутентификации; попробуйте ещё раз.</string>
     <string name="la_immediately">Сразу</string>
@@ -1123,7 +1123,7 @@
     <string name="la_seconds">%d секунд</string>
     <string name="alert_text_decryption_error_n_messages_failed_to_decrypt">%1$d сообщений не удалось расшифровать.</string>
     <string name="decryption_error">Ошибка расшифровки</string>
-    <string name="lock_not_enabled">Блокировка SimpleX не включена!</string>
+    <string name="lock_not_enabled">Блокировка Gray Heterotopia не включена!</string>
     <string name="alert_title_msg_bad_hash">Ошибка хэша сообщения</string>
     <string name="alert_text_msg_bad_hash">Хэш предыдущего сообщения отличается</string>
     <string name="confirm_passcode">Подтвердить код</string>
@@ -1172,7 +1172,7 @@
     <string name="la_please_remember_to_store_password">Пожалуйста, запомните или сохраните его - восстановить потерянный код доступа невозможно!</string>
     <string name="revoke_file__action">Отозвать файл</string>
     <string name="stop_rcv_file__title">Остановить приём файла\?</string>
-    <string name="you_can_turn_on_lock">Вы можете включить Блокировку SimpleX через Настройки.</string>
+    <string name="you_can_turn_on_lock">Вы можете включить Блокировку Gray Heterotopia через Настройки.</string>
     <string name="only_you_can_add_message_reactions">Только Вы можете добавлять реакции на сообщения.</string>
     <string name="both_you_and_your_contact_can_add_message_reactions">И Вы, и Ваш контакт можете добавлять реакции на сообщения.</string>
     <string name="one_time_link_short">Одноразовая ссылка</string>
@@ -1227,8 +1227,8 @@
     <string name="prohibit_message_reactions_group">Запретить реакции на сообщения.</string>
     <string name="custom_time_unit_seconds">секунд</string>
     <string name="theme_colors_section_title">Цвета интерфейса</string>
-    <string name="share_address_with_contacts_question">Поделиться адресом с контактами SimpleX?</string>
-    <string name="profile_update_will_be_sent_to_contacts">Обновление профиля будет отправлено Вашим SimpleX контактам.</string>
+    <string name="share_address_with_contacts_question">Поделиться адресом с контактами Gray Heterotopia?</string>
+    <string name="profile_update_will_be_sent_to_contacts">Обновление профиля будет отправлено Вашим Gray Heterotopia контактам.</string>
     <string name="learn_more_about_address">Об адресе SimpleX</string>
     <string name="learn_more">Узнать больше</string>
     <string name="if_you_cant_meet_in_person">Если Вы не можете встретиться лично, покажите QR-код во время видеозвонка или поделитесь ссылкой.</string>
@@ -1240,9 +1240,9 @@
     <string name="customize_theme_title">Настроить тему</string>
     <string name="create_address_and_let_people_connect">Создайте адрес, чтобы можно было соединиться с Вами.</string>
     <string name="all_your_contacts_will_remain_connected_update_sent">Все Ваши контакты сохранятся. Обновлённый профиль будет отправлен Вашим контактам.</string>
-    <string name="add_address_to_your_profile">Добавьте адрес в свой профиль, чтобы Ваши SimpleX контакты могли поделиться им. Профиль будет отправлен Вашим SimpleX контактам.</string>
+    <string name="add_address_to_your_profile">Добавьте адрес в свой профиль, чтобы Ваши Gray Heterotopia контакты могли поделиться им. Профиль будет отправлен Вашим Gray Heterotopia контактам.</string>
     <string name="create_simplex_address">Создать адрес SimpleX</string>
-    <string name="share_with_contacts">Поделиться с контактами SimpleX</string>
+    <string name="share_with_contacts">Поделиться с контактами Gray Heterotopia</string>
     <string name="stop_sharing_address">Прекратить делиться адресом\?</string>
     <string name="auto_accept_contact">Автоприём</string>
     <string name="enter_welcome_message_optional">Введите приветственное сообщение... (опционально)</string>
@@ -1251,7 +1251,7 @@
     <string name="continue_to_next_step">Продолжить</string>
     <string name="dont_create_address">Не создавать адрес</string>
     <string name="you_can_create_it_later">Вы можете создать его позже</string>
-    <string name="you_can_make_address_visible_via_settings">Вы можете сделать его видимым для ваших контактов в SimpleX через Настройки.</string>
+    <string name="you_can_make_address_visible_via_settings">Вы можете сделать его видимым для ваших контактов в Gray Heterotopia через Настройки.</string>
     <string name="address_section_title">Адрес</string>
     <string name="enter_welcome_message">Введите приветственное сообщение…</string>
     <string name="group_welcome_preview">Просмотр</string>
@@ -1260,7 +1260,7 @@
     <string name="dark_theme">Тёмная тема</string>
     <string name="import_theme">Импорт темы</string>
     <string name="import_theme_error">Ошибка импорта темы</string>
-    <string name="theme_simplex">SimpleX</string>
+    <string name="theme_simplex">Gray Heterotopia</string>
     <string name="color_secondary">Вторичный</string>
     <string name="color_surface">Меню и диалоги</string>
     <string name="export_theme">Экспорт темы</string>
@@ -1300,8 +1300,8 @@
     <string name="error_loading_details">Ошибка загрузки информации</string>
     <string name="error_setting_address">Ошибка установки адреса</string>
     <string name="email_invite_body">Привет!
-\nСвяжитесь со мной через SimpleX Chat: %s</string>
-    <string name="email_invite_subject">Давайте поговорим в SimpleX Chat</string>
+\nСвяжитесь со мной через Gray Heterotopia: %s</string>
+    <string name="email_invite_subject">Давайте поговорим в Gray Heterotopia</string>
     <string name="opening_database">Открытие базы данных…</string>
     <string name="info_row_updated_at">Запись обновлена</string>
     <string name="non_fatal_errors_occured_during_import">Во время импорта произошли некоторые ошибки:</string>
@@ -1393,7 +1393,7 @@
     <string name="turn_off_battery_optimization_button">Разрешить</string>
     <string name="turn_off_system_restriction_button">Открыть настройки приложения</string>
     <string name="disable_notifications_button">Выключить уведомления</string>
-    <string name="system_restricted_background_desc">SimpleX не может выполняться в фоне. Вы получите уведомления только когда приложение запущено.</string>
+    <string name="system_restricted_background_desc">Gray Heterotopia не может выполняться в фоне. Вы получите уведомления только когда приложение запущено.</string>
     <string name="system_restricted_background_in_call_title">Звонки в фоне невозможны</string>
     <string name="system_restricted_background_in_call_desc">Приложение может быть выключено после 1 минуты в фоне.</string>
     <string name="no_info_on_delivery">Нет информации от доставке</string>
@@ -2148,7 +2148,7 @@
     <string name="forward_files_not_accepted_receive_files">Загрузить</string>
     <string name="forward_files_messages_deleted_after_selection_title">%1$s сообщений не переслано</string>
     <string name="forward_multiple">Переслать сообщения…</string>
-    <string name="error_parsing_uri_desc">Проверьте правильность ссылки SimpleX.</string>
+    <string name="error_parsing_uri_desc">Проверьте правильность ссылки Gray Heterotopia.</string>
     <string name="error_parsing_uri_title">Ошибка ссылки</string>
     <string name="settings_section_title_chat_database">База данных</string>
     <string name="error_initializing_web_view_wrong_arch">Ошибка инициализации WebView. Убедитесь, что у вас установлен WebView и его поддерживаемая архитектура - arm64.\nОшибка: %s</string>
@@ -2197,7 +2197,7 @@
     <string name="no_media_servers_configured_for_private_routing">Нет серверов для приёма файлов.</string>
     <string name="no_media_servers_configured_for_sending">Нет серверов для отправки файлов.</string>
     <string name="connection_error_quota">Недоставленные сообщения</string>
-    <string name="address_creation_instruction">Нажмите Создать адрес SimpleX в меню, чтобы создать его позже.</string>
+    <string name="address_creation_instruction">Нажмите Создать адрес Gray Heterotopia в меню, чтобы создать его позже.</string>
     <string name="address_or_1_time_link">Адрес или одноразовая ссылка?</string>
     <string name="connection_security">Безопасность соединения</string>
     <string name="onboarding_choose_server_operators">Операторы серверов</string>
@@ -2235,7 +2235,7 @@
     <string name="maximum_message_size_reached_forwarding">Чтобы отправить сообщение, скопируйте и уменьшите его размер.</string>
     <string name="share_1_time_link_with_a_friend">Поделитесь одноразовой ссылкой с другом</string>
     <string name="share_address_publicly">Поделитесь адресом</string>
-    <string name="share_simplex_address_on_social_media">Поделитесь SimpleX адресом в социальных сетях.</string>
+    <string name="share_simplex_address_on_social_media">Поделитесь Gray Heterotopia адресом в социальных сетях.</string>
     <string name="simplex_address_and_1_time_links_are_safe_to_share">Адрес SimpleX и одноразовые ссылки безопасно отправлять через любой мессенджер.</string>
     <string name="you_can_set_connection_name_to_remember">Вы можете установить имя соединения, чтобы запомнить кому Вы отправили ссылку.</string>
     <string name="smp_servers_new_server">Новый сервер</string>
@@ -2309,7 +2309,7 @@
     <string name="one_time_link_can_be_used_with_one_contact_only"><![CDATA[Одноразовая ссылка может быть использована <i>только с одним контактом</i> - поделитесь при встрече или через любой мессенджер.]]></string>
     <string name="no_message_servers_configured_for_private_routing">Нет серверов для доставки сообщений.</string>
     <string name="onboarding_network_operators_configure_via_settings">Вы можете настроить серверы позже.</string>
-    <string name="onboarding_network_operators_simplex_flux_agreement">SimpleX Chat и Flux заключили соглашение добавить серверы под управлением Flux в приложение.</string>
+    <string name="onboarding_network_operators_simplex_flux_agreement">Gray Heterotopia и Flux заключили соглашение добавить серверы под управлением Flux в приложение.</string>
     <string name="onboarding_network_operators_app_will_use_different_operators">Приложение улучшает конфиденциальность, используя разных операторов в каждом разговоре.</string>
     <string name="onboarding_network_operators_cant_see_who_talks_to_whom">Когда больше чем один оператор включен, ни один из них не видит метаданные, чтобы определить, кто соединен с кем.</string>
     <string name="failed_to_save_servers">Ошибка сохранения серверов</string>
@@ -2317,7 +2317,7 @@
     <string name="error_accepting_operator_conditions">Ошибка приёма условий</string>
     <string name="connection_error_quota_desc">Соединение достигло предела недоставленных сообщений. Возможно, Ваш контакт не в сети.</string>
     <string name="to_protect_against_your_link_replaced_compare_codes">Чтобы защитить Вашу ссылку от замены, Вы можете сравнить код безопасности.</string>
-    <string name="onboarding_network_operators_app_will_use_for_routing">Например, если Ваш контакт получает сообщения через сервер SimpleX Chat, Ваше приложение доставит их через сервер Flux.</string>
+    <string name="onboarding_network_operators_app_will_use_for_routing">Например, если Ваш контакт получает сообщения через сервер Gray Heterotopia, Ваше приложение доставит их через сервер Flux.</string>
     <string name="direct_messages_are_prohibited_in_chat">Прямые сообщения между членами группы запрещены.</string>
     <string name="chat_list_groups">Группы</string>
     <string name="delete_chat_list_menu_action">Удалить</string>
@@ -2576,7 +2576,7 @@
     <string name="share_old_address_alert_button">Поделиться старым адресом</string>
     <string name="share_old_link_alert_button">Поделиться старой ссылкой</string>
     <string name="v6_4_1_short_address_share">Поделитесь Вашим адресом</string>
-    <string name="v6_4_1_short_address">Короткий адрес SimpleX</string>
+    <string name="v6_4_1_short_address">Короткий адрес Gray Heterotopia</string>
     <string name="chat_banner_connect_to_chat">Нажмите Соединиться</string>
     <string name="chat_banner_send_request_to_connect">Нажмите Соединиться, чтобы отправить запрос</string>
     <string name="chat_banner_join_group">Нажмите Вступить в группу</string>
@@ -2731,7 +2731,7 @@
     <string name="save_and_notify_channel_subscribers">Сохранить и уведомить подписчиков канала</string>
     <string name="save_channel_profile">Сохранить профиль канала</string>
     <string name="link_previews_alert_desc">Отправка картинки ссылки может раскрыть Ваш IP-адрес веб-сайту. Вы можете изменить это в настройках безопасности позже.</string>
-    <string name="onboarding_send_1_time_link">Отправьте ссылку через любой мессенджер - это безопасно. Попросите вставить её в SimpleX.</string>
+    <string name="onboarding_send_1_time_link">Отправьте ссылку через любой мессенджер - это безопасно. Попросите вставить её в Gray Heterotopia.</string>
     <string name="error_relay_test_server_auth">Для подключения к релею требуется авторизация, проверьте пароль.</string>
     <string name="server_warning">Предупреждение сервера</string>
     <string name="share_channel">Поделиться каналом…</string>
@@ -2779,7 +2779,7 @@
     <string name="onboarding_private_and_secure">Конфиденциальный и безопасный обмен сообщениями.</string>
     <string name="onboarding_first_network">Первая сеть, в которой Вы владеете\nсвоими контактами и группами.</string>
     <string name="get_started">Начать</string>
-    <string name="why_simplex_is_built">Зачем создан SimpleX.</string>
+    <string name="why_simplex_is_built">Зачем создан Gray Heterotopia.</string>
     <string name="onboarding_your_profile">Ваш профиль</string>
     <string name="onboarding_on_your_phone">На Вашем телефоне, не на серверах.</string>
     <string name="onboarding_no_account">Без аккаунта. Без номера. Без email. Без ID.\nСамое безопасное шифрование.</string>
@@ -2879,7 +2879,7 @@
     <string name="channel_owner_count_singular">%1$d владелец</string>
     <string name="channel_owner_count_plural">%1$d владельцев</string>
     <string name="channel_owners_contributors_count">%1$d владельцев и участников канала</string>
-    <string name="badge_supported_simplex">%1$s поддерживал SimpleX Chat. Срок действия бейджа истек %2$s.</string>
+    <string name="badge_supported_simplex">%1$s поддерживал Gray Heterotopia. Срок действия бейджа истек %2$s.</string>
     <string name="settings_section_title_about">О приложении</string>
     <string name="advanced_settings">Продвинутые настройки</string>
     <string name="another_instance_title">Приложение уже запущено</string>
@@ -2892,9 +2892,9 @@
     <string name="badge_unknown_key_desc">Этот значок подписан ключом, который неизвестен текущей версии приложения. Обновите приложение, чтобы проверить его подлинность.</string>
     <string name="badge_unverified_desc">Не удалось проверить подлинность этого значка. Возможно, он не является подлинным.</string>
     <string name="badge_unverified_title">Неподтвержденный значок</string>
-    <string name="badge_invested">%s инвестировал(а) в краудфандинг SimpleX Chat.</string>
-    <string name="badge_support_from_v7">Вы можете поддержать SimpleX начиная с версии приложения v7.</string>
-    <string name="badge_supports_simplex">%s поддерживает SimpleX Chat.</string>
+    <string name="badge_invested">%s инвестировал(а) в краудфандинг Gray Heterotopia.</string>
+    <string name="badge_support_from_v7">Вы можете поддержать Gray Heterotopia начиная с версии приложения v7.</string>
+    <string name="badge_supports_simplex">%s поддерживает Gray Heterotopia.</string>
     <string name="appearance_minimize_to_tray_desc">Работает в фоновом режиме для получения сообщений</string>
     <string name="no_names_servers_enabled">Нет серверов для разрешения имён.</string>
     <string name="advanced_options">Продвинутые настройки</string>
@@ -2913,7 +2913,7 @@
     <string name="copy_code">Скопировать код</string>
     <string name="relay_bar_no_relays">Релеи отсутствуют</string>
     <string name="no_relays_selected">Релеи не выбраны</string>
-    <string name="tray_tooltip_unread">SimpleX - %d непрочитанных сообщений</string>
+    <string name="tray_tooltip_unread">Gray Heterotopia - %d непрочитанных сообщений</string>
     <string name="v7_0_channels_contributors">Добавить соавторов.</string>
     <string name="add_description">Добавить описание</string>
     <string name="v7_0_channels">Улучшенные каналы 📢</string>
@@ -2978,7 +2978,7 @@
     <string name="set_simplex_name">Установить SimpleX имя</string>
     <string name="simplex_name_owner_no_channel_link">SimpleX имя %1$s зарегистрировано без ссылки канала. Добавьте ссылку канала к имени на странице регистрации.</string>
     <string name="simplex_name_owner_no_address">SimpleX имя %1$s зарегистрировано без SimpleX адреса. Добавьте Ваш SimpleX адрес к имени на странице регистрации.</string>
-    <string name="set_user_simplex_name_footer">Позвольте людям соединяться с Вами через имя, зарегистрированное для Вашего SimpleX адреса.</string>
+    <string name="set_user_simplex_name_footer">Позвольте людям соединяться с Вами через имя, зарегистрированное для Вашего Gray Heterotopia адреса.</string>
     <string name="set_channel_simplex_name_footer">Позвольте людям вступать через имя, зарегистрированное для ссылки этого канала.</string>
     <string name="to_verify_channel_member_key">Чтобы подтвердить ключи с этим подписчиком, сравните (или сканируйте) код на ваших устройствах.</string>
     <string name="settings_section_title_support_project">Поддержать проект</string>
@@ -2988,7 +2988,7 @@
     <string name="embed_only_your_page">Предпросмотр можно отобразить только на Вашей странице, указанной выше.</string>
     <string name="member_role_will_be_changed_with_notification_channel">Роль будет изменена на "%s". Все в канале получат сообщение.</string>
     <string name="operator_use_for_names">Для разрешения имён</string>
-    <string name="v7_0_simplex_names">Публичные SimpleX имена (BETA)</string>
+    <string name="v7_0_simplex_names">Публичные Gray Heterotopia имена (BETA)</string>
     <string name="v7_0_simplex_names_descr">Публичные имена для Вашего канала или бизнеса.</string>
     <string name="v7_0_channels_relays">Управлять своими релеями.</string>
     <string name="relay_conn_status_removed">удалён</string>
@@ -3003,7 +3003,7 @@
     <string name="select_relays">Выберите релеи</string>
     <string name="close_behavior_dialog_title">Свернуть в трей?</string>
     <string name="close_behavior_dialog_minimize">Свернуть в трей</string>
-    <string name="tray_show">Показать SimpleX</string>
-    <string name="tray_quit">Выйти из SimpleX</string>
-    <string name="tray_tooltip">SimpleX</string>
+    <string name="tray_show">Показать Gray Heterotopia</string>
+    <string name="tray_quit">Выйти из Gray Heterotopia</string>
+    <string name="tray_tooltip">Gray Heterotopia</string>
 </resources>

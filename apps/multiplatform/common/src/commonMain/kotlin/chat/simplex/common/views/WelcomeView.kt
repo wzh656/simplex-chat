@@ -103,7 +103,7 @@ fun CreateProfile(chatModel: ChatModel, close: () -> Unit) {
           verticalAlignment = Alignment.CenterVertically
         ) {
           Box(
-            modifier = if (BuildConfigCommon.SIMPLEX_ASSETS) Modifier.padding(horizontal = 3.dp) else Modifier,
+            modifier = if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) Modifier.padding(horizontal = 3.dp) else Modifier,
             contentAlignment = Alignment.Center
           ) {
             Box(contentAlignment = Alignment.TopEnd) {
@@ -116,7 +116,7 @@ fun CreateProfile(chatModel: ChatModel, close: () -> Unit) {
               }
             }
           }
-          if (BuildConfigCommon.SIMPLEX_ASSETS) {
+          if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
             Image(
               painterResource(if (isInDarkTheme()) MR.images.create_profile_light else MR.images.create_profile),
               contentDescription = null,

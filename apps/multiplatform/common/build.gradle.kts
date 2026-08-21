@@ -11,28 +11,28 @@ plugins {
 group = "chat.simplex"
 version = extra["android.version_name"] as String
 
-val simplexAssetsDir = rootProject.findProperty("simplex.assets.dir") as String?
-val simplexAssetsLocal = file("src/commonMain/resources/assets/simplex")
-val hasSimplexAssets = simplexAssetsDir != null
+val grayHeterotopiaAssetsDir = rootProject.findProperty("grayheterotopia.assets.dir") as String?
+val grayHeterotopiaAssetsLocal = file("src/commonMain/resources/assets/grayheterotopia")
+val hasGrayHeterotopiaAssets = grayHeterotopiaAssetsDir != null
 
-if (simplexAssetsDir != null) {
-  val resolvedAssetsDir = rootProject.rootDir.resolve(simplexAssetsDir)
+if (grayHeterotopiaAssetsDir != null) {
+  val resolvedAssetsDir = rootProject.rootDir.resolve(grayHeterotopiaAssetsDir)
   val srcImagesDir = resolvedAssetsDir.resolve("multiplatform/resources/MR/images")
-  val verifySimplexAssets = tasks.register("verifySimplexAssets") {
+  val verifyGrayHeterotopiaAssets = tasks.register("verifyGrayHeterotopiaAssets") {
     doLast {
       if (!srcImagesDir.isDirectory) {
         throw GradleException("Source assets not found: $srcImagesDir (run resize.sh first)")
       }
     }
   }
-  tasks.register<Sync>("copySimplexAssets") {
-    dependsOn(verifySimplexAssets)
+  tasks.register<Sync>("copyGrayHeterotopiaAssets") {
+    dependsOn(verifyGrayHeterotopiaAssets)
     from(srcImagesDir)
-    into(simplexAssetsLocal.resolve("MR/images"))
+    into(grayHeterotopiaAssetsLocal.resolve("MR/images"))
   }
 } else {
-  tasks.register<Delete>("cleanSimplexAssets") {
-    delete(simplexAssetsLocal)
+  tasks.register<Delete>("cleanGrayHeterotopiaAssets") {
+    delete(grayHeterotopiaAssetsLocal)
   }
 }
 
@@ -56,8 +56,8 @@ kotlin {
     }
 
     val commonMain by getting {
-      if (hasSimplexAssets) {
-        resources.srcDir(simplexAssetsLocal)
+      if (hasGrayHeterotopiaAssets) {
+        resources.srcDir(grayHeterotopiaAssetsLocal)
       } else {
         resources.srcDir("src/commonMain/resources/assets/default")
       }
@@ -189,17 +189,17 @@ buildConfig {
     buildConfigField("String", "DESKTOP_VERSION_NAME", "\"${extra["desktop.version_name"]}\"")
     buildConfigField("int", "DESKTOP_VERSION_CODE", "${extra["desktop.version_code"]}")
     buildConfigField("String", "DATABASE_BACKEND", "\"${extra["database.backend"]}\"")
-    buildConfigField("Boolean", "SIMPLEX_ASSETS", "$hasSimplexAssets")
+    buildConfigField("Boolean", "GRAY_HETEROTOPIA_ASSETS", "$hasGrayHeterotopiaAssets")
   }
 }
 
 afterEvaluate {
   tasks.named("generateMRcommonMain") {
     dependsOn("adjustFormatting")
-    if (hasSimplexAssets) {
-      dependsOn("copySimplexAssets")
+    if (hasGrayHeterotopiaAssets) {
+      dependsOn("copyGrayHeterotopiaAssets")
     } else {
-      dependsOn("cleanSimplexAssets")
+      dependsOn("cleanGrayHeterotopiaAssets")
     }
   }
   tasks.create("adjustFormatting") {

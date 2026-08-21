@@ -106,12 +106,12 @@ fun AddGroupLayout(
             Modifier
               .fillMaxWidth()
               .padding(vertical = DEFAULT_PADDING_HALF),
-            horizontalArrangement = if (BuildConfigCommon.SIMPLEX_ASSETS) Arrangement.SpaceEvenly else Arrangement.Center,
+            horizontalArrangement = if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) Arrangement.SpaceEvenly else Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
           ) {
             // Padding offsets transparent space built into 3D asset
             Box(
-              modifier = if (BuildConfigCommon.SIMPLEX_ASSETS) Modifier.padding(horizontal = 3.dp) else Modifier,
+              modifier = if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) Modifier.padding(horizontal = 3.dp) else Modifier,
               contentAlignment = Alignment.Center
             ) {
               Box(contentAlignment = Alignment.TopEnd) {
@@ -124,7 +124,7 @@ fun AddGroupLayout(
                 }
               }
             }
-            if (BuildConfigCommon.SIMPLEX_ASSETS) {
+            if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
               Image(
                 painterResource(if (isInDarkTheme()) MR.images.create_group_light else MR.images.create_group),
                 contentDescription = null,

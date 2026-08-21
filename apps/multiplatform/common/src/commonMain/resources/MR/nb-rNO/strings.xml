@@ -14,9 +14,9 @@
     <string name="abort_switch_receiving_address">Avbryt adresseendring</string>
     <string name="abort_switch_receiving_address_question">Avbryt adresseendring?</string>
     <string name="onboarding_network_about_operators">Om operatører</string>
-    <string name="about_simplex">Om SimpleX</string>
+    <string name="about_simplex">Om Gray Heterotopia</string>
     <string name="learn_more_about_address">Om SimpleX-adressen</string>
-    <string name="about_simplex_chat">Om SimpleX Chat</string>
+    <string name="about_simplex_chat">Om Gray Heterotopia</string>
     <string name="color_primary">Aksentfarge</string>
     <string name="accept_contact_button">Aksepter</string>
     <string name="onboarding_conditions_accept">Aksepter</string>

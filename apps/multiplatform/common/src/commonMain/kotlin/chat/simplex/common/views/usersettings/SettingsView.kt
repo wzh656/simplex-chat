@@ -209,8 +209,8 @@ fun ChatLockItem(
 
 @Composable fun RateAppItem(uriHandler: UriHandler) {
   SectionItemView({
-    runCatching { uriHandler.openUriCatching("market://details?id=chat.simplex.app") }
-      .onFailure { uriHandler.openUriCatching("https://play.google.com/store/apps/details?id=chat.simplex.app") }
+    runCatching { uriHandler.openUriCatching("market://details?id=com.grayheterotopia.app") }
+      .onFailure { uriHandler.openUriCatching("https://play.google.com/store/apps/details?id=com.grayheterotopia.app") }
   }
   ) {
     Icon(

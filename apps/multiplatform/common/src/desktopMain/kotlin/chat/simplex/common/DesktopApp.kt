@@ -128,13 +128,13 @@ private fun ApplicationScope.AppWindow(closedByError: MutableState<Boolean>) {
       } else {
         false
       }
-    }, title = "SimpleX") {
+    }, title = "Gray Heterotopia") {
 //      val hardwareAccelerationDisabled = remember { listOf(GraphicsApi.SOFTWARE_FAST, GraphicsApi.SOFTWARE_COMPAT, GraphicsApi.UNKNOWN).contains(window.renderApi) }
       simplexWindowState.window = window
       AppScreen()
       if (simplexWindowState.openDialog.isAwaiting) {
         FileDialogChooser(
-          title = "SimpleX",
+          title = "Gray Heterotopia",
           isLoad = true,
           params = simplexWindowState.openDialog.params,
           onResult = {
@@ -145,7 +145,7 @@ private fun ApplicationScope.AppWindow(closedByError: MutableState<Boolean>) {
 
       if (simplexWindowState.openMultipleDialog.isAwaiting) {
         FileDialogChooser(
-          title = "SimpleX",
+          title = "Gray Heterotopia",
           isLoad = true,
           params = simplexWindowState.openMultipleDialog.params,
           onResult = {
@@ -156,7 +156,7 @@ private fun ApplicationScope.AppWindow(closedByError: MutableState<Boolean>) {
 
       if (simplexWindowState.saveDialog.isAwaiting) {
         FileDialogChooser(
-          title = "SimpleX",
+          title = "Gray Heterotopia",
           isLoad = false,
           params = simplexWindowState.saveDialog.params,
           onResult = { simplexWindowState.saveDialog.onResult(it.firstOrNull()) }

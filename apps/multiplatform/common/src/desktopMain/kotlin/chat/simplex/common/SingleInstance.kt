@@ -17,8 +17,8 @@ import kotlin.concurrent.thread
 private var lockHandle: FileLock? = null
 private var watcher: WatchService? = null
 
-private val lockPath get() = dataDir.resolve("simplex.started").toPath()
-private val showPath get() = dataDir.resolve("simplex.show").toPath()
+private val lockPath get() = dataDir.resolve("grayheterotopia.started").toPath()
+private val showPath get() = dataDir.resolve("grayheterotopia.show").toPath()
 
 var singleInstanceLock = false
   private set
@@ -118,11 +118,11 @@ private fun startShowFileWatcher() {
   }
   dataDir.toPath().register(ws, StandardWatchEventKinds.ENTRY_CREATE)
   watcher = ws
-  thread(name = "simplex-single-instance", isDaemon = true) {
+  thread(name = "grayheterotopia-single-instance", isDaemon = true) {
     while (true) {
       val key = try { ws.take() } catch (_: ClosedWatchServiceException) { return@thread } catch (_: InterruptedException) { return@thread }
       for (event in key.pollEvents()) {
-        if ((event.context() as? Path)?.fileName?.toString() == "simplex.show") {
+        if ((event.context() as? Path)?.fileName?.toString() == "grayheterotopia.show") {
           deleteShowFile()
           SwingUtilities.invokeLater { showWindow() }
         }

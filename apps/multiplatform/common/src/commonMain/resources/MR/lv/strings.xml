@@ -16,7 +16,7 @@
     <string name="connect_plan_open_group">Atvērt grupu</string>
     <string name="connect_plan_open_new_group">Atvērt jaunu grupu</string>
     <string name="error_parsing_uri_title">Nederīga saite</string>
-    <string name="error_parsing_uri_desc">Lūdzu, pārbaudiet, vai SimpleX saite ir pareiza.</string>
+    <string name="error_parsing_uri_desc">Lūdzu, pārbaudiet, vai Gray Heterotopia saite ir pareiza.</string>
     <string name="opening_database">Tiek atvērta datubāze…</string>
     <string name="database_migration_in_progress">Notiek datubāzes migrācija.\nTas var aizņemt dažas minūtes.</string>
     <string name="non_content_uri_alert_title">Nederīgs faila ceļš</string>
@@ -266,7 +266,7 @@
     <string name="compose_view_add_message">Pievienot ziņu</string>
     <string name="compose_view_connect">Savienoties</string>
     <string name="compose_view_send_contact_request_alert_question">Vai sūtīt kontakta pieprasījumu?</string>
-    <string name="compose_view_send_contact_request_alert_text"><![CDATA[Sūtot kontakta pieprasījumu, jūs atklāsiet savu SimpleX lietotājvārdu šim kontaktam. Vai vēlaties turpināt?]]></string>
+    <string name="compose_view_send_contact_request_alert_text"><![CDATA[Sūtot kontakta pieprasījumu, jūs atklāsiet savu Gray Heterotopia lietotājvārdu šim kontaktam. Vai vēlaties turpināt?]]></string>
     <string name="compose_view_send_request_without_message">Sūtīt pieprasījumu bez ziņas</string>
     <string name="compose_view_send_request">Sūtīt pieprasījumu</string>
     <string name="cant_send_message_alert_title">Nevar nosūtīt ziņu</string>
@@ -305,8 +305,8 @@
     <string name="choose_file_title">Izvēlēties faila nosaukumu</string>
     <string name="gallery_image_button">Galerijas attēla poga</string>
     <string name="gallery_video_button">Galerijas video poga</string>
-    <string name="thank_you_for_installing_simplex">Paldies, ka instalējāt SimpleX</string>
-    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Jūs varat sazināties ar SimpleX čata dibinātāju]]></string>
+    <string name="thank_you_for_installing_simplex">Paldies, ka instalējāt Gray Heterotopia</string>
+    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Jūs varat sazināties ar Gray Heterotopia čata dibinātāju]]></string>
     <string name="to_start_a_new_chat_help_header">Lai sāktu jaunu čatu, palīdzības virsraksts</string>
     <string name="chat_help_tap_button">Čata palīdzības pieskāriena poga</string>
     <string name="keep_unused_invitation_question">Saglabāt neizmantoto uzaicinājuma jautājumu</string>
@@ -341,8 +341,8 @@
     <string name="your_chat_profiles">Tavi čata profili</string>
     <string name="create_chat_profile">Izveidot čata profilu</string>
     <string name="database_passphrase_and_export">Datubāzes parole un eksportēšana</string>
-    <string name="about_simplex_chat">Par SimpleX Chat</string>
-    <string name="how_to_use_simplex_chat">Kā lietot SimpleX Chat</string>
+    <string name="about_simplex_chat">Par Gray Heterotopia</string>
+    <string name="how_to_use_simplex_chat">Kā lietot Gray Heterotopia</string>
     <string name="markdown_help">Markdown palīdzība</string>
     <string name="markdown_in_messages">Markdown ziņās</string>
     <string name="chat_with_the_founder">Čats ar dibinātāju</string>
@@ -380,15 +380,15 @@
     <string name="xftp_servers_configured">Konfigurēti Xftp Serveri</string>
     <string name="xftp_servers_other">Citi Xftp Serveri</string>
     <string name="subscription_percentage">Abonēšanas Procentuālais Daudzums</string>
-    <string name="install_simplex_chat_for_terminal">Instalēt SimpleX Chat Terminālim</string>
+    <string name="install_simplex_chat_for_terminal">Instalēt Gray Heterotopia Terminālim</string>
     <string name="reset_all_hints">Atiestatīt Visus Padomus</string>
     <string name="star_on_github">Atzīmēt Ar Zvaigzni Github</string>
     <string name="contribute">Ziedot</string>
     <string name="rate_the_app">Novērtēt Aplikāciju</string>
-    <string name="use_simplex_chat_servers__question">Izmantot SimpleX Chat Serverus?</string>
+    <string name="use_simplex_chat_servers__question">Izmantot Gray Heterotopia Serverus?</string>
     <string name="your_SMP_servers">Jūsu SMP Serveri</string>
     <string name="your_XFTP_servers">Jūsu XFTP Serveri</string>
-    <string name="using_simplex_chat_servers">Izmantojot SimpleX Chat Serverus</string>
+    <string name="using_simplex_chat_servers">Izmantojot Gray Heterotopia Serverus</string>
     <string name="how_to">Kā to darīt</string>
     <string name="how_to_use_your_servers">Kā lietot savus serverus</string>
     <string name="saved_ICE_servers_will_be_removed">Saglabātie ICE serveri tiks noņemti</string>
@@ -454,7 +454,7 @@
     <string name="webrtc_ice_servers">Webrtc Ice Serveri</string>
     <string name="relay_server_protects_ip">Relay Serveris Aizsargā Ip</string>
     <string name="relay_server_if_necessary">Relay Serveris Ja Nepieciešams</string>
-    <string name="open_simplex_chat_to_accept_call">Atveriet SimpleX Chat, lai pieņemtu zvanu</string>
+    <string name="open_simplex_chat_to_accept_call">Atveriet Gray Heterotopia, lai pieņemtu zvanu</string>
     <string name="allow_accepting_calls_from_lock_screen">Atļaut zvanu pieņemšanu no bloķēšanas ekrāna</string>
     <string name="open_verb">Atvērt</string>
     <string name="status_e2e_encrypted">Statuss E2E Šifrēts</string>
@@ -661,7 +661,7 @@
     <string name="button_send_direct_message">Poga \"Sūtīt tiešo ziņu</string>
     <string name="theme_light">Gaišā tēma</string>
     <string name="theme_dark">Tumšā tēma</string>
-    <string name="theme_simplex">SimpleX tēma</string>
+    <string name="theme_simplex">Gray Heterotopia tēma</string>
     <string name="theme_black">Melnā tēma</string>
     <string name="language_system">Sistēmas valoda</string>
     <string name="theme">Tēma</string>
@@ -941,7 +941,7 @@
     <string name="icon_descr_instant_notifications">Tūlītējas paziņojumi</string>
     <string name="service_notifications">Pakalpojumu paziņojumi</string>
     <string name="service_notifications_disabled">Pakalpojumu paziņojumi atslēgti</string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Lai saglabātu privātumu, Simplex izmanto fona pakalpojumu, nevis uznirstošos paziņojumus, tas patērē mazāk datora akumulatora.]]></string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Lai saglabātu privātumu, Gray Heterotopia izmanto fona pakalpojumu, nevis uznirstošos paziņojumus, tas patērē mazāk datora akumulatora.]]></string>
     <string name="it_can_disabled_via_settings_notifications_still_shown"><![CDATA[To var atslēgt caur iestatījumiem, paziņojumi joprojām tiek rādīti.]]></string>
     <string name="turn_off_battery_optimization"><![CDATA[Izslēgt akumulatora optimizāciju]]></string>
     <string name="turning_off_service_and_periodic">Izslēdzot pakalpojumu un periodiskos paziņojumus</string>
@@ -961,7 +961,7 @@
     <string name="database_initialization_error_title">Datu bāzes inicializācijas kļūda</string>
     <string name="database_initialization_error_desc">Neizdevās inicializēt datu bāzi.</string>
     <string name="xiaomi_ignore_battery_optimization"><![CDATA[Xiaomi ignorēt akumulatora optimizāciju]]></string>
-    <string name="simplex_service_notification_title">Simplex pakalpojumu paziņojums</string>
+    <string name="simplex_service_notification_title">Gray Heterotopia pakalpojumu paziņojums</string>
     <string name="simplex_service_notification_text">Simplex pakalpojumu paziņojuma teksts</string>
     <string name="call_service_notification_audio_call">Zvana pakalpojumu paziņojums audio zvanam</string>
     <string name="call_service_notification_video_call">Zvana pakalpojumu paziņojums video zvanam</string>
@@ -989,8 +989,8 @@
     <string name="notification_new_contact_request">Jauns kontaktu pieprasījums</string>
     <string name="notification_contact_connected">Kontakts savienots</string>
     <string name="error_showing_desktop_notification">Kļūda, rādot darbvirsmas paziņojumu</string>
-    <string name="la_notice_title_simplex_lock">SimpleX Bloķēšana</string>
-    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Lai aizsargātu jūsu informāciju, ieslēdziet SimpleX bloķēšanu; jums tiks lūgts pabeigt autentifikāciju, pirms šī funkcija tiks aktivizēta.</string>
+    <string name="la_notice_title_simplex_lock">Gray Heterotopia Bloķēšana</string>
+    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Lai aizsargātu jūsu informāciju, ieslēdziet Gray Heterotopia bloķēšanu; jums tiks lūgts pabeigt autentifikāciju, pirms šī funkcija tiks aktivizēta.</string>
     <string name="la_notice_turn_on">Ieslēgt</string>
     <string name="la_lock_mode">Bloķēšanas režīms</string>
     <string name="la_lock_mode_system">Izmantot ierīces bloķēšanu</string>
@@ -1006,12 +1006,12 @@
     <string name="la_seconds">sekundes</string>
     <string name="la_minutes">minūtes</string>
     <string name="la_please_remember_to_store_password">Lūdzu, atcerieties saglabāt paroli</string>
-    <string name="auth_simplex_lock_turned_on">SimpleX bloķēšana ieslēgta</string>
+    <string name="auth_simplex_lock_turned_on">Gray Heterotopia bloķēšana ieslēgta</string>
     <string name="auth_you_will_be_required_to_authenticate_when_you_start_or_resume">Jums būs jāveic autentifikācija, kad sākat vai atsākat</string>
     <string name="auth_unlock">Atbloķēt</string>
     <string name="auth_log_in_using_credential">Pieslēgties, izmantojot akreditācijas datus</string>
-    <string name="auth_enable_simplex_lock">Ieslēgt SimpleX Bloķēšanu</string>
-    <string name="auth_disable_simplex_lock">Izslēgt SimpleX Bloķēšanu</string>
+    <string name="auth_enable_simplex_lock">Ieslēgt Gray Heterotopia Bloķēšanu</string>
+    <string name="auth_disable_simplex_lock">Izslēgt Gray Heterotopia Bloķēšanu</string>
     <string name="auth_confirm_credential">Apstiprināt akreditācijas datus</string>
     <string name="auth_unavailable">Autentifikācija nav pieejama</string>
     <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Ierīces autentifikācija nav iespējota; to varat ieslēgt iestatījumos, kad tā būs iespējota.</string>
@@ -1243,7 +1243,7 @@
     <string name="add_contact_button_to_create_link_or_connect_via_link"><![CDATA[Pievienot kontaktu, lai izveidotu saiti vai savienotu, izmantojot saiti]]></string>
     <string name="create_group_button_to_create_new_group"><![CDATA[Izveidot grupu, lai izveidotu jaunu grupu]]></string>
     <string name="to_connect_via_link_title">Lai savienotu, izmantojot saiti</string>
-    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Ja esat saņēmis simplex ielūguma saiti, varat to atvērt pārlūkā</string>
+    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Ja esat saņēmis Gray Heterotopia ielūguma saiti, varat to atvērt pārlūkā</string>
     <string name="desktop_scan_QR_code_from_app_via_scan_QR_code"><![CDATA[Datorā nolasīt QR kodu no lietotnes, izmantojot QR koda nolasīšanu]]></string>
     <string name="mobile_tap_open_in_mobile_app_then_tap_connect_in_app"><![CDATA[Mobilajā ierīcē noklikšķiniet uz atvērt mobilajā lietotnē, tad noklikšķiniet uz savienot lietotnē]]></string>
     <string name="accept_connection_request__question">Pieņemt savienojuma pieprasījumu?</string>
@@ -1301,8 +1301,8 @@
     <string name="image_descr_qr_code">QR kods</string>
     <string name="icon_descr_address">Adrese</string>
     <string name="icon_descr_help">Palīdzība</string>
-    <string name="icon_descr_simplex_team">Simplex komanda</string>
-    <string name="image_descr_simplex_logo">SimpleX logo</string>
+    <string name="icon_descr_simplex_team">Gray Heterotopia komanda</string>
+    <string name="image_descr_simplex_logo">Gray Heterotopia logo</string>
     <string name="icon_descr_email">E-pasts</string>
     <string name="icon_descr_more_button">Vairāk</string>
     <string name="show_QR_code">Rādīt QR kodu</string>
@@ -1326,7 +1326,7 @@
     <string name="scan_qr_to_connect_to_contact">Skenējiet QR, lai savienotos ar kontaktu</string>
     <string name="if_you_cant_meet_in_person">Ja jūs nevarat tikties klātienē</string>
     <string name="share_address_publicly">Kopīgot adresi publiski</string>
-    <string name="share_simplex_address_on_social_media">Kopīgot simplex adresi sociālajos tīklos</string>
+    <string name="share_simplex_address_on_social_media">Kopīgot Gray Heterotopia adresi sociālajos tīklos</string>
     <string name="you_can_share_your_address">Jūs varat kopīgot savu adresi</string>
     <string name="you_wont_lose_your_contacts_if_delete_address">Jūs nezaudēsiet savus kontaktus, ja izdzēsīsiet adresi</string>
     <string name="share_1_time_link_with_a_friend">Kopīgot vienreizēju saiti ar draugu</string>
@@ -1495,7 +1495,7 @@
     <string name="short_descr__field">Īsa apraksts</string>
     <string name="bio_too_large">Biogrāfija ir pārāk liela</string>
     <string name="your_current_profile">Jūsu pašreizējais profils</string>
-    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Jūsu profils tiek glabāts ierīcē un tiek dalīts tikai ar kontaktiem, Simplex to neredz</string>
+    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Jūsu profils tiek glabāts ierīcē un tiek dalīts tikai ar kontaktiem, Gray Heterotopia to neredz</string>
     <string name="edit_image">Rediģēt attēlu</string>
     <string name="delete_image">Dzēst attēlu</string>
     <string name="save_admission_question">Saglabāt uzņemšanu?</string>
@@ -1525,7 +1525,7 @@
     <string name="create_address_button">Izveidot adresi</string>
     <string name="invalid_name">Nederīgs vārds</string>
     <string name="correct_name_to">Labot vārdu uz</string>
-    <string name="about_simplex">Par SimpleX</string>
+    <string name="about_simplex">Par Gray Heterotopia</string>
     <string name="how_to_use_markdown">Kā izmantot Markdown</string>
     <string name="you_can_use_markdown_to_format_messages__prompt">Jūs varat izmantot Markdown, lai formatētu ziņas</string>
     <string name="bold_text">Trekns teksts</string>
@@ -1566,7 +1566,7 @@
     <string name="make_private_connection">Izveidot privātu savienojumu</string>
     <string name="migrate_from_another_device">Migrēt no citas ierīces</string>
     <string name="how_it_works">Kā tas darbojas</string>
-    <string name="to_protect_privacy_simplex_has_ids_for_queues">Lai aizsargātu privātumu, SimpleX izmanto ID rindām</string>
+    <string name="to_protect_privacy_simplex_has_ids_for_queues">Lai aizsargātu privātumu, Gray Heterotopia izmanto ID rindām</string>
     <string name="only_client_devices_store_contacts_groups_e2e_encrypted_messages">Tikai klientu ierīces glabā kontaktu grupas un e2e šifrētas ziņas</string>
     <string name="all_message_and_files_e2e_encrypted"><![CDATA[Visas ziņas un faili ir e2e šifrēti]]></string>
     <string name="read_more_in_github_with_link"><![CDATA[Lasiet vairāk GitHub krātuvē.]]></string>
@@ -1592,7 +1592,7 @@
     <string name="onboarding_conditions_accept">Ievada nosacījumi pieņemt</string>
     <string name="onboarding_choose_server_operators">Ievada izvēlēties servera operatorus</string>
     <string name="onboarding_network_operators">Ievada tīkla operatori</string>
-    <string name="onboarding_network_operators_simplex_flux_agreement">Ievada tīkla operatori simplex flux vienošanās</string>
+    <string name="onboarding_network_operators_simplex_flux_agreement">Ievada tīkla operatori Gray Heterotopia flux vienošanās</string>
     <string name="onboarding_network_operators_app_will_use_different_operators">Ievada tīkla operatori lietotne izmantos citus operatorus</string>
     <string name="onboarding_network_operators_cant_see_who_talks_to_whom">Ievada tīkla operatori nevar redzēt, kas ar ko runā</string>
     <string name="onboarding_network_operators_app_will_use_for_routing">Ievada tīkla operatori lietotne izmantos maršrutēšanai</string>

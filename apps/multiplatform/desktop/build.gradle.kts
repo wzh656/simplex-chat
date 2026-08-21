@@ -8,7 +8,7 @@ plugins {
   id("io.github.tomtzook.gradle-cmake") version "1.2.2"
 }
 
-group = "chat.simplex"
+group = "com.grayheterotopia"
 version = extra["desktop.version_name"] as String
 
 
@@ -40,7 +40,7 @@ compose {
       }
       mainClass = "chat.simplex.desktop.MainKt"
       nativeDistributions {
-        copyright = "(c) 2020-2026 SimpleX Chat"
+        copyright = "(c) 2020-2026 Gray Heterotopia"
         // For debugging via VisualVM
         if (debugJava) {
           modules("jdk.zipfs", "jdk.unsupported", "jdk.management.agent")
@@ -64,27 +64,27 @@ compose {
           //, TargetFormat.AppImage // Gradle doesn't sync on Mac with it
         )
         linux {
-          iconFile.set(project.file("src/jvmMain/resources/distribute/simplex.png"))
+          iconFile.set(project.file("src/jvmMain/resources/distribute/grayheterotopia.png"))
           appCategory = "Messenger"
         }
         windows {
-          packageName = "SimpleX"
-          iconFile.set(project.file("src/jvmMain/resources/distribute/simplex.ico"))
+          packageName = "Gray Heterotopia"
+          iconFile.set(project.file("src/jvmMain/resources/distribute/grayheterotopia.ico"))
           console = false
           perUserInstall = false
           dirChooser = true
           shortcut = true
-          upgradeUuid = "CC9EFBC8-AFFF-40D8-BB69-FCD7CE99EFB9"
+          upgradeUuid = "6F5B8D5A-6E5D-4DBF-9A9F-3E9B35C6A1D4"
         }
         macOS {
-          packageName = "SimpleX"
-          iconFile.set(project.file("src/jvmMain/resources/distribute/simplex.icns"))
+          packageName = "Gray Heterotopia"
+          iconFile.set(project.file("src/jvmMain/resources/distribute/grayheterotopia.icns"))
           appCategory = "public.app-category.social-networking"
-          bundleID = "chat.simplex.app"
+          bundleID = "com.grayheterotopia.app"
           infoPlist {
             extraKeysRawXml = """
               <key>NSMicrophoneUsageDescription</key>
-              <string>SimpleX needs microphone access to record voice messages</string>
+              <string>Gray Heterotopia needs microphone access to record voice messages</string>
             """
           }
           val identity = rootProject.extra["desktop.mac.signing.identity"] as String?
@@ -106,9 +106,9 @@ compose {
           }
         }
         if (os.contains("mac") || os.contains("win")) {
-          packageName = "SimpleX"
+          packageName = "Gray Heterotopia"
         } else {
-          packageName = "simplex"
+          packageName = "grayheterotopia"
         }
         // Packaging requires to have version like MAJOR.MINOR.PATCH
         var adjustedVersion = rootProject.extra["desktop.version_name"] as String

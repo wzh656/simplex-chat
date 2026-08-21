@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="auth_device_authentication_is_disabled_turning_off">Uwierzytelnianie urządzenia jest wyłączone. Wyłączanie blokady SimpleX.</string>
-    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Uwierzytelnianie urządzenia nie jest włączone. Możesz włączyć blokadę SimpleX w Ustawieniach po włączeniu uwierzytelniania urządzenia.</string>
+    <string name="auth_device_authentication_is_disabled_turning_off">Uwierzytelnianie urządzenia jest wyłączone. Wyłączanie blokady Gray Heterotopia.</string>
+    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Uwierzytelnianie urządzenia nie jest włączone. Możesz włączyć blokadę Gray Heterotopia w Ustawieniach po włączeniu uwierzytelniania urządzenia.</string>
     <string name="direct_messages">Bezpośrednie wiadomości</string>
     <string name="connect_via_link_verb">Połącz</string>
     <string name="server_connected">połączony</string>
@@ -28,7 +28,7 @@
     <string name="trying_to_connect_to_server_to_receive_messages">Próba połączenia z serwerem, który służył do odbierania wiadomości z tego połączenia.</string>
     <string name="error_connecting_to_server_to_receive_messages">Próbowanie połączenia z serwerem używanym do odbierania wiadomości od tego kontaktu (błąd: %1$s).</string>
     <string name="unknown_message_format">nieznany format wiadomości</string>
-    <string name="app_name">SimpleX</string>
+    <string name="app_name">Gray Heterotopia</string>
     <string name="sender_you_pronoun">Ty</string>
     <string name="connected_to_server_to_receive_messages_from_contact">Jesteś połączony z serwerem, który służył do odbierania wiadomości z tego połączenia.</string>
     <string name="profile_will_be_sent_to_contact_sending_link">Twój profil zostanie wysłany do kontaktu, od którego otrzymałeś ten link.</string>
@@ -97,8 +97,8 @@
     <string name="settings_notifications_mode_title">Usługa powiadomień</string>
     <string name="notifications_mode_off">Działa, gdy aplikacja jest otwarta</string>
     <string name="settings_notification_preview_mode_title">Pokaż podgląd</string>
-    <string name="ntf_channel_calls">Połączenia SimpleX Chat</string>
-    <string name="ntf_channel_messages">Wiadomości SimpleX Chat</string>
+    <string name="ntf_channel_calls">Połączenia Gray Heterotopia</string>
+    <string name="ntf_channel_messages">Wiadomości Gray Heterotopia</string>
     <string name="notifications_mode_periodic">Uruchamia się okresowo</string>
     <string name="notification_contact_connected">Połączony</string>
     <string name="notification_preview_somebody">Kontakt ukryty:</string>
@@ -108,14 +108,14 @@
     <string name="notification_preview_new_message">nowa wiadomość</string>
     <string name="notification_preview_mode_message_desc">Pokaż kontakt i wiadomość</string>
     <string name="notification_preview_mode_contact_desc">Pokaż tylko kontakt</string>
-    <string name="la_notice_title_simplex_lock">Blokada SimpleX</string>
-    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Aby chronić swoje informacje, włącz funkcję blokady SimpleX.
+    <string name="la_notice_title_simplex_lock">Blokada Gray Heterotopia</string>
+    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Aby chronić swoje informacje, włącz funkcję blokady Gray Heterotopia.
 \nPrzed włączeniem tej funkcji zostanie wyświetlony monit uwierzytelniania.</string>
     <string name="la_notice_turn_on">Włącz</string>
-    <string name="auth_disable_simplex_lock">Wyłącz blokadę SimpleX</string>
-    <string name="auth_enable_simplex_lock">Włącz blokadę SimpleX</string>
+    <string name="auth_disable_simplex_lock">Wyłącz blokadę Gray Heterotopia</string>
+    <string name="auth_enable_simplex_lock">Włącz blokadę Gray Heterotopia</string>
     <string name="auth_log_in_using_credential">Zaloguj się przy użyciu swoich poświadczeń</string>
-    <string name="auth_simplex_lock_turned_on">Blokada SimpleX włączona</string>
+    <string name="auth_simplex_lock_turned_on">Blokada Gray Heterotopia włączona</string>
     <string name="auth_unlock">Odblokuj</string>
     <string name="auth_you_will_be_required_to_authenticate_when_you_start_or_resume">Uwierzytelnienie będzie wymagane przy uruchamianiu lub wznawianiu aplikacji po 30 sekundach w tle.</string>
     <string name="message_delivery_error_title">Błąd dostarczenia wiadomości</string>
@@ -282,8 +282,8 @@
     <string name="is_verified">%s jest zweryfikowany</string>
     <string name="this_QR_code_is_not_a_link">Ten kod QR nie jest linkiem!</string>
     <string name="this_string_is_not_a_connection_link">Ten ciąg nie jest linkiem połączenia!</string>
-    <string name="icon_descr_address">Adres SimpleX</string>
-    <string name="image_descr_simplex_logo">Logo SimpleX</string>
+    <string name="icon_descr_address">Adres Gray Heterotopia</string>
+    <string name="image_descr_simplex_logo">Logo Gray Heterotopia</string>
     <string name="you_can_also_connect_by_clicking_the_link"><![CDATA[Możesz też połączyć się klikając w link. Jeśli otworzy się on w przeglądarce, kliknij przycisk <b>Otwórz w aplikacji mobilnej</b>.]]></string>
     <string name="your_chat_profile_will_be_sent_to_your_contact">Twój profil czatu zostanie wysłany
 \ndo Twojego kontaktu</string>
@@ -313,7 +313,7 @@
     <string name="chat_with_the_founder">Wyślij pytania i pomysły</string>
     <string name="send_us_an_email">Wyślij do nas email</string>
     <string name="smp_servers_test_failed">Test serwera nie powiódł się!</string>
-    <string name="chat_lock">Blokada SimpleX</string>
+    <string name="chat_lock">Blokada Gray Heterotopia</string>
     <string name="is_not_verified">%s nie jest zweryfikowany</string>
     <string name="smp_servers">Serwery SMP</string>
     <string name="star_on_github">Daj gwiazdkę na GitHub</string>
@@ -321,7 +321,7 @@
     <string name="smp_servers_test_servers">Przetestuj serwery</string>
     <string name="smp_servers_per_user">Serwery dla nowych połączeń bieżącego profilu czatu</string>
     <string name="smp_servers_use_server">Użyj serwera</string>
-    <string name="using_simplex_chat_servers">Używanie serwerów SimpleX Chat.</string>
+    <string name="using_simplex_chat_servers">Używanie serwerów Gray Heterotopia.</string>
     <string name="your_chat_profiles">Twoje profile czatu</string>
     <string name="your_ICE_servers">Twoje serwery ICE</string>
     <string name="smp_servers_your_server">Twój serwer</string>
@@ -392,7 +392,7 @@
     <string name="you_control_your_chat">Ty kontrolujesz swój czat!</string>
     <string name="your_profile_is_stored_on_your_device">Twój profil, kontakty i dostarczone wiadomości są przechowywane na Twoim urządzeniu.</string>
     <string name="a_plus_b">a + b</string>
-    <string name="about_simplex">O SimpleX</string>
+    <string name="about_simplex">O Gray Heterotopia</string>
     <string name="callstatus_accepted">zaakceptowane połączenie</string>
     <string name="bold_text">pogrubiona</string>
     <string name="callstatus_ended">połączenie zakończone %1$s</string>
@@ -476,7 +476,7 @@
     <string name="icon_descr_call_missed">Nieodebrane połączenie</string>
     <string name="status_no_e2e_encryption">brak szyfrowania e2e</string>
     <string name="open_verb">Otwórz</string>
-    <string name="open_simplex_chat_to_accept_call">Otwórz SimpleX Chat, aby przyjąć połączenie.</string>
+    <string name="open_simplex_chat_to_accept_call">Otwórz Gray Heterotopia, aby przyjąć połączenie.</string>
     <string name="call_connection_peer_to_peer">peer-to-peer</string>
     <string name="icon_descr_call_pending_sent">Oczekujące połączenie</string>
     <string name="icon_descr_call_rejected">Odrzucone połączenie</string>
@@ -522,7 +522,7 @@
     <string name="settings_section_title_settings">Ustawienia</string>
     <string name="settings_section_title_socks">Proxy SOCKS</string>
     <string name="stop_chat_question">Zatrzymać czat\?</string>
-    <string name="settings_section_title_support">Wspieraj SimpleX Chat</string>
+    <string name="settings_section_title_support">Wspieraj Gray Heterotopia</string>
     <string name="settings_section_title_themes">Motywy</string>
     <string name="settings_section_title_you">Ty</string>
     <string name="your_chat_database">Twoja baza danych czatu</string>
@@ -879,7 +879,7 @@
     <string name="v4_5_italian_interface_descr">Podziękowania dla użytkowników - wkład za pośrednictwem Weblate!</string>
     <string name="v4_6_chinese_spanish_interface_descr">Podziękowania dla użytkowników - wkład za pośrednictwem Weblate!</string>
     <string name="allow_your_contacts_irreversibly_delete">Zezwól swoim kontaktom na nieodwracalne usuwanie wysłanych wiadomości. (24 godziny)</string>
-    <string name="about_simplex_chat">O SimpleX Chat</string>
+    <string name="about_simplex_chat">O Gray Heterotopia</string>
     <string name="above_then_preposition_continuation">powyżej, wtedy:</string>
     <string name="accept_connection_request__question">Zaakceptować prośbę o połączenie\?</string>
     <string name="color_primary">Akcent</string>
@@ -946,12 +946,12 @@
     <string name="if_you_cannot_meet_in_person_scan_QR_in_video_call_or_ask_for_invitation_link"><![CDATA[Jeśli nie możesz spotkać się osobiście, możesz <b>zeskanować kod QR w rozmowie wideo</b>, lub Twój rozmówca może udostępnić link z zaproszeniem.]]></string>
     <string name="if_you_choose_to_reject_the_sender_will_not_be_notified">Jeśli odrzucisz nadawca NIE zostanie powiadomiony.</string>
     <string name="description_via_contact_address_link_incognito">incognito poprzez link adresu kontaktowego</string>
-    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Jeśli otrzymałeś link do zaproszenia SimpleX Chat, możesz go otworzyć w swojej przeglądarce:</string>
+    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Jeśli otrzymałeś link do zaproszenia Gray Heterotopia, możesz go otworzyć w swojej przeglądarce:</string>
     <string name="import_database_question">Zaimportować bazę danych czatu\?</string>
     <string name="incognito_info_protects">Tryb incognito chroni Twoją prywatność używając nowego losowego profilu dla każdego kontaktu.</string>
     <string name="conn_level_desc_indirect">pośrednie (%1$s)</string>
     <string name="turn_off_battery_optimization"><![CDATA[<b>Pozwól</b> w następnym oknie dialogowym natychmiast otrzymywać powiadomienia.]]></string>
-    <string name="install_simplex_chat_for_terminal">Zainstaluj SimpleX Chat na terminal</string>
+    <string name="install_simplex_chat_for_terminal">Zainstaluj Gray Heterotopia na terminal</string>
     <string name="invalid_migration_confirmation">Nieprawidłowe potwierdzenie migracji</string>
     <string name="group_invitation_item_description">zaproszenie do grupy %1$s</string>
     <string name="v4_3_irreversible_message_deletion">Nieodwracalne usuwanie wiadomości</string>
@@ -978,26 +978,26 @@
     <string name="simplex_link_contact">Adres kontaktowy SimpleX</string>
     <string name="stop_chat_to_export_import_or_delete_chat_database">Zatrzymaj czat, aby wyeksportować, zaimportować lub usunąć bazę danych czatu. Podczas zatrzymania chatu nie będzie można odbierać ani wysyłać wiadomości.</string>
     <string name="smp_servers_test_some_failed">Niektóre serwery nie przeszły testu:</string>
-    <string name="thank_you_for_installing_simplex">Dziękujemy za zainstalowanie SimpleX Chat!</string>
+    <string name="thank_you_for_installing_simplex">Dziękujemy za zainstalowanie Gray Heterotopia!</string>
     <string name="moderate_message_will_be_marked_warning">Wiadomość zostanie oznaczona jako zmoderowana dla wszystkich członków.</string>
     <string name="member_role_will_be_changed_with_notification">Rola zostanie zmieniona na "%s". Wszyscy w grupie zostaną powiadomieni.</string>
     <string name="delete_files_and_media_desc">Tego działania nie można cofnąć - wszystkie odebrane i wysłane pliki oraz media zostaną usunięte. Obrazy o niskiej rozdzielczości pozostaną.</string>
     <string name="switch_receiving_address_desc">Adres odbiorczy zostanie zmieniony na inny serwer. Zmiana adresu zostanie zakończona gdy nadawca będzie online.</string>
     <string name="this_link_is_not_a_valid_connection_link">Ten link nie jest prawidłowym linkiem połączenia!</string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Aby poprawić prywatność, <b>SimpleX działa w tle</b> zamiast korzystać z powiadomień push.]]></string>
-    <string name="to_protect_privacy_simplex_has_ids_for_queues">Aby chronić Twoją prywatność, SimpleX używa oddzielnych identyfikatorów dla każdego z Twoich kontaktów.</string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Aby poprawić prywatność, <b>Gray Heterotopia działa w tle</b> zamiast korzystać z powiadomień push.]]></string>
+    <string name="to_protect_privacy_simplex_has_ids_for_queues">Aby chronić Twoją prywatność, Gray Heterotopia używa oddzielnych identyfikatorów dla każdego z Twoich kontaktów.</string>
     <string name="to_verify_compare">Aby zweryfikować szyfrowanie end-to-end z Twoim kontaktem porównaj (lub zeskanuj) kod na waszych urządzeniach.</string>
     <string name="smp_servers_use_server_for_new_conn">Użyj dla nowych połączeń</string>
     <string name="connection_error_auth_desc">O ile Twój kontakt nie usunął połączenia lub ten link był już użyty, może to być błąd - zgłoś go. \nAby się połączyć, poproś Twój kontakt o utworzenie kolejnego linku połączenia i sprawdź, czy masz stabilne połączenie z siecią.</string>
-    <string name="use_simplex_chat_servers__question">Używać serwerów SimpleX Chat\?</string>
-    <string name="icon_descr_simplex_team">Drużyna SimpleX</string>
+    <string name="use_simplex_chat_servers__question">Używać serwerów Gray Heterotopia\?</string>
+    <string name="icon_descr_simplex_team">Drużyna Gray Heterotopia</string>
     <string name="network_use_onion_hosts_prefer">Gdy dostępny</string>
     <string name="v4_2_auto_accept_contact_requests_desc">Z opcjonalną wiadomością powitalną.</string>
     <string name="group_info_section_title_num_members">%1$s CZŁONKÓW</string>
-    <string name="simplex_service_notification_title">serwis SimpleX Chat</string>
+    <string name="simplex_service_notification_title">serwis Gray Heterotopia</string>
     <string name="contact_wants_to_connect_via_call">%1$s chce się z Tobą połączyć przez</string>
     <string name="you_are_already_connected_to_vName_via_this_link">Jesteś już połączony z %1$s.</string>
-    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Możesz <font color="#0088ff">połączyć się z deweloperami SimpleX Chat aby zadać wszelkie pytania i otrzymywać aktualizacje</font>.]]></string>
+    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Możesz <font color="#0088ff">połączyć się z deweloperami Gray Heterotopia aby zadać wszelkie pytania i otrzymywać aktualizacje</font>.]]></string>
     <string name="you_can_share_group_link_anybody_will_be_able_to_connect">Możesz udostępnić link lub kod QR - każdy będzie mógł dołączyć do grupy. Nie stracisz członków grupy, jeśli później ją usuniesz.</string>
     <string name="you_must_use_the_most_recent_version_of_database">Musisz używać najnowszej wersji bazy danych czatu TYLKO na jednym urządzeniu, w przeciwnym razie możesz przestać otrzymywać wiadomości od niektórych kontaktów.</string>
     <string name="you_can_start_chat_via_setting_or_by_restarting_the_app">Możesz rozpocząć czat poprzez Ustawienia aplikacji / Bazę danych lub poprzez ponowne uruchomienie aplikacji.</string>
@@ -1006,7 +1006,7 @@
 \nTej czynności nie można cofnąć - Twój profil, kontakty, wiadomości i pliki zostaną nieodwracalnie utracone.</string>
     <string name="contact_sent_large_file">Twój kontakt wysłał plik, który jest większy niż obecnie obsługiwany maksymalny rozmiar (%1$s).</string>
     <string name="snd_group_event_member_deleted">usunąłeś %1$s</string>
-    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Twój profil jest przechowywany na Twoim urządzeniu i udostępniany tylko Twoim kontaktom. Serwery SimpleX nie widzą Twojego profilu.</string>
+    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Twój profil jest przechowywany na Twoim urządzeniu i udostępniany tylko Twoim kontaktom. Serwery Gray Heterotopia nie widzą Twojego profilu.</string>
     <string name="description_you_shared_one_time_link_incognito">udostępniłeś jednorazowy link incognito</string>
     <string name="you_will_join_group">Zostaniesz połączony ze wszystkimi członkami grupy.</string>
     <string name="your_SMP_servers">Twoje serwery SMP</string>
@@ -1031,7 +1031,7 @@
     <string name="ensure_xftp_server_address_are_correct_format_and_unique">Upewnij się, że adresy serwerów XFTP są w poprawnym formacie, rozdzielone liniami i nie są zduplikowane.</string>
     <string name="la_auth_failed">Uwierzytelnianie nie powiodło się</string>
     <string name="la_lock_mode_passcode">Wpis pinu</string>
-    <string name="la_lock_mode">Tryb blokady SimpleX</string>
+    <string name="la_lock_mode">Tryb blokady Gray Heterotopia</string>
     <string name="la_lock_mode_system">Uwierzytelnianie systemu</string>
     <string name="la_could_not_be_verified">Nie można zweryfikować użytkownika; proszę spróbować ponownie.</string>
     <string name="la_change_app_passcode">Zmień pin</string>
@@ -1040,8 +1040,8 @@
     <string name="la_seconds">%d sekund</string>
     <string name="la_enter_app_passcode">Wprowadź Pin</string>
     <string name="la_no_app_password">Brak pinu aplikacji</string>
-    <string name="lock_not_enabled">Blokada SimpleX wyłączona!</string>
-    <string name="you_can_turn_on_lock">Możesz włączyć blokadę SimpleX poprzez Ustawienia.</string>
+    <string name="lock_not_enabled">Blokada Gray Heterotopia wyłączona!</string>
+    <string name="you_can_turn_on_lock">Możesz włączyć blokadę Gray Heterotopia poprzez Ustawienia.</string>
     <string name="enable_lock">Włącz blokadę</string>
     <string name="authentication_cancelled">Uwierzytelnianie anulowane</string>
     <string name="confirm_passcode">Potwierdź pin</string>
@@ -1121,9 +1121,9 @@
     <string name="continue_to_next_step">Kontynuuj</string>
     <string name="dont_create_address">Nie twórz adresu</string>
     <string name="email_invite_body">Cześć!
-\nPołącz się ze mną za pomocą SimpleX Chat: %s</string>
+\nPołącz się ze mną za pomocą Gray Heterotopia: %s</string>
     <string name="invite_friends">Zaproś znajomych</string>
-    <string name="email_invite_subject">Porozmawiajmy w SimpleX Chat</string>
+    <string name="email_invite_subject">Porozmawiajmy w Gray Heterotopia</string>
     <string name="group_welcome_preview">Podgląd</string>
     <string name="opening_database">Otwieranie bazy danych…</string>
     <string name="error_setting_address">Błąd ustawiania adresu</string>
@@ -1144,7 +1144,7 @@
     <string name="share_with_contacts">Udostępnij kontaktom</string>
     <string name="you_can_create_it_later">Możesz go utworzyć później</string>
     <string name="address_section_title">Adres</string>
-    <string name="theme_simplex">SimpleX</string>
+    <string name="theme_simplex">Gray Heterotopia</string>
     <string name="color_secondary">Drugorzędny</string>
     <string name="color_primary_variant">Dodatkowy akcent</string>
     <string name="dark_theme">Ciemny motyw</string>
@@ -1334,7 +1334,7 @@
     <string name="disable_notifications_button">Wyłącz powiadomienia</string>
     <string name="turn_off_system_restriction_button">Otwórz ustawienia aplikacji</string>
     <string name="system_restricted_background_in_call_title">Brak rozmów w tle</string>
-    <string name="system_restricted_background_desc">SimpleX nie może działać w tle. Otrzymasz powiadomienia gdy aplikacja jest uruchomiona.</string>
+    <string name="system_restricted_background_desc">Gray Heterotopia nie może działać w tle. Otrzymasz powiadomienia gdy aplikacja jest uruchomiona.</string>
     <string name="connect__a_new_random_profile_will_be_shared">Nowy losowy profil zostanie udostępniony.</string>
     <string name="paste_the_link_you_received_to_connect_with_your_contact">Wklej otrzymany link w pole poniżej, aby połączyć się z kontaktem…</string>
     <string name="connect__your_profile_will_be_shared">Twój profil %1$s zostanie udostępniony.</string>
@@ -1496,7 +1496,7 @@
     <string name="loading_remote_file_desc">Proszę poczekać na załadowanie pliku z połączonego telefonu</string>
     <string name="verify_connection">Zweryfikuj połączenie</string>
     <string name="refresh_qr_code">Odśwież</string>
-    <string name="you_can_make_address_visible_via_settings">Możesz ustawić go jako widoczny dla swoich kontaktów SimpleX w Ustawieniach.</string>
+    <string name="you_can_make_address_visible_via_settings">Możesz ustawić go jako widoczny dla swoich kontaktów Gray Heterotopia w Ustawieniach.</string>
     <string name="random_port">Losowy</string>
     <string name="error_showing_content">błąd wyświetlania zawartości</string>
     <string name="error_showing_message">błąd wyświetlania wiadomości</string>
@@ -2005,7 +2005,7 @@
     <string name="toolbar_settings">Ustawienia</string>
     <string name="network_option_tcp_connection">Połączenie TCP</string>
     <string name="selected_chat_items_nothing_selected">Nic nie jest zaznaczone</string>
-    <string name="error_parsing_uri_desc">Sprawdź czy link SimpleX jest poprawny.</string>
+    <string name="error_parsing_uri_desc">Sprawdź czy link Gray Heterotopia jest poprawny.</string>
     <string name="v6_0_your_contacts_descr">Archiwizuj kontakty aby porozmawiać później.</string>
     <string name="v6_0_private_routing_descr">Chroni Twój adres IP i połączenia.</string>
     <string name="v6_0_reachable_chat_toolbar">Osiągalny pasek narzędzi czatu</string>
@@ -2211,7 +2211,7 @@
     <string name="chat_banner_bot">Bot</string>
     <string name="both_you_and_your_contact_can_send_files">Ty i twój kontakt możecie wysyłać pliki i media.</string>
     <string name="chat_banner_business_connection">Kontakt służbowy</string>
-    <string name="onboarding_conditions_by_using_you_agree">Uzywając SimpleX Chat zgadzasz się na:\n- wysyłanie tylko prawnie dopuszczonych treści na publicznych grupach.\n- szanowanie innych użytkowników - nie wysyłanie SPAM-u</string>
+    <string name="onboarding_conditions_by_using_you_agree">Uzywając Gray Heterotopia zgadzasz się na:\n- wysyłanie tylko prawnie dopuszczonych treści na publicznych grupach.\n- szanowanie innych użytkowników - nie wysyłanie SPAM-u</string>
     <string name="context_user_picker_cant_change_profile_alert_title">Nie mogę zmienić profilu</string>
     <string name="cant_send_message_generic">nie mogę wysłać wiadomości</string>
     <string name="v6_4_1_new_interface_languages">4 nowe języki interfejsu</string>
@@ -2292,7 +2292,7 @@
     <string name="report_archive_for_all_moderators">Dla wszystkich moderatorów</string>
     <string name="v6_2_network_decentralization_enable_flux_reason">Lepsza prywatność metadanych.</string>
     <string name="for_chat_profile">Dla profilu czatu %s:</string>
-    <string name="onboarding_network_operators_app_will_use_for_routing">Na przykład, jeśli kontakt otrzyma wiadomości za pośrednictwem serwera czatu SimpleX, aplikacja dostarczy je za pośrednictwem serwera Flux.</string>
+    <string name="onboarding_network_operators_app_will_use_for_routing">Na przykład, jeśli kontakt otrzyma wiadomości za pośrednictwem serwera czatu Gray Heterotopia, aplikacja dostarczy je za pośrednictwem serwera Flux.</string>
     <string name="report_archive_for_me">Dla mnie</string>
     <string name="operator_use_for_messages_private_routing">Dla prywatnego routingu</string>
     <string name="for_social_media">Dla mediów społecznościowych</string>
@@ -2465,13 +2465,13 @@
     <string name="share_address_publicly">Udostępnij adres publicznie</string>
     <string name="share_old_address_alert_button">Udostępnij stary adres</string>
     <string name="share_old_link_alert_button">Udostępnij stary link</string>
-    <string name="share_simplex_address_on_social_media">Udostępnij adres SimpleX w mediach społecznościowych.</string>
+    <string name="share_simplex_address_on_social_media">Udostępnij adres Gray Heterotopia w mediach społecznościowych.</string>
     <string name="v6_4_1_short_address_share">Udostępnij swój adres</string>
     <string name="group_short_descr_field">Krótki opis:</string>
     <string name="short_link_button_text">Krótki link</string>
-    <string name="v6_4_1_short_address">Krótki adres SimpleX</string>
+    <string name="v6_4_1_short_address">Krótki adres Gray Heterotopia</string>
     <string name="simplex_link_channel">Link do kanału na SimpleX</string>
-    <string name="onboarding_network_operators_simplex_flux_agreement">SimpleX Chat i Flux zawarły umowę na włączenie do aplikacji serwerów obsługiwanych przez Flux.</string>
+    <string name="onboarding_network_operators_simplex_flux_agreement">Gray Heterotopia i Flux zawarły umowę na włączenie do aplikacji serwerów obsługiwanych przez Flux.</string>
     <string name="simplex_link_relay">łącze przekaźnikowe SimpleX</string>
     <string name="report_reason_spam">Spam</string>
     <string name="blocking_reason_spam">Spam</string>
@@ -2479,7 +2479,7 @@
     <string name="chat_banner_connect_to_chat">Dotknij Połącz aby rozpocząć czat</string>
     <string name="chat_banner_send_request_to_connect">Dotknij Połącz, aby wysłać prośbę</string>
     <string name="chat_banner_connect_to_use_bot">Dotknij Połącz aby użyć bota</string>
-    <string name="address_creation_instruction">Dotknij Stwórz adres SimpleX w menu aby utworzyć go później.</string>
+    <string name="address_creation_instruction">Dotknij Stwórz adres Gray Heterotopia w menu aby utworzyć go później.</string>
     <string name="chat_banner_join_group">Dotknij Dołącz do grupy</string>
     <string name="network_option_tcp_connection_timeout_background">Przekroczono limit czasu połączenia TCP</string>
     <string name="network_smp_web_port_section_title">Port TCP dla wiadomości</string>

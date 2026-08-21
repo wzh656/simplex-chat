@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SimpleX</string>
+    <string name="app_name">Gray Heterotopia</string>
     <string name="thousand_abbreviation">k</string>
     <!-- Connect via Link - MainActivity.kt -->
     <string name="connect_via_contact_link">Über den Kontaktadressen-Link verbinden?</string>
@@ -87,7 +87,7 @@
     <string name="icon_descr_instant_notifications">Sofortige Benachrichtigungen</string>
     <string name="service_notifications">Sofortige Benachrichtigungen!</string>
     <string name="service_notifications_disabled">Sofortige Benachrichtigungen sind deaktiviert!</string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Um Ihre Privatsphäre zu schützen, <b>läuft SimpleX im Hintergrund ab</b>, anstatt Push-Benachrichtigungen zu nutzen.]]></string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Um Ihre Privatsphäre zu schützen, <b>läuft Gray Heterotopia im Hintergrund ab</b>, anstatt Push-Benachrichtigungen zu nutzen.]]></string>
     <string name="it_can_disabled_via_settings_notifications_still_shown"><![CDATA[<b>Diese können über die Einstellungen deaktiviert werden</b> – solange die App läuft, werden Benachrichtigungen weiterhin angezeigt.]]></string>
     <string name="turn_off_battery_optimization"><![CDATA[Um Benachrichtigungen sofort zu erhalten, <b>Erlauben Sie es</b> im nächsten Dialog.]]></string>
     <string name="turning_off_service_and_periodic">Die Akkuoptimierung ist aktiv, der Hintergrunddienst und die periodische Nachfrage nach neuen Nachrichten ist abgeschaltet. Sie können diese Funktion in den Einstellungen wieder aktivieren.</string>
@@ -98,13 +98,13 @@
     <string name="enter_passphrase_notification_desc">Geben Sie bitte das Datenbank-Passwort ein, um Benachrichtigungen zu erhalten.</string>
     <string name="database_initialization_error_title">Die Datenbank kann nicht initialisiert werden</string>
     <string name="database_initialization_error_desc">Die Datenbank arbeitet nicht richtig. Für weitere Informationen antippen.</string>
-    <!-- SimpleX Chat foreground Service -->
-    <string name="simplex_service_notification_title">SimpleX-Chat-Hintergrunddienst</string>
+    <!-- Gray Heterotopia foreground service -->
+    <string name="simplex_service_notification_title">Gray Heterotopia-Chat-Hintergrunddienst</string>
     <string name="simplex_service_notification_text">Empfange Nachrichten …</string>
     <string name="hide_notification">Verberge</string>
     <!-- Notification channels -->
-    <string name="ntf_channel_messages">SimpleX-Chat-Nachrichten</string>
-    <string name="ntf_channel_calls">SimpleX-Chat-Anrufe</string>
+    <string name="ntf_channel_messages">Gray Heterotopia-Chat-Nachrichten</string>
+    <string name="ntf_channel_calls">Gray Heterotopia-Chat-Anrufe</string>
     <!-- Notifications -->
     <string name="settings_notifications_mode_title">Benachrichtigungsdienst</string>
     <string name="settings_notification_preview_mode_title">Vorschau anzeigen</string>
@@ -126,20 +126,20 @@
     <string name="notification_new_contact_request">Neue Kontaktanfrage</string>
     <string name="notification_contact_connected">Verbunden</string>
     <!-- local authentication notice - SimpleXAPI.kt -->
-    <string name="la_notice_title_simplex_lock">SimpleX-Sperre</string>
-    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Um Ihre Informationen zu schützen, schalten Sie die SimpleX Sperre ein.\nSie werden aufgefordert, die Authentifizierung abzuschließen, bevor diese Funktion aktiviert wird.</string>
+    <string name="la_notice_title_simplex_lock">Gray Heterotopia-Sperre</string>
+    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Um Ihre Informationen zu schützen, schalten Sie die Gray Heterotopia Sperre ein.\nSie werden aufgefordert, die Authentifizierung abzuschließen, bevor diese Funktion aktiviert wird.</string>
     <string name="la_notice_turn_on">Aktivieren</string>
     <!-- LocalAuthentication.kt -->
-    <string name="auth_simplex_lock_turned_on">SimpleX-Sperre aktiviert</string>
+    <string name="auth_simplex_lock_turned_on">Gray Heterotopia-Sperre aktiviert</string>
     <string name="auth_you_will_be_required_to_authenticate_when_you_start_or_resume">Sie müssen sich authentifizieren, wenn Sie die im Hintergrund befindliche App nach 30 Sekunden starten oder fortsetzen.</string>
     <string name="auth_unlock">Entsperren</string>
     <string name="auth_log_in_using_credential">Melden Sie sich mit Ihren Zugangsdaten an</string>
-    <string name="auth_enable_simplex_lock">SimpleX-Sperre aktivieren</string>
-    <string name="auth_disable_simplex_lock">SimpleX-Sperre deaktivieren</string>
+    <string name="auth_enable_simplex_lock">Gray Heterotopia-Sperre aktivieren</string>
+    <string name="auth_disable_simplex_lock">Gray Heterotopia-Sperre deaktivieren</string>
     <string name="auth_confirm_credential">Bestätigen Sie Ihre Zugangsdaten</string>
     <string name="auth_unavailable">Authentifizierung nicht verfügbar</string>
-    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Geräteauthentifizierung ist nicht aktiviert. Sie können die SimpleX-Sperre über die Einstellungen aktivieren, sobald Sie die Geräteauthentifizierung aktiviert haben.</string>
-    <string name="auth_device_authentication_is_disabled_turning_off">Geräteauthentifizierung ist deaktiviert. SimpleX-Sperre wird ausgeschaltet.</string>
+    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Geräteauthentifizierung ist nicht aktiviert. Sie können die Gray Heterotopia-Sperre über die Einstellungen aktivieren, sobald Sie die Geräteauthentifizierung aktiviert haben.</string>
+    <string name="auth_device_authentication_is_disabled_turning_off">Geräteauthentifizierung ist deaktiviert. Gray Heterotopia-Sperre wird ausgeschaltet.</string>
     <string name="auth_stop_chat">Chat beenden</string>
     <string name="auth_open_chat_console">Chat-Konsole öffnen</string>
     <!-- Chat Alerts - ChatItemView.kt -->
@@ -260,13 +260,13 @@
     <string name="gallery_image_button">Bild</string>
     <string name="gallery_video_button">Video</string>
     <!-- help - ChatHelpView.kt -->
-    <string name="thank_you_for_installing_simplex">Danke, dass Sie SimpleX Chat installiert haben!</string>
-    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Sie können sich <font color="#0088ff">mit den SimpleX-Chat-Entwicklern verbinden, um Fragen zu stellen und aktuelle Informationen zu erhalten</font>.]]></string>
+    <string name="thank_you_for_installing_simplex">Danke, dass Sie Gray Heterotopia installiert haben!</string>
+    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Sie können sich <font color="#0088ff">mit den Gray Heterotopia-Chat-Entwicklern verbinden, um Fragen zu stellen und aktuelle Informationen zu erhalten</font>.]]></string>
     <string name="to_start_a_new_chat_help_header">Um einen neuen Chat zu starten</string>
     <string name="chat_help_tap_button">Schaltfläche tippen</string>
     <string name="above_then_preposition_continuation">Danach die gewünschte Aktion auswählen:</string>
     <string name="to_connect_via_link_title">Über Link verbinden</string>
-    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Wenn Sie einen SimpleX-Chat-Einladungslink erhalten haben, können Sie ihn in Ihrem Browser öffnen:</string>
+    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Wenn Sie einen Gray Heterotopia-Chat-Einladungslink erhalten haben, können Sie ihn in Ihrem Browser öffnen:</string>
     <string name="desktop_scan_QR_code_from_app_via_scan_QR_code"><![CDATA[💻 Desktop: Angezeigten QR-Code aus der App scannen, über <b>QR-Code scannen</b>.]]></string>
     <string name="mobile_tap_open_in_mobile_app_then_tap_connect_in_app"><![CDATA[📱 Mobiltelefon: Tippen Sie in der App auf „<b>In mobiler App öffnen</b>“ und dann auf „<b>Verbinden</b>“.]]></string>
     <!-- Contact Request Alert Dialogue - ChatListNavLinkView.kt -->
@@ -310,10 +310,10 @@
     <string name="icon_descr_cancel_link_preview">Linkvorschau abbrechen</string>
     <string name="icon_descr_settings">Einstellungen</string>
     <string name="image_descr_qr_code">QR-Code</string>
-    <string name="icon_descr_address">SimpleX-Adresse</string>
+    <string name="icon_descr_address">Gray Heterotopia-Adresse</string>
     <string name="icon_descr_help">Hilfe</string>
-    <string name="icon_descr_simplex_team">SimpleX-Team</string>
-    <string name="image_descr_simplex_logo">SimpleX-Logo</string>
+    <string name="icon_descr_simplex_team">Gray Heterotopia-Team</string>
+    <string name="image_descr_simplex_logo">Gray Heterotopia-Logo</string>
     <string name="icon_descr_email">E-Mail</string>
     <string name="icon_descr_more_button">Mehr</string>
     <!-- Connection info - ContactConnectionInfoView.kt -->
@@ -344,13 +344,13 @@
     <string name="your_settings">Einstellungen</string>
     <string name="your_simplex_contact_address">Ihre SimpleX-Adresse</string>
     <string name="database_passphrase_and_export">Datenbank-Passwort und -Export</string>
-    <string name="about_simplex_chat">Über SimpleX Chat</string>
-    <string name="how_to_use_simplex_chat">Wie man SimpleX nutzt</string>
+    <string name="about_simplex_chat">Über Gray Heterotopia</string>
+    <string name="how_to_use_simplex_chat">Wie man Gray Heterotopia nutzt</string>
     <string name="markdown_help">Markdown-Hilfe</string>
     <string name="markdown_in_messages">Markdown in Nachrichten</string>
     <string name="chat_with_the_founder">Senden Sie Fragen und Ideen</string>
     <string name="send_us_an_email">Senden Sie uns eine E-Mail</string>
-    <string name="chat_lock">SimpleX-Sperre</string>
+    <string name="chat_lock">Gray Heterotopia-Sperre</string>
     <string name="chat_console">Chat-Konsole</string>
     <string name="smp_servers">SMP-Server</string>
     <string name="smp_servers_preset_address">Voreingestellte Serveradresse</string>
@@ -372,13 +372,13 @@
     <string name="smp_servers_invalid_address">Ungültige Serveradresse!</string>
     <string name="smp_servers_check_address">Überprüfen Sie die Serveradresse und versuchen Sie es nochmal.</string>
     <string name="smp_servers_delete_server">Server löschen</string>
-    <string name="install_simplex_chat_for_terminal">Installieren Sie SimpleX Chat als Terminalanwendung</string>
+    <string name="install_simplex_chat_for_terminal">Installieren Sie Gray Heterotopia als Terminalanwendung</string>
     <string name="star_on_github">Stern auf GitHub vergeben</string>
     <string name="contribute">Unterstützen Sie uns</string>
     <string name="rate_the_app">Bewerten Sie die App</string>
-    <string name="use_simplex_chat_servers__question">Verwenden Sie SimpleX-Chat-Server\?</string>
+    <string name="use_simplex_chat_servers__question">Verwenden Sie Gray Heterotopia-Chat-Server\?</string>
     <string name="your_SMP_servers">Ihre SMP-Server</string>
-    <string name="using_simplex_chat_servers">Verwendung von SimpleX-Chat-Servern.</string>
+    <string name="using_simplex_chat_servers">Verwendung von Gray Heterotopia-Chat-Servern.</string>
     <string name="how_to">Anleitung</string>
     <string name="how_to_use_your_servers">Wie Sie Ihre Server nutzen</string>
     <string name="saved_ICE_servers_will_be_removed">Gespeicherte WebRTC-ICE-Server werden entfernt.</string>
@@ -414,7 +414,7 @@
     <string name="display_name__field">Profilname:</string>
     <string name="full_name__field">Vollständiger Name:</string>
     <string name="your_current_profile">Mein aktuelles Chat-Profil</string>
-    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Ihr Profil wird auf Ihrem Gerät gespeichert und nur mit Ihren Kontakten geteilt. SimpleX-Server können Ihr Profil nicht sehen.</string>
+    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Ihr Profil wird auf Ihrem Gerät gespeichert und nur mit Ihren Kontakten geteilt. Gray Heterotopia-Server können Ihr Profil nicht sehen.</string>
     <string name="edit_image">Bild bearbeiten</string>
     <string name="delete_image">Bild löschen</string>
     <string name="save_preferences_question">Präferenzen speichern?</string>
@@ -432,7 +432,7 @@
     <string name="display_name_cannot_contain_whitespace">Der angezeigte Name darf keine Leerzeichen enthalten.</string>
     <string name="display_name">Geben Sie Ihren Namen ein:</string>
     <string name="create_profile_button">Erstellen</string>
-    <string name="about_simplex">Über SimpleX</string>
+    <string name="about_simplex">Über Gray Heterotopia</string>
     <!-- markdown demo - MarkdownHelpView.kt -->
     <string name="how_to_use_markdown">Wie Sie Markdowns anwenden</string>
     <string name="you_can_use_markdown_to_format_messages__prompt">Sie können Markdowns verwenden, um Nachrichten zu formatieren:</string>
@@ -472,7 +472,7 @@
     <string name="make_private_connection">Stellen Sie eine private Verbindung her</string>
     <string name="how_it_works">Wie es funktioniert</string>
     <!-- How SimpleX Works -->
-    <string name="to_protect_privacy_simplex_has_ids_for_queues">SimpleX nutzt individuelle Kennungen für jeden Ihrer Kontakte, um Ihre Privatsphäre zu schützen.</string>
+    <string name="to_protect_privacy_simplex_has_ids_for_queues">Gray Heterotopia nutzt individuelle Kennungen für jeden Ihrer Kontakte, um Ihre Privatsphäre zu schützen.</string>
     <string name="only_client_devices_store_contacts_groups_e2e_encrypted_messages">Nur die Endgeräte speichern Benutzerprofile, Kontakte, Gruppen und Nachrichten.</string>
     <string name="read_more_in_github_with_link"><![CDATA[Erfahren Sie in unserem <font color="#0088ff">GitHub-Repository</font> mehr dazu.]]></string>
     <!-- MakeConnection -->
@@ -504,7 +504,7 @@
     <string name="relay_server_protects_ip">Relais-Server schützen Ihre IP-Adresse, können aber die Anrufdauer erfassen.</string>
     <string name="relay_server_if_necessary">Relais-Server werden nur genutzt, wenn sie benötigt werden. Ihre IP-Adresse kann von Anderen erfasst werden.</string>
     <!-- Call Lock Screen -->
-    <string name="open_simplex_chat_to_accept_call">Öffnen Sie SimpleX Chat, um den Anruf anzunehmen.</string>
+    <string name="open_simplex_chat_to_accept_call">Öffnen Sie Gray Heterotopia, um den Anruf anzunehmen.</string>
     <string name="allow_accepting_calls_from_lock_screen">Aktivieren Sie Anrufe vom Sperrbildschirm über die Einstellungen.</string>
     <string name="open_verb">Öffnen</string>
     <!-- Call overlay -->
@@ -551,7 +551,7 @@
     <string name="settings_section_title_you">Meine Daten</string>
     <string name="settings_section_title_settings">Einstellungen</string>
     <string name="settings_section_title_help">Hilfe</string>
-    <string name="settings_section_title_support">Unterstützung von SimpleX Chat</string>
+    <string name="settings_section_title_support">Unterstützung von Gray Heterotopia</string>
     <string name="settings_section_title_device">Gerät</string>
     <string name="settings_section_title_chats">Chats</string>
     <string name="settings_developer_tools">Entwicklertools</string>
@@ -1133,8 +1133,8 @@
     <string name="alert_title_msg_bad_id">Falsche Nachrichten-ID</string>
     <string name="ensure_xftp_server_address_are_correct_format_and_unique">Stellen Sie sicher, dass die XFTP-Server-Adressen das richtige Format haben, zeilenweise getrennt und nicht doppelt vorhanden sind.</string>
     <string name="network_socks_toggle_use_socks_proxy">SOCKS-Proxy nutzen</string>
-    <string name="la_lock_mode">SimpleX-Sperrmodus</string>
-    <string name="lock_not_enabled">SimpleX-Sperre ist nicht aktiviert!</string>
+    <string name="la_lock_mode">Gray Heterotopia-Sperrmodus</string>
+    <string name="lock_not_enabled">Gray Heterotopia-Sperre ist nicht aktiviert!</string>
     <string name="disable_onion_hosts_when_not_supported"><![CDATA[Setzen Sie <i>Verwende .onion-Hosts</i> auf "Nein", wenn der SOCKS-Proxy sie nicht unterstützt.]]></string>
     <string name="submit_passcode">Bestätigen</string>
     <string name="la_mode_system">System</string>
@@ -1144,7 +1144,7 @@
 \nDies kann passieren, wenn es einen Fehler gegeben hat oder die Verbindung kompromittiert wurde.</string>
     <string name="alert_text_decryption_error_n_messages_failed_to_decrypt">%1$d Nachrichten konnten nicht entschlüsselt werden.</string>
     <string name="alert_text_msg_bad_hash">Der Hash der vorherigen Nachricht unterscheidet sich.</string>
-    <string name="you_can_turn_on_lock">Sie können die SimpleX-Sperre über die Einstellungen aktivieren.</string>
+    <string name="you_can_turn_on_lock">Sie können die Gray Heterotopia-Sperre über die Einstellungen aktivieren.</string>
     <string name="network_socks_proxy_settings">SOCKS-Proxy-Einstellungen</string>
     <string name="la_lock_mode_system">System-Authentifizierung</string>
     <string name="smp_server_test_upload_file">Datei hochladen</string>
@@ -1189,25 +1189,25 @@
     <string name="you_wont_lose_your_contacts_if_delete_address">Sie werden Ihre damit verbundenen Kontakte nicht verlieren, wenn Sie diese Adresse später löschen.</string>
     <string name="customize_theme_title">Design anpassen</string>
     <string name="theme_colors_section_title">Interface-Farben</string>
-    <string name="add_address_to_your_profile">Fügen Sie die Adresse Ihrem Profil hinzu, damit Ihre SimpleX-Kontakte sie mit anderen Personen teilen können. Es wird eine Profilaktualisierung an Ihre SimpleX-Kontakte gesendet.</string>
+    <string name="add_address_to_your_profile">Fügen Sie die Adresse Ihrem Profil hinzu, damit Ihre Gray Heterotopia-Kontakte sie mit anderen Personen teilen können. Es wird eine Profilaktualisierung an Ihre Gray Heterotopia-Kontakte gesendet.</string>
     <string name="all_your_contacts_will_remain_connected_update_sent">Alle Ihre Kontakte bleiben verbunden. Es wird eine Profilaktualisierung an Ihre Kontakte gesendet.</string>
     <string name="create_address_and_let_people_connect">Erstellen Sie eine Adresse, damit sich Personen mit Ihnen verbinden können.</string>
     <string name="create_simplex_address">SimpleX-Adresse erstellen</string>
-    <string name="share_with_contacts">Mit SimpleX-Kontakten teilen</string>
+    <string name="share_with_contacts">Mit Gray Heterotopia-Kontakten teilen</string>
     <string name="your_contacts_will_remain_connected">Ihre Kontakte bleiben weiterhin verbunden.</string>
     <string name="auto_accept_contact">Automatisch akzeptieren</string>
     <string name="enter_welcome_message_optional">Geben Sie eine Begrüßungsmeldung ein … (optional)</string>
     <string name="invite_friends">Freunde einladen</string>
-    <string name="email_invite_subject">Lassen Sie uns über SimpleX Chat schreiben</string>
-    <string name="profile_update_will_be_sent_to_contacts">Profil-Aktualisierung wird an Ihre SimpleX-Kontakte gesendet.</string>
+    <string name="email_invite_subject">Lassen Sie uns über Gray Heterotopia schreiben</string>
+    <string name="profile_update_will_be_sent_to_contacts">Profil-Aktualisierung wird an Ihre Gray Heterotopia-Kontakte gesendet.</string>
     <string name="save_auto_accept_settings">SimpleX-Adress-Einstellungen speichern</string>
     <string name="save_settings_question">Einstellungen speichern\?</string>
-    <string name="share_address_with_contacts_question">Die Adresse mit SimpleX-Kontakten teilen?</string>
+    <string name="share_address_with_contacts_question">Die Adresse mit Gray Heterotopia-Kontakten teilen?</string>
     <string name="stop_sharing">Teilen beenden</string>
     <string name="stop_sharing_address">Das Teilen der Adresse beenden\?</string>
     <string name="dont_create_address">Keine Adresse erstellt</string>
     <string name="email_invite_body">Hallo!
-\nVerbinden Sie sich per SimpleX Chat mit mir: %s</string>
+\nVerbinden Sie sich per Gray Heterotopia mit mir: %s</string>
     <string name="you_can_create_it_later">Sie können dies später erstellen</string>
     <string name="enter_welcome_message">Geben Sie eine Begrüßungsmeldung ein …</string>
     <string name="group_welcome_preview">Vorschau</string>
@@ -1219,7 +1219,7 @@
     <string name="color_received_message">Empfangene Nachricht</string>
     <string name="color_secondary">Zweite Farbe</string>
     <string name="color_sent_message">Gesendete Nachricht</string>
-    <string name="theme_simplex">SimpleX</string>
+    <string name="theme_simplex">Gray Heterotopia</string>
     <string name="learn_more_about_address">Über die SimpleX-Adresse</string>
     <string name="one_time_link_short">Einmal-Link</string>
     <string name="color_primary_variant">Erste Akzentfarbe</string>
@@ -1416,7 +1416,7 @@
     <string name="disable_notifications_button">Benachrichtigungen deaktivieren</string>
     <string name="system_restricted_background_in_call_title">Keine Anrufe im Hintergrund</string>
     <string name="turn_off_system_restriction_button">App-Einstellungen öffnen</string>
-    <string name="system_restricted_background_desc">SimpleX kann nicht im Hintergrund ablaufen. Sie erhalten Benachrichtigungen nur dann, solange die App läuft.</string>
+    <string name="system_restricted_background_desc">Gray Heterotopia kann nicht im Hintergrund ablaufen. Sie erhalten Benachrichtigungen nur dann, solange die App läuft.</string>
     <string name="system_restricted_background_in_call_desc">Die App kann nach einer Minute im Hintergrund geschlossen werden.</string>
     <string name="system_restricted_background_warn"><![CDATA[Wählen Sie bitte in den App-Einstellungen <b>App-Akkuverbrauch</b> / <b>Unbeschränkt</b> , um Benachrichtigungen zu aktivieren.]]></string>
     <string name="rcv_group_event_n_members_connected">%s, %s und %d weitere Mitglieder wurden mit Ihnen verbunden</string>
@@ -1579,7 +1579,7 @@
     <string name="app_was_crashed">Ansicht abgestürzt</string>
     <string name="error_showing_content">Fehler beim Anzeigen des Inhalts</string>
     <string name="error_showing_message">Fehler beim Anzeigen der Nachricht</string>
-    <string name="you_can_make_address_visible_via_settings">Sie können sie über Einstellungen für Ihre SimpleX-Kontakte sichtbar machen.</string>
+    <string name="you_can_make_address_visible_via_settings">Sie können sie über Einstellungen für Ihre Gray Heterotopia-Kontakte sichtbar machen.</string>
     <string name="recent_history_is_not_sent_to_new_members">Der Nachrichtenverlauf wird nicht an neue Gruppenmitglieder gesendet.</string>
     <string name="retry_verb">Wiederholen</string>
     <string name="camera_not_available">Kamera nicht verfügbar</string>
@@ -2121,7 +2121,7 @@
     <string name="chat_database_exported_save">Sie können das exportierte Archiv speichern.</string>
     <string name="reset_all_hints">Alle Hinweise zurücksetzen</string>
     <string name="new_message">Neue Nachricht</string>
-    <string name="error_parsing_uri_desc">Bitte überprüfen Sie, ob der SimpleX-Link korrekt ist.</string>
+    <string name="error_parsing_uri_desc">Bitte überprüfen Sie, ob der Gray Heterotopia-Link korrekt ist.</string>
     <string name="error_parsing_uri_title">Ungültiger Link</string>
     <string name="settings_section_title_chat_database">Chat-Datenbank</string>
     <string name="switching_profile_error_title">Fehler beim Wechseln des Profils</string>
@@ -2189,7 +2189,7 @@
     <string name="no_media_servers_configured_for_private_routing">Keine Server für das Herunterladen von Dateien.</string>
     <string name="no_media_servers_configured_for_sending">Keine Server für das Versenden von Dateien.</string>
     <string name="connection_error_quota">Nicht ausgelieferte Nachrichten</string>
-    <string name="share_simplex_address_on_social_media">Die SimpleX-Adresse auf sozialen Medien teilen.</string>
+    <string name="share_simplex_address_on_social_media">Die Gray Heterotopia-Adresse auf sozialen Medien teilen.</string>
     <string name="connection_security">Verbindungs-Sicherheit</string>
     <string name="share_1_time_link_with_a_friend">Den Einmal-Einladungslink mit einem Freund teilen</string>
     <string name="simplex_address_and_1_time_links_are_safe_to_share">Die SimpleX-Adresse und Einmal-Links können sicher über beliebige Messenger geteilt werden.</string>
@@ -2203,7 +2203,7 @@
     <string name="onboarding_network_operators">Netzwerk-Betreiber</string>
     <string name="onboarding_network_operators_app_will_use_different_operators">Die App verwendet für jede Unterhaltung Server von unterschiedlichen Betreibern, um Ihre Privatsphäre zu schützen.</string>
     <string name="onboarding_network_operators_conditions_will_be_accepted">Die Nutzungsbedingungen der aktivierten Betreiber werden nach 30 Tagen akzeptiert.</string>
-    <string name="onboarding_network_operators_app_will_use_for_routing">Wenn Ihr Kontakt beispielsweise Nachrichten über einen SimpleX-Chat-Server empfängt, wird Ihre App diese über einen Flux-Server versenden.</string>
+    <string name="onboarding_network_operators_app_will_use_for_routing">Wenn Ihr Kontakt beispielsweise Nachrichten über einen Gray Heterotopia-Chat-Server empfängt, wird Ihre App diese über einen Flux-Server versenden.</string>
     <string name="onboarding_network_operators_review_later">Später einsehen</string>
     <string name="onboarding_select_network_operators_to_use">Wählen sie die zu nutzenden Netzwerk-Betreiber aus.</string>
     <string name="onboarding_network_operators_conditions_you_can_configure">Sie können die Betreiber in den Netzwerk- und Servereinstellungen konfigurieren.</string>
@@ -2265,7 +2265,7 @@
     <string name="message_deleted_or_not_received_error_title">Keine Nachricht</string>
     <string name="no_message_servers_configured_for_private_routing">Keine Server für privates Nachrichten-Routing.</string>
     <string name="share_address_publicly">Die Adresse öffentlich teilen</string>
-    <string name="address_creation_instruction">Tippen Sie im Menü auf SimpleX-Adresse erstellen, um sie später zu erstellen.</string>
+    <string name="address_creation_instruction">Tippen Sie im Menü auf Gray Heterotopia-Adresse erstellen, um sie später zu erstellen.</string>
     <string name="connection_error_quota_desc">Diese Verbindung hat das Limit der nicht ausgelieferten Nachrichten erreicht. Ihr Kontakt ist möglicherweise offline.</string>
     <string name="message_deleted_or_not_received_error_desc">Diese Nachricht wurde gelöscht oder bisher noch nicht empfangen.</string>
     <string name="to_protect_against_your_link_replaced_compare_codes">Zum Schutz vor dem Austausch Ihres Links können Sie die Sicherheitscodes Ihrer Kontakte vergleichen.</string>
@@ -2314,7 +2314,7 @@
     <string name="info_row_chat">Chat</string>
     <string name="connect_plan_you_are_already_connected_with_vName"><![CDATA[Sie sind bereits mit <b>%1$s</b> verbunden.]]></string>
     <string name="onboarding_network_about_operators">Über die Betreiber</string>
-    <string name="onboarding_network_operators_simplex_flux_agreement">SimpleX-Chat und Flux haben vereinbart, die von Flux betriebenen Server in die App aufzunehmen.</string>
+    <string name="onboarding_network_operators_simplex_flux_agreement">Gray Heterotopia-Chat und Flux haben vereinbart, die von Flux betriebenen Server in die App aufzunehmen.</string>
     <string name="sync_connection_desc">Die Verbindung erfordert eine Neuverhandlung der Verschlüsselung.</string>
     <string name="encryption_renegotiation_in_progress">Die Neuverhandlung der Verschlüsselung läuft.</string>
     <string name="sync_connection_confirm">Reparieren</string>
@@ -2571,7 +2571,7 @@
     <string name="v6_4_1_keep_chats_clean">Ihre Chats übersichtlich halten</string>
     <string name="v6_4_1_welcome_contacts_descr">Sie können eine Profil-Biografie und eine Begrüßungsmeldung eingeben.</string>
     <string name="v6_4_1_short_address_share">Ihre Adresse teilen</string>
-    <string name="v6_4_1_short_address">Verkürzte SimpleX-Adresse</string>
+    <string name="v6_4_1_short_address">Verkürzte Gray Heterotopia-Adresse</string>
     <string name="time_to_disappear_is_set_only_for_new_contacts">Die Zeit bis zum Verschwinden wird nur für neue Kontakte eingestellt.</string>
     <string name="v6_4_1_short_address_update">Ihre Adresse aktualisieren</string>
     <string name="connect_use_incognito_profile">Inkognito-Profil nutzen</string>
@@ -2805,7 +2805,7 @@
     <string name="v6_5_reliability">Zuverlässigkeit: Mehrere Relais pro Kanal.</string>
     <string name="v6_5_safe_web_links">Sichere Web-Links</string>
     <string name="v6_5_security">Sicherheit: Nur die Eigentümer des Kanals besitzen die Schlüssel.</string>
-    <string name="onboarding_send_1_time_link">Den Link über einen beliebigen Messenger versenden – es ist sicher. Bitte in SimpleX einfügen.</string>
+    <string name="onboarding_send_1_time_link">Den Link über einen beliebigen Messenger versenden – es ist sicher. Bitte in Gray Heterotopia einfügen.</string>
     <string name="talk_to_someone">Mit Jemandem sprechen</string>
     <string name="v6_5_non_profit_governance_descr">Für ein dauerhaftes SimpleX-Netzwerk.</string>
     <string name="onboarding_post_address">Diese Adresse in Ihrem Social‑Media‑Profil, auf Ihrer Webseite oder in Ihrer E‑Mail‑Signatur verwenden.</string>
@@ -2862,7 +2862,7 @@
     <string name="onboarding_configure_routers">Router einrichten</string>
     <string name="members_can_chat_with_admins_channel">Abonnenten können mit Administratoren chatten.</string>
     <string name="onboarding_first_network">Das erste Netzwerk,\nin dem Sie Ihre Kontakte und Gruppen besitzen.</string>
-    <string name="why_simplex_is_built">Warum SimpleX entwickelt wurde.</string>
+    <string name="why_simplex_is_built">Warum Gray Heterotopia entwickelt wurde.</string>
     <string name="onboarding_your_network">Ihr Netzwerk</string>
     <string name="onboarding_your_profile">Ihr Profil</string>
     <string name="one_hand_ui_bottom_bar">Untere Leiste</string>
@@ -2891,10 +2891,10 @@
     <string name="close_behavior_dialog_minimize">In den Infobereich minimieren</string>
     <string name="close_behavior_dialog_title">In den Infobereich minimieren?</string>
     <string name="appearance_minimize_to_tray">In den Infobereich minimieren</string>
-    <string name="tray_quit">SimpleX beenden</string>
-    <string name="tray_show">SimpleX anzeigen</string>
-    <string name="tray_tooltip">SimpleX</string>
-    <string name="tray_tooltip_unread">SimpleX — %d ungelesen</string>
+    <string name="tray_quit">Gray Heterotopia beenden</string>
+    <string name="tray_show">Gray Heterotopia anzeigen</string>
+    <string name="tray_tooltip">Gray Heterotopia</string>
+    <string name="tray_tooltip_unread">Gray Heterotopia — %d ungelesen</string>
     <string name="error_deleting_message">Fehler beim Löschen der Nachricht</string>
     <string name="from_history">Aus dem Nachrichtenverlauf</string>
     <string name="another_instance_title">App ist bereits gestartet</string>
@@ -2905,7 +2905,7 @@
     <string name="channel_owner_count_singular">%1$d Eigentümer</string>
     <string name="channel_owner_count_plural">%1$d Eigentümer</string>
     <string name="channel_owners_contributors_count">%1$d Eigentümer und Mitwirkende</string>
-    <string name="badge_supported_simplex">%1$s hat SimpleX Chat unterstützt. Das Abzeichen ist am %2$s abgelaufen.</string>
+    <string name="badge_supported_simplex">%1$s hat Gray Heterotopia unterstützt. Das Abzeichen ist am %2$s abgelaufen.</string>
     <string name="settings_section_title_about">Über</string>
     <string name="relay_status_acknowledged_roster">Bestätigter Relaisbestand</string>
     <string name="webpage_code_footer">Fügen Sie diesen Code in Ihre Webseite ein. Er zeigt die Vorschau Ihres Kanals / Ihrer Gruppe an.</string>
@@ -2931,8 +2931,8 @@
     <string name="more_privacy">Weitere Privatsphäre</string>
     <string name="embed_only_your_page">Nur Ihre oben genannte Seite kann die Vorschau anzeigen.</string>
     <string name="please_upgrade_the_app">Bitte die App aktualisieren.</string>
-    <string name="badge_invested">%s hat sich am SimpleX Chat-Crowdfunding beteiligt.</string>
-    <string name="badge_supports_simplex">%s unterstützt SimpleX Chat.</string>
+    <string name="badge_invested">%s hat sich am Gray Heterotopia-Crowdfunding beteiligt.</string>
+    <string name="badge_supports_simplex">%s unterstützt Gray Heterotopia.</string>
     <string name="group_member_role_observer_channel">Abonnent</string>
     <string name="settings_section_title_support_project">Unterstützen Sie das Projekt</string>
     <string name="badge_unknown_key_desc">Das Abzeichen ist mit einem Schlüssel signiert, den diese App‑Version nicht erkennt. Aktualisieren Sie die App, um dieses Abzeichen zu verifizieren.</string>
@@ -2944,9 +2944,9 @@
     <string name="badge_unverified_title">Abzeichen nicht verifiziert</string>
     <string name="relays_no_web_support">Die verwendeten Chat‑Relais unterstützen keine Webseiten.</string>
     <string name="webpage_code">Webseiten-Code</string>
-    <string name="badge_support_from_v7">Sie können SimpleX ab der App-Version v7 unterstützen.</string>
+    <string name="badge_support_from_v7">Sie können Gray Heterotopia ab der App-Version v7 unterstützen.</string>
     <string name="error_saving_simplex_name">Fehler beim Speichern des Namens</string>
-    <string name="set_user_simplex_name_footer">Lassen Sie sich über den mit Ihrer SimpleX‑Adresse registrierten Namen verbinden.</string>
+    <string name="set_user_simplex_name_footer">Lassen Sie sich über den mit Ihrer Gray Heterotopia‑Adresse registrierten Namen verbinden.</string>
     <string name="set_channel_simplex_name_footer">Ermöglichen Sie Beitritte über den mit diesem Kanal‑Link registrierten Namen.</string>
     <string name="simplex_name_not_found">Name wurde nicht gefunden</string>
     <string name="simplex_name_no_servers_desc">Keiner Ihrer Server ist zum Auflösen von SimpleX‑Namen konfiguriert. Konfigurieren Sie Server oder verwenden Sie einen Verbindungslink.</string>
@@ -3000,7 +3000,7 @@
     <string name="v7_0_channels_wider_messages">Einfacher zu lesen.</string>
     <string name="v7_0_channels_relays">Ihre Relais verwalten.</string>
     <string name="v7_0_simplex_names_descr">Öffentliche Namen für Ihren Kanal oder Ihr Unternehmen.</string>
-    <string name="v7_0_simplex_names">Öffentliche SimpleX-Namen (BETA)</string>
+    <string name="v7_0_simplex_names">Öffentliche Gray Heterotopia-Namen (BETA)</string>
     <string name="info_row_file_servers">Datei-Server</string>
     <string name="share_text_file_servers">Datei-Server: %s</string>
 </resources>

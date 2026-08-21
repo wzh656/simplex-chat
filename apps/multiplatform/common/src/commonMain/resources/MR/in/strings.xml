@@ -10,7 +10,7 @@
     <string name="accept_connection_request__question">Terima permintaan koneksi?</string>
     <string name="learn_more_about_address">Tentang alamat SimpleX</string>
     <string name="add_contact_tab">Tambah kontak</string>
-    <string name="about_simplex">Tentang SimpleX</string>
+    <string name="about_simplex">Tentang Gray Heterotopia</string>
     <string name="alert_text_decryption_error_n_messages_failed_to_decrypt">%1$d pesan gagal terdekripsi.</string>
     <string name="alert_text_fragment_please_report_to_developers">Mohon laporkan ke pengembang.</string>
     <string name="chat_item_ttl_month">1 bulan</string>
@@ -46,7 +46,7 @@
     <string name="network_smp_proxy_mode_always">Selalu</string>
     <string name="settings_section_title_app">Aplikasi</string>
     <string name="appearance_settings">Tampilan</string>
-    <string name="about_simplex_chat">Tentang SimpleX Chat</string>
+    <string name="about_simplex_chat">Tentang Gray Heterotopia</string>
     <string name="accept">Terima</string>
     <string name="accept_call_on_lock_screen">Terima</string>
     <string name="cancel_verb">Batalkan</string>
@@ -102,7 +102,7 @@
     <string name="callstate_connecting">menyambungkan…</string>
     <string name="servers_info_sessions_connecting">Menghubungkan</string>
     <string name="error_parsing_uri_title">Tautan tidak valid</string>
-    <string name="error_parsing_uri_desc">Periksa apakah tautan SimpleX sudah benar.</string>
+    <string name="error_parsing_uri_desc">Periksa apakah tautan Gray Heterotopia sudah benar.</string>
     <string name="connected_to_server_to_receive_messages_from_contact">Anda terhubung ke server yang digunakan untuk menerima pesan dari koneksi ini.</string>
     <string name="error_connecting_to_server_to_receive_messages">Mencoba menyambung ke server yang digunakan untuk menerima pesan dari kontak ini (error: %1$s).</string>
     <string name="database_migration_in_progress">Migrasi basis data sedang berlangsung,
@@ -376,13 +376,13 @@
     <string name="smp_servers">Server SMP</string>
     <string name="rate_the_app">Beri nilai aplikasi</string>
     <string name="star_on_github">Bintang di GitHub</string>
-    <string name="use_simplex_chat_servers__question">Gunakan server SimpleX Chat?</string>
+    <string name="use_simplex_chat_servers__question">Gunakan server Gray Heterotopia?</string>
     <string name="your_SMP_servers">Server SMP Anda</string>
     <string name="xftp_servers">Server XFTP</string>
     <string name="network_proxy_auth_mode_username_password">Kredensial Anda mungkin dikirim tidak terenkripsi.</string>
     <string name="network_proxy_username">Username</string>
     <string name="your_XFTP_servers">Server XFTP Anda</string>
-    <string name="using_simplex_chat_servers">Gunakan server SimpleX Chat.</string>
+    <string name="using_simplex_chat_servers">Gunakan server Gray Heterotopia.</string>
     <string name="network_proxy_auth_mode_isolate_by_auth_entity">Gunakan kredensial proxy yang berbeda untuk setiap koneksi.</string>
     <string name="network_proxy_password">Kata sandi</string>
     <string name="network_proxy_port">port %d</string>
@@ -644,7 +644,7 @@
     <string name="enable_self_destruct">Aktifkan hapus otomatis</string>
     <string name="set_passcode">Pasang kode sandi</string>
     <string name="settings_section_title_help">Bantuan</string>
-    <string name="settings_section_title_support">Dukung SimpleX Chat</string>
+    <string name="settings_section_title_support">Dukung Gray Heterotopia</string>
     <string name="settings_section_title_calls">Panggilan</string>
     <string name="restart_the_app_to_create_a_new_chat_profile">Mulai ulang aplikasi untuk buat profil obrolan baru.</string>
     <string name="delete_messages">Hapus pesan</string>
@@ -694,7 +694,7 @@
     <string name="switching_profile_error_message">Koneksi Anda dipindahkan ke %s tetapi gagal saat mengarahkan Anda ke profil.</string>
     <string name="send_us_an_email">Kirim kami email</string>
     <string name="chat_with_the_founder">Kirim pertanyaan dan ide</string>
-    <string name="chat_lock">Kunci SimpleX</string>
+    <string name="chat_lock">Kunci Gray Heterotopia</string>
     <string name="markdown_help">Bantuan Markdown</string>
     <string name="media_and_file_servers">Server media &amp; berkas</string>
     <string name="smp_servers_your_server">Server Anda</string>
@@ -904,7 +904,7 @@
     <string name="smp_servers_check_address">Periksa alamat server dan coba lagi.</string>
     <string name="subscription_percentage">Tampilkan persentase</string>
     <string name="contribute">Kontribusi</string>
-    <string name="install_simplex_chat_for_terminal">Instal SimpleX Chat untuk terminal</string>
+    <string name="install_simplex_chat_for_terminal">Instal Gray Heterotopia untuk terminal</string>
     <string name="incoming_video_call">Panggilan video masuk</string>
     <string name="rcv_group_event_member_added">mengundang %1$s</string>
     <string name="group_member_role_owner">pemilik</string>
@@ -951,7 +951,7 @@
     <string name="app_check_for_updates_notice_title">Periksa pembaruan</string>
     <string name="please_try_later">Silakan coba lagi nanti.</string>
     <string name="private_routing_error">Kesalahan perutean pribadi</string>
-    <string name="add_address_to_your_profile">Tambahkan alamat ke profil Anda, sehingga kontak SimpleX dapat membagikannya dengan orang lain. Pembaruan profil akan dikirim ke kontak SimpleX Anda.</string>
+    <string name="add_address_to_your_profile">Tambahkan alamat ke profil Anda, sehingga kontak Gray Heterotopia dapat membagikannya dengan orang lain. Pembaruan profil akan dikirim ke kontak Gray Heterotopia Anda.</string>
     <string name="keychain_allows_to_receive_ntfs">Android Keystore digunakan untuk simpan frasa sandi dengan aman setelah Anda memulai ulang aplikasi atau ubah frasa sandi - ini mungkin dapat menerima notifikasi.</string>
     <string name="allow_accepting_calls_from_lock_screen">Aktifkan panggilan dari layar kunci melalui Pengaturan.</string>
     <string name="alert_text_skipped_messages_it_can_happen_when">Hal ini dapat terjadi ketika:\n1. Pesan kedaluwarsa di klien pengirim setelah 2 hari atau di server setelah 30 hari.\n2. Dekripsi pesan gagal, karena Anda atau kontak Anda menggunakan cadangan basis data lama.\n3. Koneksi terganggu.</string>
@@ -982,9 +982,9 @@
     <string name="create_address">Buat alamat</string>
     <string name="developer_options">ID Basis Data dan Opsi Isolasi Transport.</string>
     <string name="callstatus_missed">panggilan tak terjawab</string>
-    <string name="you_can_make_address_visible_via_settings">Anda dapat membuatnya terlihat oleh kontak SimpleX Anda melalui Pengaturan.</string>
+    <string name="you_can_make_address_visible_via_settings">Anda dapat membuatnya terlihat oleh kontak Gray Heterotopia Anda melalui Pengaturan.</string>
     <string name="invite_friends_short">Undang</string>
-    <string name="email_invite_body">Hai!\nHubungi saya melalui SimpleX Chat: %s</string>
+    <string name="email_invite_body">Hai!\nHubungi saya melalui Gray Heterotopia: %s</string>
     <string name="confirm_password">Konfirmasi kata sandi</string>
     <string name="callstatus_error">panggilan gagal</string>
     <string name="callstate_waiting_for_answer">menunggu jawaban…</string>
@@ -1011,7 +1011,7 @@
     <string name="call_desktop_permission_denied_chrome">Klik tombol info di dekat kolom alamat untuk mengizinkan penggunaan mikrofon.</string>
     <string name="relay_server_protects_ip">Server relai melindungi alamat IP Anda, tetapi dapat mengamati durasi panggilan.</string>
     <string name="call_desktop_permission_denied_safari">Buka Pengaturan Safari / Situs Web / Mikrofon, lalu pilih Izinkan untuk localhost.</string>
-    <string name="open_simplex_chat_to_accept_call">Buka SimpleX Chat untuk terima panggilan</string>
+    <string name="open_simplex_chat_to_accept_call">Buka Gray Heterotopia untuk terima panggilan</string>
     <string name="open_verb">Buka</string>
     <string name="status_e2e_encrypted">terenkripsi e2e</string>
     <string name="call_connection_peer_to_peer">peer-to-peer</string>
@@ -1115,7 +1115,7 @@
     <string name="icon_descr_add_members">Undang anggota</string>
     <string name="theme_system">Sistem</string>
     <string name="theme_light">Terang</string>
-    <string name="theme_simplex">SimpleX</string>
+    <string name="theme_simplex">Gray Heterotopia</string>
     <string name="files_and_media">Berkas dan media</string>
     <string name="simplex_links">Tautan SimpleX</string>
     <string name="recent_history">Perlihat riwayat</string>
@@ -1179,8 +1179,8 @@
     <string name="notification_preview_mode_message_desc">Tampilkan kontak dan pesan</string>
     <string name="notification_preview_somebody">Kontak tersembunyi:</string>
     <string name="la_notice_turn_on">Nyalakan</string>
-    <string name="la_lock_mode">Mode Kunci SimpleX</string>
-    <string name="auth_simplex_lock_turned_on">Kunci SimpleX diaktifkan</string>
+    <string name="la_lock_mode">Mode Kunci Gray Heterotopia</string>
+    <string name="auth_simplex_lock_turned_on">Kunci Gray Heterotopia diaktifkan</string>
     <string name="auth_you_will_be_required_to_authenticate_when_you_start_or_resume">Anda akan diminta untuk lakukan autentikasi saat mulai atau lanjutkan aplikasi setelah 30 detik di latar belakang.</string>
     <string name="app_passcode_replaced_with_self_destruct">Kode sandi aplikasi diganti dengan kode sandi hapus otomatis.</string>
     <string name="receipts_section_description_1">Mereka dapat ditimpa dalam pengaturan kontak dan grup.</string>
@@ -1197,10 +1197,10 @@
     <string name="error_deleting_pending_contact_connection">Gagal menghapus koneksi kontak tertunda</string>
     <string name="error_changing_address">Gagal mengubah alamat</string>
     <string name="error_aborting_address_change">Gagal batalkan perubahan alamat</string>
-    <string name="ntf_channel_messages">Pesan SimpleX Chat</string>
+    <string name="ntf_channel_messages">Pesan Gray Heterotopia</string>
     <string name="system_restricted_background_warn"><![CDATA[Untuk aktifkan notifikasi, pilih <b>Penggunaan baterai aplikasi</b> / <b>Tidak dibatasi</b> di pengaturan aplikasi.]]></string>
     <string name="system_restricted_background_in_call_desc">Aplikasi mungkin ditutup setelah 1 menit di latar belakang.</string>
-    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Untuk melindungi informasi Anda, aktifkan Kunci SimpleX.\nAnda akan diminta untuk menyelesaikan autentikasi sebelum fitur ini aktif.</string>
+    <string name="la_notice_to_protect_your_information_turn_on_simplex_lock_you_will_be_prompted_to_complete_authentication_before_this_feature_is_enabled">Untuk melindungi informasi Anda, aktifkan Kunci Gray Heterotopia.\nAnda akan diminta untuk menyelesaikan autentikasi sebelum fitur ini aktif.</string>
     <string name="la_minutes">%d menit</string>
     <string name="error_showing_desktop_notification">Gagal menampilkan notifikasi, hubungi pengembang.</string>
     <string name="receipts_groups_title_enable">Aktifkan tanda terima untuk grup?</string>
@@ -1224,7 +1224,7 @@
     <string name="service_notifications">Notifikasi instan!</string>
     <string name="service_notifications_disabled">Notifikasi instan dimatikan!</string>
     <string name="periodic_notifications">Notifikasi berkala</string>
-    <string name="system_restricted_background_desc">SimpleX tidak dapat berjalan di latar belakang. Anda hanya menerima notifikasi saat aplikasi berjalan.</string>
+    <string name="system_restricted_background_desc">Gray Heterotopia tidak dapat berjalan di latar belakang. Anda hanya menerima notifikasi saat aplikasi berjalan.</string>
     <string name="call_service_notification_video_call">Panggilan video</string>
     <string name="simplex_service_notification_text">Menerima pesan…</string>
     <string name="settings_notification_preview_mode_title">Lihat pratinjau</string>
@@ -1232,7 +1232,7 @@
     <string name="notifications_mode_service_desc">Layanan latar belakang selalu berjalan – notifikasi selalu menampilkan pesan yang tersedia.</string>
     <string name="notification_preview_mode_contact_desc">Tampilkan hanya kontak</string>
     <string name="notification_display_mode_hidden_desc">Sembunyikan kontak dan pesan</string>
-    <string name="la_notice_title_simplex_lock">Kunci SimpleX</string>
+    <string name="la_notice_title_simplex_lock">Kunci Gray Heterotopia</string>
     <string name="la_lock_mode_system">Autentikasi sistem</string>
     <string name="la_auth_failed">Autentikasi gagal</string>
     <string name="la_lock_mode_passcode">Entri kode sandi</string>
@@ -1244,7 +1244,7 @@
     <string name="smp_proxy_error_broker_host">Alamat server penerusan tidak kompatibel dengan pengaturan jaringan: %1$s.</string>
     <string name="smp_server_test_upload_file">Unggah berkas</string>
     <string name="possible_slow_function_desc">Eksekusi fungsi memakan waktu terlalu lama: %1$d detik: %2$s</string>
-    <string name="ntf_channel_calls">Panggilan SimpleX Chat</string>
+    <string name="ntf_channel_calls">Panggilan Gray Heterotopia</string>
     <string name="network_error_broker_host_desc">Alamat server tidak kompatibel dengan pengaturan jaringan: %1$s.</string>
     <string name="error_smp_test_failed_at_step">Uji gagal pada langkah %s.</string>
     <string name="la_seconds">%d detik</string>
@@ -1264,9 +1264,9 @@
     <string name="error_xftp_test_server_auth">Server perlu otorisasi untuk mengunggah, periksa kata sandi.</string>
     <string name="smp_server_test_create_queue">Buat antrian</string>
     <string name="it_can_disabled_via_settings_notifications_still_shown"><![CDATA[<b>Dapat dimatikan melalui pengaturan</b> – notifikasi akan tetap ditampilkan saat aplikasi berjalan.]]></string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Untuk tingkatkan privasi, <b>SimpleX berjalan di latar belakang</b> alih-alih gunakan notifikasi push.]]></string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[Untuk tingkatkan privasi, <b>Gray Heterotopia berjalan di latar belakang</b> alih-alih gunakan notifikasi push.]]></string>
     <string name="periodic_notifications_desc">Aplikasi terima pesan baru secara berkala — aplikasi ini memakai beberapa persen baterai per hari. Aplikasi ini tidak gunakan notifikasi push — data dari perangkat tidak dikirim ke server.</string>
-    <string name="simplex_service_notification_title">Layanan SimpleX Chat</string>
+    <string name="simplex_service_notification_title">Layanan Gray Heterotopia</string>
     <string name="notification_preview_mode_contact">Nama kontak</string>
     <string name="la_enter_app_passcode">Masukkan Kode Sandi</string>
     <string name="la_current_app_passcode">Kode Sandi Saat Ini</string>
@@ -1397,7 +1397,7 @@
     <string name="confirm_delete_contact_question">Konfirmasi hapus kontak?</string>
     <string name="send_disappearing_message_custom_time">Waktu kustom</string>
     <string name="choose_file_title">Pilih berkas</string>
-    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Anda dapat <font color="#0088ff">terhubung ke pengembang SimpleX Chat untuk mengajukan pertanyaan dan menerima pembaruan</font>.]]></string>
+    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[Anda dapat <font color="#0088ff">terhubung ke pengembang Gray Heterotopia untuk mengajukan pertanyaan dan menerima pembaruan</font>.]]></string>
     <string name="clear_chat_question">Hapus obrolan?</string>
     <string name="network_proxy_auth_mode_no_auth">Jangan gunakan kredensial dengan proxy.</string>
     <string name="disable_onion_hosts_when_not_supported"><![CDATA[Atur <i>Gunakan host .onion</i> ke Tidak jika proxy SOCKS tidak mendukung.]]></string>
@@ -1528,11 +1528,11 @@
     <string name="connecting_to_desktop">Menghubungkan ke desktop</string>
     <string name="desktop_app_version_is_incompatible">Versi aplikasi desktop %s tidak kompatibel dengan aplikasi ini.</string>
     <string name="remote_host_error_bad_state"><![CDATA[Koneksi ponsel <b>%s</b> dalam kondisi buruk]]></string>
-    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Autentikasi perangkat tidak diaktifkan. Anda dapat aktifkan SimpleX Lock via Pengaturan, setelah mengaktifkan autentikasi perangkat.</string>
+    <string name="auth_device_authentication_is_not_enabled_you_can_turn_on_in_settings_once_enabled">Autentikasi perangkat tidak diaktifkan. Anda dapat aktifkan Gray Heterotopia Lock via Pengaturan, setelah mengaktifkan autentikasi perangkat.</string>
     <string name="auth_unavailable">Autentikasi tidak tersedia</string>
     <string name="auth_confirm_credential">Konfirmasi kredensial Anda</string>
-    <string name="auth_device_authentication_is_disabled_turning_off">Autentikasi perangkat mati. Matikan SimpleX Lock.</string>
-    <string name="auth_disable_simplex_lock">Matikan Kunci SimpleX</string>
+    <string name="auth_device_authentication_is_disabled_turning_off">Autentikasi perangkat mati. Matikan Gray Heterotopia Lock.</string>
+    <string name="auth_disable_simplex_lock">Matikan Kunci Gray Heterotopia</string>
     <string name="snd_error_relay">Kesalahan server tujuan: %1$s</string>
     <string name="delete_and_notify_contact">Hapus dan beritahu kontak</string>
     <string name="button_delete_contact">Hapus kontak</string>
@@ -1590,7 +1590,7 @@
     <string name="onboarding_notifications_mode_service_desc_short">Aplikasi selalu berjalan di latar belakang</string>
     <string name="onboarding_notifications_mode_periodic_desc_short">Periksa pesan setiap 10 menit</string>
     <string name="onboarding_select_network_operators_to_use">Pilih operator jaringan yang akan digunakan.</string>
-    <string name="onboarding_network_operators_app_will_use_for_routing">Misalnya, jika kontak Anda menerima pesan melalui server SimpleX Chat, aplikasi Anda akan mengirimkannya melalui server Flux.</string>
+    <string name="onboarding_network_operators_app_will_use_for_routing">Misalnya, jika kontak Anda menerima pesan melalui server Gray Heterotopia, aplikasi Anda akan mengirimkannya melalui server Flux.</string>
     <string name="how_it_helps_privacy">Bagaimana ini membantu privasi</string>
     <string name="onboarding_network_operators_continue">Lanjutkan</string>
     <string name="onboarding_network_operators_configure_via_settings">Anda dapat konfigurasi server di pengaturan.</string>
@@ -1617,7 +1617,7 @@
     <string name="desktop_address">Alamat desktop</string>
     <string name="desktop_devices">Perangkat desktop</string>
     <string name="onboarding_network_about_operators">Tentang operator</string>
-    <string name="onboarding_network_operators_simplex_flux_agreement">SimpleX Chat dan Flux membuat kesepakatan untuk sertakan server yang dioperasikan Flux ke aplikasi.</string>
+    <string name="onboarding_network_operators_simplex_flux_agreement">Gray Heterotopia dan Flux membuat kesepakatan untuk sertakan server yang dioperasikan Flux ke aplikasi.</string>
     <string name="delete_chat_profile_question">Hapus profil obrolan?</string>
     <string name="chat_is_stopped_you_should_transfer_database">Obrolan dihentikan. Jika Anda sudah gunakan basis data ini di perangkat lain, Anda harus transfer kembali sebelum memulai obrolan.</string>
     <string name="database_passphrase_will_be_updated">Frasa sandi enkripsi basis data akan diperbarui.</string>
@@ -1655,7 +1655,7 @@
     <string name="hide_dev_options">Sembunyikan:</string>
     <string name="for_social_media">Untuk media sosial</string>
     <string name="settings_experimental_features">Fitur eksperimental</string>
-    <string name="auth_enable_simplex_lock">Aktifkan Kunci SimpleX</string>
+    <string name="auth_enable_simplex_lock">Aktifkan Kunci Gray Heterotopia</string>
     <string name="file_error_no_file">Berkas tidak ditemukan - kemungkinan besar telah dihapus atau dibatalkan.</string>
     <string name="file_error_relay">Kesalahan berkas server: %1$s</string>
     <string name="in_reply_to">Balasan untuk</string>
@@ -1736,7 +1736,7 @@
     <string name="file_will_be_received_when_contact_completes_uploading">Berkas akan diterima setelah kontak Anda selesai mengunggah.</string>
     <string name="file_will_be_received_when_contact_is_online">Berkas akan diterima saat kontak Anda online, harap tunggu atau periksa nanti!</string>
     <string name="enable_camera_access">Aktifkan akses kamera</string>
-    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Jika Anda menerima tautan undangan SimpleX Chat, Anda dapat buka di peramban Anda:</string>
+    <string name="if_you_received_simplex_invitation_link_you_can_open_in_browser">Jika Anda menerima tautan undangan Gray Heterotopia, Anda dapat buka di peramban Anda:</string>
     <string name="icon_descr_help">bantuan</string>
     <string name="if_you_cant_meet_in_person">Jika Anda tidak dapat bertemu langsung, tunjukkan kode QR dalam panggilan video, atau bagikan tautan.</string>
     <string name="network_option_enable_tcp_keep_alive">Aktifkan TCP keep-alive</string>
@@ -1948,7 +1948,7 @@
     <string name="agent_critical_error_desc">Harap laporkan ke pengembang:\n%s\n\nDisarankan untuk memulai ulang aplikasi.</string>
     <string name="custom_time_unit_minutes">menit</string>
     <string name="network_session_mode_session_description">Kredensial SOCKS baru akan digunakan setiap kali Anda memulai aplikasi.</string>
-    <string name="email_invite_subject">Mari bicara di SimpleX Chat</string>
+    <string name="email_invite_subject">Mari bicara di Gray Heterotopia</string>
     <string name="save_and_notify_contact">Simpan dan beritahu kontak</string>
     <string name="save_preferences_question">Simpan preferensi?</string>
     <string name="you_can_create_it_later">Anda dapat buat nanti</string>
@@ -2023,7 +2023,7 @@
     <string name="we_do_not_store_contacts_or_messages_on_servers">Kami tidak menyimpan kontak atau pesan Anda (setelah terkirim) di server.</string>
     <string name="your_profile_is_stored_on_your_device">Profil, kontak, dan pesan terkirim Anda disimpan di perangkat Anda.</string>
     <string name="the_messaging_and_app_platform_protecting_your_privacy_and_security">Platform perpesanan dan aplikasi yang melindungi privasi dan keamanan Anda.</string>
-    <string name="to_protect_privacy_simplex_has_ids_for_queues">Untuk melindungi privasi Anda, SimpleX gunakan ID terpisah untuk setiap kontak.</string>
+    <string name="to_protect_privacy_simplex_has_ids_for_queues">Untuk melindungi privasi Anda, Gray Heterotopia gunakan ID terpisah untuk setiap kontak.</string>
     <string name="settings_section_title_socks">Proxy SOCKS</string>
     <string name="upgrade_and_open_chat">Tingkatkan dan buka obrolan</string>
     <string name="group_invitation_tap_to_join_incognito">Ketuk untuk gabung ke samaran</string>
@@ -2097,7 +2097,7 @@
     <string name="video_decoding_exception_desc">Video tidak dapat didekodekan. Silakan coba video lain atau hubungi pengembang.</string>
     <string name="sync_connection_force_desc">Enkripsi berfungsi dan perjanjian enkripsi baru tidak diperlukan. Hal ini dapat mengakibatkan kesalahan koneksi!</string>
     <string name="share_address_publicly">Bagikan alamat secara publik</string>
-    <string name="share_simplex_address_on_social_media">Bagikan alamat SimpleX di media sosial.</string>
+    <string name="share_simplex_address_on_social_media">Bagikan alamat Gray Heterotopia di media sosial.</string>
     <string name="share_1_time_link_with_a_friend">Bagikan tautan 1-kali dengan teman</string>
     <string name="simplex_address_and_1_time_links_are_safe_to_share">Alamat SimpleX dan tautan 1-kali aman untuk dibagikan ke messenger lain.</string>
     <string name="you_can_use_markdown_to_format_messages__prompt">Anda dapat gunakan markdown untuk format pesan:</string>
@@ -2115,7 +2115,7 @@
     <string name="moderate_message_will_be_deleted_warning">Pesan akan dihapus untuk semua anggota.</string>
     <string name="verify_code_on_mobile">Verifikasi kode di ponsel</string>
     <string name="you_are_invited_to_group_join_to_connect_with_group_members">Anda diundang ke grup. Bergabung untuk terhubung dengan anggota grup.</string>
-    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Profil Anda disimpan di perangkat dan hanya dibagikan dengan kontak. Server SimpleX tidak dapat melihat profil Anda.</string>
+    <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">Profil Anda disimpan di perangkat dan hanya dibagikan dengan kontak. Server Gray Heterotopia tidak dapat melihat profil Anda.</string>
     <string name="snd_conn_event_switch_queue_phase_completed_for_member">Anda mengubah alamat untuk %s</string>
     <string name="rcv_group_event_updated_group_profile">profil grup diperbarui</string>
     <string name="rcv_group_event_3_members_connected">%s, %s dan %s terhubung</string>
@@ -2131,7 +2131,7 @@
     <string name="chat_help_tap_button">Tombol ketuk</string>
     <string name="unfavorite_chat">Batal favorit</string>
     <string name="you_invited_a_contact">Anda mengundang kontak</string>
-    <string name="icon_descr_address">Alamat SimpleX</string>
+    <string name="icon_descr_address">Alamat Gray Heterotopia</string>
     <string name="contact_wants_to_connect_with_you">ingin terhubung dengan Anda!</string>
     <string name="show_QR_code">Lihat kode QR</string>
     <string name="share_address_with_contacts_question">Bagikan alamat dengan kontak?</string>
@@ -2147,11 +2147,11 @@
     <string name="you_need_to_allow_to_send_voice">Anda perlu mengizinkan kontak mengirim pesan suara agar dapat mengirimkannya.</string>
     <string name="to_share_with_your_contact">(untuk dibagikan dengan kontak Anda)</string>
     <string name="tap_to_scan">Ketuk untuk pindai</string>
-    <string name="thank_you_for_installing_simplex">Terima kasih telah memasang SimpleX Chat!</string>
+    <string name="thank_you_for_installing_simplex">Terima kasih telah memasang Gray Heterotopia!</string>
     <string name="set_contact_name">Setel nama kontak</string>
     <string name="alert_text_connection_pending_they_need_to_be_online_can_delete_and_retry">Kontak Anda harus online agar koneksi dapat selesai.\nAnda dapat batalkan koneksi ini dan hapus kontak (dan coba lagi nanti dengan tautan baru).</string>
-    <string name="image_descr_simplex_logo">Logo SimpleX</string>
-    <string name="icon_descr_simplex_team">Tim SimpleX</string>
+    <string name="image_descr_simplex_logo">Logo Gray Heterotopia</string>
+    <string name="icon_descr_simplex_team">Tim Gray Heterotopia</string>
     <string name="you_will_be_connected_when_your_contacts_device_is_online">Anda akan terhubung saat perangkat kontak Anda online, harap tunggu atau periksa nanti!</string>
     <string name="you_will_be_connected_when_your_connection_request_is_accepted">Anda akan terhubung saat permintaan koneksi Anda diterima. Harap tunggu atau periksa nanti!</string>
     <string name="share_invitation_link">Bagikan tautan 1-kali</string>
@@ -2184,13 +2184,13 @@
     <string name="size">Ukuran</string>
     <string name="uploaded_files">Berkas diunggah</string>
     <string name="connection_error_quota_desc">Koneksi mencapai batas pesan yang tidak terkirim, kontak Anda mungkin sedang offline.</string>
-    <string name="lock_not_enabled">Kunci SimpleX tidak diaktifkan!</string>
-    <string name="you_can_turn_on_lock">Anda dapat aktifkan Kunci SimpleX di Pengaturan.</string>
+    <string name="lock_not_enabled">Kunci Gray Heterotopia tidak diaktifkan!</string>
+    <string name="you_can_turn_on_lock">Anda dapat aktifkan Kunci Gray Heterotopia di Pengaturan.</string>
     <string name="contact_you_shared_link_with_wont_be_able_to_connect">Kontak yang Anda bagikan tautan ini TIDAK akan dapat terhubung!</string>
     <string name="image_decoding_exception_desc">Gambar tidak dapat didekodekan. Silakan coba gambar lain atau hubungi pengembang.</string>
     <string name="snd_error_auth">Kunci salah atau koneksi tidak dikenal - kemungkinan besar koneksi ini dihapus.</string>
     <string name="add_contact_or_create_group">Mulai obrolan baru</string>
-    <string name="address_creation_instruction">Ketuk Buat alamat SimpleX di menu untuk membuatnya nanti.</string>
+    <string name="address_creation_instruction">Ketuk Buat alamat Gray Heterotopia di menu untuk membuatnya nanti.</string>
     <string name="scan_qr_to_connect_to_contact">Untuk terhubung, kontak Anda dapat pindai kode QR atau gunakan tautan di aplikasi.</string>
     <string name="connect__your_profile_will_be_shared">Profil Anda %1$s akan dibagikan.</string>
     <string name="to_protect_against_your_link_replaced_compare_codes">Untuk melindungi tautan Anda dari penggantian, Anda dapat membandingkan kode keamanan kontak.</string>
@@ -2342,7 +2342,7 @@
     <string name="v6_3_organize_chat_lists">Atur obrolan ke dalam daftar</string>
     <string name="restore_passphrase_can_not_be_read_desc">Frasa sandi di Keystore tidak dapat dibaca. Hal ini mungkin terjadi setelah pembaruan sistem yang tidak kompatibel dengan aplikasi. Jika tidak demikian, silakan hubungi pengembang.</string>
     <string name="onboarding_conditions_accept">Terima</string>
-    <string name="onboarding_conditions_by_using_you_agree">Dengan menggunakan SimpleX Chat, Anda setuju untuk:\n- hanya mengirim konten legal di grup publik.\n- hormati pengguna lain – tidak ada spam.</string>
+    <string name="onboarding_conditions_by_using_you_agree">Dengan menggunakan Gray Heterotopia, Anda setuju untuk:\n- hanya mengirim konten legal di grup publik.\n- hormati pengguna lain – tidak ada spam.</string>
     <string name="onboarding_conditions_privacy_policy_and_conditions_of_use">Kebijakan privasi dan ketentuan penggunaan.</string>
     <string name="onboarding_conditions_private_chats_not_accessible">Obrolan pribadi, grup, dan kontak Anda tidak dapat diakses oleh operator server.</string>
     <string name="restore_passphrase_can_not_be_read_enter_manually_desc">Frasa sandi di Keystore tidak dapat dibaca, silakan masukkan secara manual. Hal ini mungkin terjadi setelah pembaruan sistem yang tidak kompatibel dengan aplikasi. Jika tidak demikian, silakan hubungi pengembang.</string>
@@ -2473,7 +2473,7 @@
     <string name="share_old_link_alert_button">Bagikan tautan lama</string>
     <string name="v6_4_1_short_address_share">Bagikan alamat Anda</string>
     <string name="group_short_descr_field">Deskripsi singkat:</string>
-    <string name="v6_4_1_short_address">Alamat singkat SimpleX</string>
+    <string name="v6_4_1_short_address">Alamat singkat Gray Heterotopia</string>
     <string name="simplex_link_relay">Tautan relay SimpleX</string>
     <string name="v6_4_1_welcome_contacts">Sambut kontak Anda 👋</string>
     <string name="short_descr">Bio Anda:</string>
@@ -2527,7 +2527,7 @@
     <string name="relay_bar_relays_removed">%1$d relay dihapus</string>
     <string name="channel_subscriber_count_singular">%1$d pelanggan</string>
     <string name="channel_subscriber_count_plural">%1$d pelanggan</string>
-    <string name="badge_supported_simplex">%1$s mendukung SimpleX Chat. Lencana berakhir pada %2$s.</string>
+    <string name="badge_supported_simplex">%1$s mendukung Gray Heterotopia. Lencana berakhir pada %2$s.</string>
     <string name="settings_section_title_about">Tentang</string>
     <string name="relay_status_accepted">diterima</string>
     <string name="relay_status_acknowledged_roster">daftar yang di akui</string>
@@ -2720,7 +2720,7 @@
     <string name="chat_link_one_time">Tautan 1-kali</string>
     <string name="owner_verification_failed">⚠️ Verifikasi tanda tangan gagal: %s.</string>
     <string name="you_are_subscriber">anda adalah pelanggan</string>
-    <string name="onboarding_send_1_time_link">Kirim tautannya via aplikasi pesan apa pun - aman. Minta untuk tempel ke SimpleX.</string>
+    <string name="onboarding_send_1_time_link">Kirim tautannya via aplikasi pesan apa pun - aman. Minta untuk tempel ke Gray Heterotopia.</string>
     <string name="onboarding_or_show_qr_code">Atau perlihatkan kode QR secara langsung atau melalui panggilan video.</string>
     <string name="onboarding_post_address">Gunakan alamat ini di profil media sosial, situs web, atau tanda tangan email Anda.</string>
     <string name="connect_plan_join_name">Gabung saluran %s</string>

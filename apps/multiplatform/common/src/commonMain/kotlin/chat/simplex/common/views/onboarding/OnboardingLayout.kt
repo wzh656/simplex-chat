@@ -90,7 +90,7 @@ fun OnboardingImage(
     modifier: Modifier = Modifier,
     aspectRatio: Float = 1f
 ) {
-    if (BuildConfigCommon.SIMPLEX_ASSETS) {
+    if (BuildConfigCommon.GRAY_HETEROTOPIA_ASSETS) {
         Image(
             painterResource(if (isInDarkTheme()) darkImage else lightImage),
             contentDescription = null,

@@ -11,7 +11,7 @@
     <string name="invite_friends">സുഹൃത്തുക്കളെ ക്ഷണിക്കുക</string>
     <string name="delete_address">വിലാസം ഇല്ലാതാക്കുക</string>
     <string name="italic_text">ഇറ്റാലിക്</string>
-    <string name="about_simplex">SimpleX-നെ കുറിച്ച്</string>
+    <string name="about_simplex">Gray Heterotopia-നെ കുറിച്ച്</string>
     <string name="callstate_connected">ബന്ധിപ്പിച്ചിരിക്കുന്നു</string>
     <string name="callstate_connecting">ബന്ധിപ്പിക്കുന്നു…</string>
     <string name="onboarding_notifications_mode_periodic">ആനുകാലികം</string>
@@ -34,7 +34,7 @@
     <string name="feature_enabled_for_you">നിങ്ങൾക്കായി പ്രവർത്തനക്ഷമമാക്കി</string>
     <string name="learn_more_about_address">SimpleX വിലാസത്തെക്കുറിച്ച്</string>
     <string name="feature_enabled">പ്രവർത്തനക്ഷമമാക്കി</string>
-    <string name="auth_enable_simplex_lock">SimpleX താഴ് പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string name="auth_enable_simplex_lock">Gray Heterotopia താഴ് പ്രവർത്തനക്ഷമമാക്കുക</string>
     <string name="feature_enabled_for_contact">ബന്ധപ്പെടാൻ പ്രവർത്തനക്ഷമമാക്കി</string>
     <string name="enable_self_destruct">സ്വയം നശിപ്പിക്കൽ പ്രവർത്തനക്ഷമമാക്കുക</string>
     <string name="button_add_welcome_message">സ്വാഗത സന്ദേശം ചേർക്കുക</string>
@@ -273,7 +273,7 @@
     <string name="smp_servers_your_server_address">നിങ്ങളുടെ സെർവർ വിലാസം</string>
     <string name="info_row_sent_at">എന്ന വിലാസത്തിൽ അയച്ചു</string>
     <string name="your_XFTP_servers">നിങ്ങളുടെ XFTP സെർവറുകൾ</string>
-    <string name="about_simplex_chat">കുറിച്ച് SimpleX Chat</string>
+    <string name="about_simplex_chat">കുറിച്ച് Gray Heterotopia</string>
     <string name="users_delete_all_chats_deleted">എല്ലാ സംഭാഷണങ്ങളും സന്ദേശങ്ങളും ഇല്ലാതാക്കപ്പെടും - ഇത് പഴയപടിയാക്കാനാകില്ല!</string>
     <string name="all_group_members_will_remain_connected">സംഘത്തിലെ എല്ലാ അംഗങ്ങളുടെ ബന്ധം നിലനിർത്തും.</string>
     <string name="la_could_not_be_verified">നിങ്ങളെ പരിശോധിക്കാൻ കഴിഞ്ഞില്ല; ദയവായി വീണ്ടും ശ്രമിക്കുക.</string>
