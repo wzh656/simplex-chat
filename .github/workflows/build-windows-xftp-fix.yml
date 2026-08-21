@@ -1,0 +1,78 @@
+name: Build Windows XFTP Fix
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/windows-xftp-shutdown
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Haskell
+        uses: simplex-chat/setup-haskell-action@v2
+        with:
+          ghc-version: 9.6.3
+          cabal-version: 3.10.2.0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: 17
+          cache: gradle
+
+      - name: Restore build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            C:/cabal
+            dist-newstyle
+          key: windows-xftp-fix-ghc9.6.3-${{ hashFiles('cabal.project', 'simplex-chat.cabal') }}
+
+      - name: Configure pagefile
+        uses: simplex-chat/configure-pagefile-action@v1.4
+        with:
+          minimum-size: 16GB
+          maximum-size: 16GB
+          disk-root: "C:"
+
+      - name: Set up MSYS2 UCRT64
+        uses: simplex-chat/setup-msys2@v2
+        with:
+          msystem: ucrt64
+          update: true
+          install: >-
+            git
+            perl
+            make
+          pacboy: >-
+            toolchain:p
+            cmake:p
+
+      - name: Build Windows native library and MSI
+        shell: msys2 {0}
+        run: |
+          export PATH=$PATH:/c/ghcup/bin:$(echo /c/tools/ghc-*/bin || echo)
+          scripts/desktop/build-lib-windows.sh
+          cd apps/multiplatform
+          ./gradlew -Psimplex.assets.dir=../../assets packageMsi
+          sha256sum release/main/msi/*.msi > release/main/msi/SHA256SUMS
+
+      - name: Upload Windows MSI
+        uses: actions/upload-artifact@v4
+        with:
+          name: gray-heterotopia-windows-xftp-fix
+          path: |
+            apps/multiplatform/release/main/msi/*.msi
+            apps/multiplatform/release/main/msi/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 14
