@@ -200,6 +200,7 @@ class AppPreferences {
   val appUpdateNoticeShown = mkBoolPreference(SHARED_PREFS_APP_UPDATE_NOTICE_SHOWN, false)
 
   val onboardingStage = mkEnumPreference(SHARED_PREFS_ONBOARDING_STAGE, OnboardingStage.OnboardingComplete) { OnboardingStage.values().firstOrNull { it.name == this } }
+  val profileProvisioning = mkBoolPreference(SHARED_PREFS_PROFILE_PROVISIONING, false)
   val migrationToStage = mkStrPreference(SHARED_PREFS_MIGRATION_TO_STAGE, null)
   val migrationFromStage = mkStrPreference(SHARED_PREFS_MIGRATION_FROM_STAGE, null)
   val storeDBPassphrase = mkBoolPreference(SHARED_PREFS_STORE_DB_PASSPHRASE, true)
@@ -426,6 +427,7 @@ class AppPreferences {
     private const val SHARED_PREFS_APP_SKIPPED_UPDATE = "AppSkippedUpdate"
     private const val SHARED_PREFS_APP_UPDATE_NOTICE_SHOWN = "AppUpdateNoticeShown"
     private const val SHARED_PREFS_ONBOARDING_STAGE = "OnboardingStage"
+    private const val SHARED_PREFS_PROFILE_PROVISIONING = "ProfileProvisioning"
     const val SHARED_PREFS_MIGRATION_TO_STAGE = "MigrationToStage"
     const val SHARED_PREFS_MIGRATION_FROM_STAGE = "MigrationFromStage"
     private const val SHARED_PREFS_CHAT_LAST_START = "ChatLastStart"
@@ -571,20 +573,22 @@ object ChatController {
 
   suspend fun startChat(user: User) {
     Log.d(TAG, "user: $user")
+    var startAttempted = false
     try {
       apiSetNetworkConfig(getNetCfg())
       val chatRunning = apiCheckChatRunning()
+      if (!chatRunning) {
+        startAttempted = true
+        apiStartChat()
+      }
       val users = listUsers(null)
       chatModel.users.clear()
       chatModel.users.addAll(users)
+      chatModel.currentUser.value = user
+      chatModel.localUserCreated.value = true
       if (!chatRunning) {
-        chatModel.currentUser.value = user
-        chatModel.localUserCreated.value = true
         getUserChatData(null)
         appPrefs.chatLastStart.set(Clock.System.now())
-        chatModel.chatRunning.value = true
-        startReceiver()
-        setLocalDeviceName(appPrefs.deviceNameForRemoteAccess.get()!!)
         if (appPreferences.onboardingStage.get() == OnboardingStage.OnboardingComplete && !chatModel.controller.appPrefs.privacyDeliveryReceiptsSet.get()) {
           chatModel.setDeliveryReceipts.value = true
         }
@@ -596,9 +600,17 @@ object ChatController {
         }
         Log.d(TAG, "startChat: running")
       }
-      apiStartChat()
+      chatModel.chatRunning.value = true
+      startReceiver()
+      setLocalDeviceName(appPrefs.deviceNameForRemoteAccess.get()!!)
       appPrefs.chatStopped.set(false)
     } catch (e: Throwable) {
+      if (startAttempted) {
+        runCatching { apiStopChat() }
+          .onFailure { Log.e(TAG, "failed stopping chat after startup error: ${it.stackTraceToString()}") }
+        stopReceiver()
+        chatModel.chatRunning.value = false
+      }
       Log.e(TAG, "failed starting chat $e")
       throw e
     }
@@ -663,9 +675,9 @@ object ChatController {
     chatModel.users.clear()
     chatModel.users.addAll(users)
     getUserChatData(rhId, keepingChatId = keepingChatId)
-    val invitation = chatModel.callInvitations.values.firstOrNull { inv -> inv.user.userId == toUserId }
-    if (invitation != null && currentUser != null) {
-      chatModel.callManager.reportNewIncomingCall(invitation.copy(user = currentUser))
+    chatModel.callInvitations.values.filter { it.user.userId == toUserId }.forEach { invitation ->
+      apiRejectCall(invitation.remoteHostId, invitation.contact)
+      chatModel.callInvitations.remove(invitation.contact.id)
     }
   }
 
@@ -734,7 +746,7 @@ object ChatController {
     }
   }
 
-  private fun stopReceiver() {
+  fun stopReceiver() {
     Log.d(TAG, "ChatController stopReceiver")
     val job = receiverJob
     if (job != null) {
@@ -966,8 +978,8 @@ object ChatController {
     throw Exception("failed to delete the user ${r.responseType} ${r.details}")
   }
 
-  suspend fun apiStartChat(ctrl: ChatCtrl? = null): Boolean {
-    val r = sendCmd(null, CC.StartChat(mainApp = true), ctrl)
+  suspend fun apiStartChat(ctrl: ChatCtrl? = null, mainApp: Boolean = true): Boolean {
+    val r = sendCmd(null, CC.StartChat(mainApp), ctrl)
     when (r.result) {
       is CR.ChatStarted -> return true
       is CR.ChatRunning -> return false
@@ -984,8 +996,8 @@ object ChatController {
     }
   }
 
-  suspend fun apiStopChat(): Boolean {
-    val r = sendCmd(null, CC.ApiStopChat())
+  suspend fun apiStopChat(ctrl: ChatCtrl? = null): Boolean {
+    val r = sendCmd(null, CC.ApiStopChat(), ctrl)
     if (r.result is CR.ChatStopped) return true
     throw Exception("failed stopping chat: ${r.responseType} ${r.details}")
   }
@@ -1254,12 +1266,12 @@ object ChatController {
     return null
   }
 
-  suspend fun testProtoServer(rh: Long?, server: String): ProtocolTestFailure? {
-    val userId = currentUserId("testProtoServer")
-    val r = sendCmd(rh, CC.APITestProtoServer(userId, server))
+  suspend fun testProtoServer(rh: Long?, server: String, userId: Long? = null, ctrl: ChatCtrl? = null): ProtocolTestFailure? {
+    val testUserId = userId ?: currentUserId("testProtoServer")
+    val r = sendCmd(rh, CC.APITestProtoServer(testUserId, server), otherCtrl = ctrl, log = false)
     if (r is API.Result && r.res is CR.ServerTestResult) return r.res.testFailure
-    Log.e(TAG, "testProtoServer bad response: ${r.responseType} ${r.details}")
-    throw Exception("testProtoServer bad response: ${r.responseType} ${r.details}")
+    Log.e(TAG, "testProtoServer bad response: ${r.responseType}")
+    throw Exception("testProtoServer bad response: ${r.responseType}")
   }
 
   suspend fun testChatRelay(rh: Long?, address: String): Pair<RelayProfile?, RelayTestFailure?> {
@@ -1270,45 +1282,44 @@ object ChatController {
     throw Exception("testChatRelay bad response: ${r.responseType} ${r.details}")
   }
 
-  suspend fun getServerOperators(rh: Long?): ServerOperatorConditionsDetail? {
-    val r = sendCmd(rh, CC.ApiGetServerOperators())
+  suspend fun getServerOperators(rh: Long?, ctrl: ChatCtrl? = null): ServerOperatorConditionsDetail? {
+    val r = sendCmd(rh, CC.ApiGetServerOperators(), ctrl)
     if (r is API.Result && r.res is CR.ServerOperatorConditions) return r.res.conditions
     Log.e(TAG, "getServerOperators bad response: ${r.responseType} ${r.details}")
     return null
   }
 
-  suspend fun setServerOperators(rh: Long?, operators: List<ServerOperator>): ServerOperatorConditionsDetail? {
-    val r = sendCmd(rh, CC.ApiSetServerOperators(operators))
+  suspend fun setServerOperators(rh: Long?, operators: List<ServerOperator>, ctrl: ChatCtrl? = null): ServerOperatorConditionsDetail? {
+    val r = sendCmd(rh, CC.ApiSetServerOperators(operators), ctrl)
     if (r is API.Result && r.res is CR.ServerOperatorConditions) return r.res.conditions
     Log.e(TAG, "setServerOperators bad response: ${r.responseType} ${r.details}")
     return null
   }
 
-  suspend fun getUserServers(rh: Long?): List<UserOperatorServers>? {
-    val userId = currentUserId("getUserServers")
-    val r = sendCmd(rh, CC.ApiGetUserServers(userId))
+  suspend fun getUserServers(rh: Long?, userId: Long? = null, ctrl: ChatCtrl? = null): List<UserOperatorServers>? {
+    val targetUserId = userId ?: currentUserId("getUserServers")
+    val r = sendCmd(rh, CC.ApiGetUserServers(targetUserId), otherCtrl = ctrl, log = false)
     if (r is API.Result && r.res is CR.UserServers) return r.res.userServers
-    Log.e(TAG, "getUserServers bad response: ${r.responseType} ${r.details}")
+    Log.e(TAG, "getUserServers bad response: ${r.responseType}")
     return null
   }
 
-  suspend fun setUserServers(rh: Long?, userServers: List<UserOperatorServers>): Boolean {
-    val userId = currentUserId("setUserServers")
-    val r = sendCmd(rh, CC.ApiSetUserServers(userId, userServers))
+  suspend fun setUserServers(rh: Long?, userServers: List<UserOperatorServers>, userId: Long? = null, ctrl: ChatCtrl? = null, showAlertOnError: Boolean = true): Boolean {
+    val targetUserId = userId ?: currentUserId("setUserServers")
+    val r = sendCmd(rh, CC.ApiSetUserServers(targetUserId, userServers), otherCtrl = ctrl, log = false)
     if (r.result is CR.CmdOk) return true
-    AlertManager.shared.showAlertMsg(
-      generalGetString(MR.strings.failed_to_save_servers),
-      "${r.responseType}: ${r.details}"
-    )
-    Log.e(TAG, "setUserServers bad response: ${r.responseType} ${r.details}")
+    if (showAlertOnError) {
+      AlertManager.shared.showAlertMsg(generalGetString(MR.strings.failed_to_save_servers), r.responseType)
+    }
+    Log.e(TAG, "setUserServers bad response: ${r.responseType}")
     return false
   }
 
-  suspend fun validateServers(rh: Long?, userServers: List<UserOperatorServers>): Pair<List<UserServersError>, List<UserServersWarning>>? {
-    val userId = currentUserId("validateServers")
-    val r = sendCmd(rh, CC.ApiValidateServers(userId, userServers))
+  suspend fun validateServers(rh: Long?, userServers: List<UserOperatorServers>, userId: Long? = null, ctrl: ChatCtrl? = null): Pair<List<UserServersError>, List<UserServersWarning>>? {
+    val targetUserId = userId ?: currentUserId("validateServers")
+    val r = sendCmd(rh, CC.ApiValidateServers(targetUserId, userServers), otherCtrl = ctrl, log = false)
     if (r is API.Result && r.res is CR.UserServersValidation) return Pair(r.res.serverErrors, r.res.serverWarnings)
-    Log.e(TAG, "validateServers bad response: ${r.responseType} ${r.details}")
+    Log.e(TAG, "validateServers bad response: ${r.responseType}")
     return null
   }
 
@@ -3262,7 +3273,7 @@ object ChatController {
         }
       }
       is CR.CallInvitation -> {
-        chatModel.callManager.reportNewIncomingCall(r.callInvitation.copy(remoteHostId = rhId))
+        apiRejectCall(rhId, r.callInvitation.contact)
       }
       is CR.CallOffer -> {
         // TODO askConfirmation?
@@ -7137,9 +7148,7 @@ data class CreatedConnLink(val connFullLink: String, val connShortLink: String?)
   val cmdString: String get() = connFullLink + (if (connShortLink == null) "" else " $connShortLink")
 }
 
-fun simplexChatLink(uri: String): String =
-  if (uri.startsWith("simplex:/")) uri.replace("simplex:/", "https://simplex.chat/")
-  else uri
+fun simplexChatLink(uri: String): String = uri
 
 @Serializable
 sealed class OwnerVerification {

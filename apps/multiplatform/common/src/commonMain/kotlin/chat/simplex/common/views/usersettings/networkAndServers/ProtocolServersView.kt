@@ -86,19 +86,6 @@ fun YourServersViewLayout(
   val duplicateHosts = findDuplicateHosts(serverErrors.value)
 
   Column {
-    if (userServers.value[operatorIndex].chatRelays.any { !it.deleted }) {
-      val duplicateRelayAddresses = findDuplicateRelayAddresses(serverErrors.value)
-      SectionView(generalGetString(MR.strings.chat_relays)) {
-        userServers.value[operatorIndex].chatRelays.forEachIndexed { i, relay ->
-          if (relay.deleted) return@forEachIndexed
-          ChatRelayViewLink(relay, duplicateRelayAddresses) {
-            navigateToChatRelayView(userServers, serverErrors, serverWarnings, operatorIndex, i, relay, rhId)
-          }
-        }
-      }
-      SectionTextFooter(generalGetString(MR.strings.chat_relays_forward_messages_in_channels))
-    }
-
     if (userServers.value[operatorIndex].smpServers.any { !it.deleted }) {
       SectionDividerSpaced()
       SectionView(generalGetString(MR.strings.message_servers)) {
@@ -169,8 +156,7 @@ fun YourServersViewLayout(
 
     if (
       userServers.value[operatorIndex].smpServers.any { !it.deleted } ||
-      userServers.value[operatorIndex].xftpServers.any { !it.deleted } ||
-      userServers.value[operatorIndex].chatRelays.any { !it.deleted }
+      userServers.value[operatorIndex].xftpServers.any { !it.deleted }
       ) {
       SectionDividerSpaced()
     }
@@ -202,7 +188,7 @@ fun YourServersViewLayout(
         testing = testing,
         smpServers = userServers.value[operatorIndex].smpServers,
         xftpServers = userServers.value[operatorIndex].xftpServers,
-        chatRelays = userServers.value[operatorIndex].chatRelays,
+        chatRelays = emptyList(),
         onUpdate = { p, l ->
           when (p) {
             ServerProtocol.XFTP -> userServers.value = userServers.value.toMutableList().apply {
@@ -218,16 +204,8 @@ fun YourServersViewLayout(
             }
           }
         },
-        onUpdateRelays = { relays ->
-          userServers.value = userServers.value.toMutableList().apply {
-            this[operatorIndex] = this[operatorIndex].copy(
-              chatRelays = relays
-            )
-          }
-        }
+        onUpdateRelays = null
       )
-
-      HowToButton()
     }
     SectionBottomSpacer()
   }
@@ -298,14 +276,6 @@ fun showAddServerDialog(
           ) {
             Text(stringResource(MR.strings.smp_servers_scan_qr), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
           }
-        }
-        SectionItemView({
-          AlertManager.shared.hideAlert()
-          ModalManager.start.showCustomModal { close ->
-            NewChatRelayView(userServers, serverErrors, serverWarnings, rhId, close)
-          }
-        }) {
-          Text(stringResource(MR.strings.chat_relay), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
         }
       }
     }

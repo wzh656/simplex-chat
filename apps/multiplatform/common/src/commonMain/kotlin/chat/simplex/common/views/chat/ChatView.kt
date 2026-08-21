@@ -1193,7 +1193,6 @@ fun BoxScope.ChatInfoToolbar(
   val scope = rememberCoroutineScope()
   val showMenu = rememberSaveable { mutableStateOf(false) }
   val showContentFilterMenu = rememberSaveable { mutableStateOf(false) }
-  val showCallMenu = rememberSaveable { mutableStateOf(false) }
 
   val onBackClicked = {
     if (!showSearch.value) {
@@ -1209,14 +1208,7 @@ fun BoxScope.ChatInfoToolbar(
   }
   val barButtons = arrayListOf<@Composable RowScope.() -> Unit>()
   val menuItems = arrayListOf<@Composable () -> Unit>()
-  val activeCall by remember { chatModel.activeCall }
-
   val showContentFilterButton = availableContent.value.isNotEmpty()
-  val canStartCall = chatInfo is ChatInfo.Direct &&
-    chatInfo.contact.mergedPreferences.calls.enabled.forUser &&
-    chatInfo.contact.ready &&
-    chatInfo.contact.active &&
-    activeCall == null
 
   // Chat-type specific buttons
   when (chatInfo) {
@@ -1237,45 +1229,6 @@ fun BoxScope.ChatInfoToolbar(
       }
     }
     is ChatInfo.Direct -> {
-      if (activeCall?.contact?.id == chatInfo.id) {
-        if (appPlatform.isDesktop) {
-          barButtons.add {
-            val call = remember { chatModel.activeCall }.value
-            val connectedAt = call?.connectedAt
-            if (connectedAt != null) {
-              val time = remember { mutableStateOf(durationText(0)) }
-              LaunchedEffect(Unit) {
-                while (true) {
-                  time.value = durationText((Clock.System.now() - connectedAt).inWholeSeconds.toInt())
-                  delay(250)
-                }
-              }
-              val sp50 = with(LocalDensity.current) { 50.sp.toDp() }
-              Text(time.value, Modifier.widthIn(min = sp50))
-            }
-          }
-        }
-        barButtons.add {
-          IconButton({
-            showMenu.value = false
-            endCall()
-          }) {
-            Icon(
-              painterResource(MR.images.ic_call_end_filled),
-              null,
-              tint = MaterialTheme.colors.error
-            )
-          }
-        }
-      }
-      // Call button always in toolbar; tap opens Audio/Video call submenu
-      if (canStartCall) {
-        barButtons.add(0) {
-          IconButton({ showCallMenu.value = true }) {
-            Icon(painterResource(MR.images.ic_call_500), null, tint = MaterialTheme.colors.primary)
-          }
-        }
-      }
       menuItems.add {
         ItemAction(stringResource(MR.strings.search_verb), painterResource(MR.images.ic_search), onClick = {
           showMenu.value = false
@@ -1316,11 +1269,8 @@ fun BoxScope.ChatInfoToolbar(
     else -> {}
   }
 
-  // Content filter button: always in bar on desktop and for groups; on Android for direct chats it
-  // goes into the three-dots menu UNLESS calls are unavailable, in which case it appears in the bar.
-  // Must be after chat-type buttons so call buttons appear before filter during active call.
-  if (showContentFilterButton && (appPlatform.isDesktop || chatInfo is ChatInfo.Group ||
-      (appPlatform.isAndroid && chatInfo is ChatInfo.Direct && !canStartCall && activeCall == null))) {
+  // Content filters stay in the toolbar for direct and group chats.
+  if (showContentFilterButton && (appPlatform.isDesktop || chatInfo is ChatInfo.Group || chatInfo is ChatInfo.Direct)) {
     val enabled = chatInfo !is ChatInfo.Local || chatInfo.noteFolder.ready
     barButtons.add {
       IconButton(
@@ -1357,8 +1307,7 @@ fun BoxScope.ChatInfoToolbar(
   }
 
   // Android only: for direct/local chats where the filter bar button is NOT shown, filter options go in the three-dots menu separated by a divider
-  if (appPlatform.isAndroid && chatInfo !is ChatInfo.Group && showContentFilterButton &&
-      !(chatInfo is ChatInfo.Direct && !canStartCall && activeCall == null)) {
+  if (appPlatform.isAndroid && chatInfo !is ChatInfo.Group && chatInfo !is ChatInfo.Direct && showContentFilterButton) {
     menuItems.add { Divider() }
     availableContent.value.forEach { filter ->
       menuItems.add {
@@ -1510,38 +1459,6 @@ fun BoxScope.ChatInfoToolbar(
         contentFilterMenuItems.asReversed().forEach { it() }
       } else {
         contentFilterMenuItems.forEach { it() }
-      }
-    }
-    val callMenuWidth = remember { mutableStateOf(250.dp) }
-    val callMenuHeight = remember { mutableStateOf(0.dp) }
-    DefaultDropdownMenu(
-      showCallMenu,
-      modifier = Modifier.onSizeChanged { with(density) {
-        callMenuWidth.value = it.width.toDp().coerceAtLeast(250.dp)
-        if (oneHandUI.value && chatBottomBar.value && (appPlatform.isDesktop || (platform.androidApiLevel ?: 0) >= 30)) callMenuHeight.value = it.height.toDp()
-      } },
-      offset = DpOffset(-callMenuWidth.value, if (oneHandUI.value && chatBottomBar.value) -callMenuHeight.value else AppBarHeight)
-    ) {
-      if (chatInfo is ChatInfo.Direct) {
-        val callMenuItems: List<@Composable () -> Unit> = buildList {
-          add {
-            ItemAction(stringResource(MR.strings.icon_descr_audio_call).capitalize(Locale.current), painterResource(MR.images.ic_call_500), onClick = {
-              showCallMenu.value = false
-              startCall(CallMediaType.Audio)
-            })
-          }
-          add {
-            ItemAction(stringResource(MR.strings.icon_descr_video_call).capitalize(Locale.current), painterResource(MR.images.ic_videocam), onClick = {
-              showCallMenu.value = false
-              startCall(CallMediaType.Video)
-            })
-          }
-        }
-        if (oneHandUI.value && chatBottomBar.value) {
-          callMenuItems.asReversed().forEach { it() }
-        } else {
-          callMenuItems.forEach { it() }
-        }
       }
     }
   }

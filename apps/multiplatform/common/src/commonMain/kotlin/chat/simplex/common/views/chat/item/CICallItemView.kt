@@ -34,7 +34,7 @@ fun CICallItemView(
       CICallStatus.Pending -> if (sent) {
         Icon(painterResource(MR.images.ic_call), stringResource(MR.strings.icon_descr_call_pending_sent))
       } else {
-        AcceptCallButton(cInfo, acceptCall)
+        Icon(painterResource(MR.images.ic_call_end), stringResource(MR.strings.icon_descr_call_rejected), tint = Color.Red)
       }
       CICallStatus.Missed -> Icon(painterResource(MR.images.ic_call), stringResource(MR.strings.icon_descr_call_missed), tint = Color.Red)
       CICallStatus.Rejected -> Icon(painterResource(MR.images.ic_call_end), stringResource(MR.strings.icon_descr_call_rejected), tint = Color.Red)

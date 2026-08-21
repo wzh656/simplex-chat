@@ -132,12 +132,6 @@ fun processNotificationIntent(intent: Intent?) {
       Log.d(TAG, "processNotificationIntent: ShowChatsAction")
       ntfManager.showChatsAction(userId)
     }
-    NtfManager.AcceptCallAction -> {
-      val chatId = intent.getStringExtra("chatId")
-      if (chatId == null || chatId == "") return
-      Log.d(TAG, "processNotificationIntent: AcceptCallAction $chatId")
-      ntfManager.acceptCallAction(chatId)
-    }
   }
 }
 

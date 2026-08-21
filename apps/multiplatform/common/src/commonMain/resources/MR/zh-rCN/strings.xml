@@ -1907,6 +1907,13 @@
     <string name="secured">已受保护</string>
     <string name="send_errors">发送错误</string>
     <string name="server_address">服务器地址</string>
+    <string name="onboarding_configure_servers">配置你的服务器</string>
+    <string name="onboarding_configure_servers_desc">请输入一条 SMP 消息服务器地址和一条 XFTP 文件服务器地址。</string>
+    <string name="onboarding_test_servers">测试服务器</string>
+    <string name="onboarding_invalid_smp_server">请输入有效的 SMP 服务器地址。</string>
+    <string name="onboarding_invalid_xftp_server">请输入有效的 XFTP 服务器地址。</string>
+    <string name="unsupported_link_type">不支持的链接</string>
+    <string name="public_channels_not_supported">不支持公共频道和 Chat Relay 链接。</string>
     <string name="size">大小</string>
     <string name="uploaded_files">已上传的文件</string>
     <string name="upload_errors">上传出错</string>

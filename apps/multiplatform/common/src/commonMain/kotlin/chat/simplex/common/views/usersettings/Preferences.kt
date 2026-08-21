@@ -100,11 +100,6 @@ private fun PreferencesLayout(
       applyPrefs(preferences.copy(voice = SimpleChatPreference(allow = it)))
     }
     SectionDividerSpaced()
-    val allowCalls = remember(preferences) { mutableStateOf(preferences.calls.allow) }
-    FeatureSection(ChatFeature.Calls, allowCalls) {
-      applyPrefs(preferences.copy(calls = SimpleChatPreference(allow = it)))
-    }
-    SectionDividerSpaced()
     ResetSaveButtons(
       reset = reset,
       save = savePrefs,

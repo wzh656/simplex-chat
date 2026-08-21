@@ -108,11 +108,6 @@ private fun ContactPreferencesLayout(
       applyPrefs(featuresAllowed.copy(voice = it))
     }
     SectionDividerSpaced()
-    val allowCalls: MutableState<ContactFeatureAllowed> = remember(featuresAllowed) { mutableStateOf(featuresAllowed.calls) }
-    FeatureSection(ChatFeature.Calls, user.fullPreferences.calls.allow, contact.mergedPreferences.calls, allowCalls) {
-      applyPrefs(featuresAllowed.copy(calls = it))
-    }
-    SectionDividerSpaced()
     ResetSaveButtons(
       reset = reset,
       save = savePrefs,

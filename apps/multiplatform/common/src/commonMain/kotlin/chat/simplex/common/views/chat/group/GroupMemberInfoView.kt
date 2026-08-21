@@ -501,9 +501,7 @@ fun GroupMemberInfoLayout(
               }
             }
 
-            OpenChatButton(modifier = Modifier.fillMaxWidth(0.33f), onClick = { openDirectChat(contact.contactId) })
-            AudioCallButton(modifier = Modifier.fillMaxWidth(0.5f), chat, contact, knownContactConnectionStats)
-            VideoButton(modifier = Modifier.fillMaxWidth(1f), chat, contact, knownContactConnectionStats)
+            OpenChatButton(modifier = Modifier.fillMaxWidth(), onClick = { openDirectChat(contact.contactId) })
           } else if (groupInfo.fullGroupPreferences.directMessages.on(groupInfo.membership)) {
             if (contactId != null) {
               OpenChatButton(modifier = Modifier.fillMaxWidth(0.33f), onClick = { openDirectChat(contactId) }) // legacy - only relevant for direct contacts created when joining group
@@ -514,9 +512,6 @@ fun GroupMemberInfoLayout(
                 onClick = { createMemberContact() }
               )
             }
-            InfoViewActionButton(modifier = Modifier.fillMaxWidth(0.5f), painterResource(MR.images.ic_call), generalGetString(MR.strings.info_view_call_button), disabled = false, disabledLook = true, onClick = {
-              showSendMessageToEnableCallsAlert()
-            })
             InfoViewActionButton(modifier = Modifier.fillMaxWidth(1f), painterResource(MR.images.ic_videocam), generalGetString(MR.strings.info_view_video_button), disabled = false, disabledLook = true, onClick = {
               showSendMessageToEnableCallsAlert()
             })

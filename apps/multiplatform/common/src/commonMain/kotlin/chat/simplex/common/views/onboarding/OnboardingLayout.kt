@@ -139,6 +139,8 @@ fun DesktopOnboardingShell(stage: OnboardingStage, content: @Composable () -> Un
             when (stage) {
                 OnboardingStage.Step1_SimpleXInfo ->
                     OnboardingImage(MR.images.intro, MR.images.intro_light, MR.images.ic_forum, Modifier.fillMaxWidth())
+                OnboardingStage.Step2_ConfigureServers ->
+                    OnboardingImage(MR.images.your_network, MR.images.your_network_light, MR.images.ic_dns, Modifier.fillMaxWidth())
                 OnboardingStage.Step2_CreateProfile,
                 OnboardingStage.Step2_5_SetupDatabasePassphrase,
                 OnboardingStage.LinkAMobile ->

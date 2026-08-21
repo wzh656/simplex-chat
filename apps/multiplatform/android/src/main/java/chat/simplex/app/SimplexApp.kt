@@ -19,8 +19,6 @@ import androidx.lifecycle.*
 import androidx.work.*
 import chat.simplex.app.MainActivity.Companion.OLD_ANDROID_UI_FLAGS
 import chat.simplex.app.model.NtfManager
-import chat.simplex.app.model.NtfManager.AcceptCallAction
-import chat.simplex.app.views.call.CallActivity
 import chat.simplex.common.helpers.*
 import chat.simplex.common.model.*
 import chat.simplex.common.model.ChatController.appPrefs
@@ -208,7 +206,6 @@ class SimplexApp: Application(), LifecycleEventObserver {
       }
 
       override fun androidCallServiceSafeStop() {
-        CallService.stopService()
       }
 
       override fun androidNotificationsModeChanged(mode: NotificationsMode) {
@@ -314,16 +311,6 @@ class SimplexApp: Application(), LifecycleEventObserver {
       }
 
       override fun androidStartCallActivity(acceptCall: Boolean, remoteHostId: Long?, chatId: ChatId?) {
-        val context = mainActivity.get() ?: return
-        val intent = Intent(context, CallActivity::class.java)
-          .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        if (acceptCall) {
-          intent.setAction(AcceptCallAction)
-            .putExtra("remoteHostId", remoteHostId)
-            .putExtra("chatId", chatId)
-        }
-        intent.flags += Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT
-        context.startActivity(intent)
       }
 
       override fun androidPictureInPictureAllowed(): Boolean {

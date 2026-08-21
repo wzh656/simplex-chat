@@ -188,13 +188,14 @@ fun MainScreen() {
             when (state) {
               OnboardingStage.OnboardingComplete -> {}
               OnboardingStage.Step1_SimpleXInfo -> SimpleXInfo(chatModel, onboarding = true)
+              OnboardingStage.Step2_ConfigureServers -> ConfigureServers(chatModel)
               OnboardingStage.Step2_CreateProfile -> CreateFirstProfile(chatModel) {}
               OnboardingStage.LinkAMobile -> LinkAMobile()
               OnboardingStage.Step2_5_SetupDatabasePassphrase -> SetupDatabasePassphrase(chatModel)
               OnboardingStage.Step3_ChooseServerOperators,
               OnboardingStage.Step3_CreateSimpleXAddress,
-              OnboardingStage.Step4_SetNotificationsMode -> YourNetworkView(chatModel)
-              OnboardingStage.Step4_NetworkCommitments -> OnboardingConditionsView(chatModel)
+              OnboardingStage.Step4_SetNotificationsMode,
+              OnboardingStage.Step4_NetworkCommitments -> YourNetworkView(chatModel)
             }
           }
         }
@@ -222,19 +223,6 @@ fun MainScreen() {
         ModalManager.fullscreen.showPasscodeInView()
       }
     } else {
-      if (chatModel.showCallView.value) {
-        if (appPlatform.isAndroid) {
-          LaunchedEffect(Unit) {
-            // This if prevents running the activity in the following condition:
-            // - the activity already started before and was destroyed by collapsing active call (start audio call, press back button, go to a launcher)
-            if (!chatModel.activeCallViewIsCollapsed.value) {
-              platform.androidStartCallActivity(false)
-            }
-          }
-        } else {
-          ActiveCallView()
-        }
-      }
       ModalManager.fullscreen.showOneTimePasscodeInView()
       AlertManager.privacySensitive.showInView()
       if (onboarding == OnboardingStage.OnboardingComplete) {
@@ -247,8 +235,6 @@ fun MainScreen() {
         }
       }
     }
-    val invitation = chatModel.activeCallInvitation.value
-    if (invitation != null) IncomingCallAlertView(invitation, chatModel)
     AlertManager.shared.showInView()
 
     LaunchedEffect(Unit) {
@@ -277,12 +263,13 @@ private fun DesktopOnboarding(onboarding: OnboardingStage, chatModel: ChatModel)
     DesktopOnboardingShell(onboarding) {
       when (onboarding) {
         OnboardingStage.Step1_SimpleXInfo -> SimpleXInfo(chatModel, onboarding = true)
+        OnboardingStage.Step2_ConfigureServers -> ConfigureServers(chatModel)
         OnboardingStage.Step2_CreateProfile -> CreateFirstProfile(chatModel) {}
         OnboardingStage.Step2_5_SetupDatabasePassphrase -> SetupDatabasePassphrase(chatModel)
         OnboardingStage.Step3_ChooseServerOperators,
         OnboardingStage.Step3_CreateSimpleXAddress,
-        OnboardingStage.Step4_SetNotificationsMode -> YourNetworkView(chatModel)
-        OnboardingStage.Step4_NetworkCommitments -> OnboardingConditionsView(chatModel)
+        OnboardingStage.Step4_SetNotificationsMode,
+        OnboardingStage.Step4_NetworkCommitments -> YourNetworkView(chatModel)
         else -> {}
       }
     }
@@ -293,15 +280,8 @@ val ANDROID_CALL_TOP_PADDING = 40.dp
 
 @Composable
 fun AndroidWrapInCallLayout(content: @Composable () -> Unit) {
-  val call = remember { chatModel.activeCall}.value
-  val showCallArea = call != null && call.callState != CallState.WaitCapabilities && call.callState != CallState.InvitationAccepted
   Box {
-    Box(Modifier.padding(top = if (showCallArea) ANDROID_CALL_TOP_PADDING else 0.dp)) {
-      content()
-    }
-    if (call != null && showCallArea) {
-      ActiveCallInteractiveArea(call)
-    }
+    content()
   }
 }
 

@@ -44,19 +44,10 @@ fun YourNetworkView(chatModel: ChatModel) {
     prepareChatBeforeFinishingOnboarding()
   }
 
-  val serverOperators = remember { derivedStateOf { chatModel.conditions.value.serverOperators } }
-  val selectedOperatorIds = remember {
-    mutableStateOf(serverOperators.value.filter { it.enabled }.map { it.operatorId }.toSet())
-  }
-
-  LaunchedEffect(selectedOperatorIds.value) {
-    OnboardingSharedState.selectedOperatorIds = selectedOperatorIds.value
-  }
-
   val notificationMode = rememberSaveable { mutableStateOf(NotificationsMode.default) }
 
   if (appPlatform.isDesktop) {
-    YourNetworkDesktop(serverOperators, selectedOperatorIds)
+    YourNetworkDesktop()
   } else {
     CompositionLocalProvider(LocalAppBarHandler provides rememberAppBarHandler()) {
       ModalView({}, showClose = false, showAppBar = false) {
@@ -97,11 +88,6 @@ fun YourNetworkView(chatModel: ChatModel) {
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
               ) {
-                ConfigureRoutersButton(serverOperators, selectedOperatorIds) {
-                  ModalManager.fullscreen.showCustomModal { close ->
-                    ChooseServerOperators(serverOperators, selectedOperatorIds, close)
-                  }
-                }
                 ConfigureNotificationsButton(notificationMode) {
                   ModalManager.fullscreen.showModalCloseable { close ->
                     SetNotificationsMode(notificationMode, close)
@@ -121,7 +107,7 @@ fun YourNetworkView(chatModel: ChatModel) {
                 onboarding = null,
                 onclick = {
                   changeNotificationsMode(notificationMode.value, chatModel)
-                  appPrefs.onboardingStage.set(OnboardingStage.Step4_NetworkCommitments)
+                  appPrefs.onboardingStage.set(OnboardingStage.OnboardingComplete)
                 }
               )
             }
@@ -133,10 +119,7 @@ fun YourNetworkView(chatModel: ChatModel) {
 }
 
 @Composable
-private fun YourNetworkDesktop(
-  serverOperators: State<List<ServerOperator>>,
-  selectedOperatorIds: MutableState<Set<Long>>
-) {
+private fun YourNetworkDesktop() {
   CompositionLocalProvider(LocalAppBarHandler provides rememberAppBarHandler()) {
     ModalView({}, showClose = false) {
       ColumnWithScrollBar(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -146,11 +129,6 @@ private fun YourNetworkDesktop(
           }
           Text(stringResource(MR.strings.onboarding_network_routers_cannot_know), style = MaterialTheme.typography.h3, fontWeight = FontWeight.Medium, color = MaterialTheme.colors.secondary, lineHeight = 25.sp, textAlign = TextAlign.Center)
           Spacer(Modifier.height(DEFAULT_PADDING))
-          ConfigureRoutersButton(serverOperators, selectedOperatorIds) {
-            ModalManager.fullscreen.showCustomModal(forceAnimated = true) { close ->
-              ChooseServerOperators(serverOperators, selectedOperatorIds, close)
-            }
-          }
         }
         Spacer(Modifier.fillMaxHeight().weight(1f))
         Column(Modifier.widthIn(max = 1000.dp).align(Alignment.CenterHorizontally), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -159,7 +137,7 @@ private fun YourNetworkDesktop(
             labelId = MR.strings.onboarding_network_operators_continue,
             onboarding = null,
             onclick = {
-              appPrefs.onboardingStage.set(OnboardingStage.Step4_NetworkCommitments)
+              appPrefs.onboardingStage.set(OnboardingStage.OnboardingComplete)
             }
           )
           TextButtonBelowOnboardingButton("", null)

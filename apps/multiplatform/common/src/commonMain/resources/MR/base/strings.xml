@@ -3031,6 +3031,13 @@
   <string name="downloaded_files">Downloaded files</string>
   <string name="download_errors">Download errors</string>
   <string name="server_address">Server address</string>
+  <string name="onboarding_configure_servers">Configure your servers</string>
+  <string name="onboarding_configure_servers_desc">Enter one SMP message server and one XFTP file server.</string>
+  <string name="onboarding_test_servers">Test servers</string>
+  <string name="onboarding_invalid_smp_server">Enter a valid SMP server address.</string>
+  <string name="onboarding_invalid_xftp_server">Enter a valid XFTP server address.</string>
+  <string name="unsupported_link_type">Unsupported link</string>
+  <string name="public_channels_not_supported">Public channels and Chat Relay links are not supported.</string>
   <string name="open_server_settings_button">Open server settings</string>
 
   <!-- GroupMentions.kt -->

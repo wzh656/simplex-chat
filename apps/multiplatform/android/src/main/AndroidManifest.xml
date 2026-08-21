@@ -7,7 +7,6 @@
 
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-  <uses-permission android:name="android.permission.VIDEO_CAPTURE" />
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -19,13 +18,9 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
       tools:ignore="ScopedStorage" />
   <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-  <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
   <!-- Requirements that allows to specify foreground service types -->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING" />
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
   <!-- Allows to query app name and icon that can open specific file type -->
   <queries>
@@ -70,43 +65,6 @@
 
         <data android:scheme="simplex" />
       </intent-filter>
-      <intent-filter android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-
-        <data android:scheme="http" />
-        <data android:scheme="https" />
-        <data android:host="simplex.chat" />
-        <data android:host="smp4.simplex.im" />
-        <data android:host="smp5.simplex.im" />
-        <data android:host="smp6.simplex.im" />
-        <data android:host="smp7.simplex.im" /> <!-- TODO remove -->
-        <data android:host="smp8.simplex.im" />
-        <data android:host="smp9.simplex.im" />
-        <data android:host="smp10.simplex.im" />
-        <data android:host="smp11.simplex.im" />
-        <data android:host="smp12.simplex.im" />
-        <data android:host="smp14.simplex.im" />
-        <data android:host="smp15.simplex.im" />
-        <data android:host="smp16.simplex.im" />
-        <data android:host="smp17.simplex.im" />
-        <data android:host="smp18.simplex.im" />
-        <data android:host="smp19.simplex.im" />
-        <data android:host="smp1.simplexonflux.com" />
-        <data android:host="smp2.simplexonflux.com" />
-        <data android:host="smp3.simplexonflux.com" />
-        <data android:host="smp4.simplexonflux.com" />
-        <data android:host="smp5.simplexonflux.com" />
-        <data android:host="smp6.simplexonflux.com" />
-        <data android:pathPrefix="/invitation" />
-        <data android:pathPrefix="/contact" />
-        <data android:pathPrefix="/a" />
-        <data android:pathPrefix="/c" />
-        <data android:pathPrefix="/g" />
-        <data android:pathPrefix="/i" />
-      </intent-filter>
       <!-- Receive files from other apps -->
       <intent-filter>
         <action android:name="android.intent.action.SEND" />
@@ -144,14 +102,6 @@
       </intent-filter>
     </activity-alias>
 
-    <activity android:name=".views.call.CallActivity"
-        android:showOnLockScreen="true"
-        android:exported="false"
-        android:launchMode="singleInstance"
-        android:supportsPictureInPicture="true"
-        android:autoRemoveFromRecents="true"
-        android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
-
     <provider
         android:name="androidx.core.content.FileProvider"
         android:authorities="${provider_authorities}"
@@ -178,19 +128,6 @@
     />
 
     <!-- SimplexService restart on reboot -->
-
-    <service
-        android:name=".CallService"
-        android:enabled="true"
-        android:exported="false"
-        android:stopWithTask="false"
-        android:foregroundServiceType="mediaPlayback|microphone|camera|remoteMessaging"
-    />
-
-    <receiver
-        android:name=".CallService$CallActionReceiver"
-        android:enabled="true"
-        android:exported="false" />
 
     <receiver
         android:name=".SimplexService$StartReceiver"

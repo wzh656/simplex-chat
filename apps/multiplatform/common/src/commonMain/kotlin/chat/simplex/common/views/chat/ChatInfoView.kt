@@ -571,9 +571,7 @@ fun ChatInfoLayout(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
       ) {
-        SearchButton(modifier = Modifier.fillMaxWidth(0.25f), chat, contact, close, onSearchClicked)
-        AudioCallButton(modifier = Modifier.fillMaxWidth(0.33f), chat, contact, connStats)
-        VideoButton(modifier = Modifier.fillMaxWidth(0.5f), chat, contact, connStats)
+        SearchButton(modifier = Modifier.fillMaxWidth(0.5f), chat, contact, close, onSearchClicked)
         MuteButton(modifier = Modifier.fillMaxWidth(1f), chat, contact)
       }
     }

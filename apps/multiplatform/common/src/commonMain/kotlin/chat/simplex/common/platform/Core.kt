@@ -64,6 +64,8 @@ suspend fun initChatController(useKey: String? = null, confirmMigrations: Migrat
   try {
     if (chatModel.ctrlInitInProgress.value) return
     chatModel.ctrlInitInProgress.value = true
+    dataDir.listFiles { file -> file.isDirectory && file.name.startsWith("server_test_") }
+      ?.forEach { it.deleteRecursively() }
     if (!appPrefs.storeDBPassphrase.get() && !appPrefs.initialRandomDBPassphrase.get()) {
       ksDatabasePassword.remove()
     }
@@ -133,6 +135,15 @@ suspend fun initChatController(useKey: String? = null, confirmMigrations: Migrat
     val user = chatController.apiGetActiveUser(null)
     chatModel.currentUser.value = user
     chatModel.conditions.value = chatController.getServerOperators(null) ?: ServerOperatorConditionsDetail.empty
+    if (appPrefs.profileProvisioning.get()) {
+      if (!clearIncompleteProfileProvisioning()) {
+        chatModel.chatDbStatus.value = DBMigrationResult.Unknown("Unable to remove incomplete profile database")
+        return
+      }
+      chatModel.ctrlInitInProgress.value = false
+      initChatController(useKey = dbKey, confirmMigrations = confirmMigrations, startChat = startChat)
+      return
+    }
     if (appPrefs.shouldImportAppSettings.get()) {
       try {
         val appSettings = controller.apiGetAppSettings(AppSettings.current.prepareForExport())
@@ -161,7 +172,7 @@ suspend fun initChatController(useKey: String? = null, confirmMigrations: Migrat
       }
     } else if (startChat().await()) {
       val savedOnboardingStage = appPreferences.onboardingStage.get()
-      val newStage = if (listOf(OnboardingStage.Step1_SimpleXInfo, OnboardingStage.Step2_CreateProfile).contains(savedOnboardingStage) && chatModel.users.size == 1) {
+      val newStage = if (listOf(OnboardingStage.Step1_SimpleXInfo, OnboardingStage.Step2_ConfigureServers, OnboardingStage.Step2_CreateProfile).contains(savedOnboardingStage)) {
         OnboardingStage.Step4_NetworkCommitments
       } else {
         savedOnboardingStage
@@ -191,7 +202,53 @@ fun chatInitTemporaryDatabase(dbPath: String, key: String? = null, confirmation:
     json.decodeFromString<DBMigrationResult>(migrated[0] as String)
   }.getOrElse { DBMigrationResult.Unknown(migrated[0] as String) }
 
-  return res to migrated[1] as ChatCtrl
+  return res to if (res is DBMigrationResult.OK && migrated.size > 1) migrated[1] as? ChatCtrl else null
+}
+
+suspend fun clearIncompleteProfileProvisioning(): Boolean {
+  val ctrl = chatController.getChatCtrl()?.takeIf { it > 0 }
+  if (ctrl != null) {
+    val stopSucceeded = runCatching { chatController.apiStopChat(ctrl) }
+      .onFailure { Log.e(TAG, "Unable to stop incomplete profile controller: ${it.stackTraceToString()}") }
+      .isSuccess
+    if (!stopSucceeded) return false
+    chatController.stopReceiver()
+    delay(200)
+
+    var closeError = ""
+    for (attempt in 0 until 3) {
+      closeError = runCatching { chatCloseStore(ctrl) }
+        .getOrElse { it.stackTraceToString() }
+      if (closeError.isEmpty()) break
+      delay(100)
+    }
+    if (closeError.isNotEmpty()) {
+      Log.e(TAG, "Unable to close incomplete profile database: $closeError")
+      return false
+    }
+  }
+  chatController.setChatCtrl(null)
+  val databaseFiles = listOf(
+    "_chat.db", "_chat.db-wal", "_chat.db-shm",
+    "_agent.db", "_agent.db-wal", "_agent.db-shm"
+  ).map { File(dbAbsolutePrefixPath + it) }
+  for (attempt in 0 until 10) {
+    databaseFiles.forEach { file -> if (file.exists()) file.delete() }
+    if (databaseFiles.none { it.exists() }) break
+    delay(100)
+  }
+  if (databaseFiles.any { it.exists() }) {
+    Log.e(TAG, "Unable to delete incomplete profile database")
+    return false
+  }
+  appPrefs.newDatabaseInitialized.set(false)
+  appPrefs.profileProvisioning.set(false)
+  appPrefs.onboardingStage.set(OnboardingStage.Step2_ConfigureServers)
+  chatModel.currentUser.value = null
+  chatModel.localUserCreated.value = false
+  chatModel.chatRunning.value = false
+  chatModel.users.clear()
+  return true
 }
 
 // Spec: spec/architecture.md#chatInitControllerRemovingDatabases

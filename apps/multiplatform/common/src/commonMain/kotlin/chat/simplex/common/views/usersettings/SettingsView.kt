@@ -29,10 +29,7 @@ import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.database.DatabaseView
 import chat.simplex.common.views.helpers.*
 import chat.simplex.common.views.migration.MigrateFromDeviceView
-import chat.simplex.common.views.onboarding.GetStakeView
 import chat.simplex.common.views.onboarding.SimpleXInfo
-import chat.simplex.common.views.onboarding.WhatsNewView
-import chat.simplex.common.views.onboarding.crowdfundingAvailable
 import chat.simplex.common.views.usersettings.networkAndServers.NetworkAndServersView
 import chat.simplex.res.MR
 
@@ -70,9 +67,6 @@ fun SettingsView(chatModel: ChatModel, setPerformLA: (Boolean) -> Unit, close: (
   }
 }
 
-val simplexTeamUri =
-  "simplex:/a#lrdvu2d8A1GumSmoKb2krQmtKhWXq-tyGpHuM7aMwsw?h=smp6.simplex.im"
-
 @Composable
 fun SettingsLayout(
   stopped: Boolean,
@@ -108,20 +102,8 @@ fun SettingsLayout(
       if (appPlatform == AppPlatform.ANDROID) {
         SettingsActionItem(painterResource(if (notificationsMode.value == NotificationsMode.OFF) MR.images.ic_bolt_off else MR.images.ic_bolt), stringResource(MR.strings.notifications), showSettingsModal { NotificationsSettingsView(it) }, disabled = stopped)
       }
-      SettingsActionItem(painterResource(MR.images.ic_videocam), stringResource(MR.strings.settings_audio_video_calls), showSettingsModal { CallSettingsView(it, showModal) }, disabled = stopped)
       AppShutdownItem()
       AppVersionItem(showVersion)
-    }
-
-    if (crowdfundingAvailable()) {
-      SectionDividerSpaced()
-      SectionView(stringResource(MR.strings.v7_0_invest)) {
-        SettingsActionItem(
-          painterResource(MR.images.ic_redeem),
-          stringResource(MR.strings.v7_0_crowdfunding),
-          { ModalManager.start.showModalCloseable(cardScreen = true) { close -> GetStakeView(fromSettings = true, close = close) } }
-        )
-      }
     }
     SectionBottomSpacer()
   }
@@ -133,7 +115,6 @@ fun HelpAndSupportView(
   showModal: (@Composable (ChatModel) -> Unit) -> (() -> Unit),
   showCustomModal: (@Composable ModalData.(ChatModel, () -> Unit) -> Unit) -> (() -> Unit),
 ) {
-  val uriHandler = LocalUriHandler.current
   val stopped = chatModel.chatRunning.value == false
   val userDisplayName = chatModel.currentUser.value?.displayName ?: ""
   ColumnWithScrollBar {
@@ -141,27 +122,6 @@ fun HelpAndSupportView(
 
     SectionView(stringResource(MR.strings.settings_section_title_help)) {
       SettingsActionItem(painterResource(MR.images.ic_help), stringResource(MR.strings.how_to_use_simplex_chat), showModal { HelpView(userDisplayName) }, disabled = stopped)
-      SettingsActionItem(painterResource(MR.images.ic_add), stringResource(MR.strings.whats_new), showCustomModal { _, close -> WhatsNewView(viaSettings = true, close = close) }, disabled = stopped)
-      SettingsActionItem(painterResource(MR.images.ic_info), stringResource(MR.strings.about_simplex_chat), showModal { SimpleXInfo(it, onboarding = false) })
-    }
-    SectionDividerSpaced()
-
-    SectionView(stringResource(MR.strings.settings_section_title_contact)) {
-      if (!chatModel.desktopNoUserNoRemote) {
-        SettingsActionItem(painterResource(MR.images.ic_tag), stringResource(MR.strings.chat_with_the_founder), { uriHandler.openVerifiedSimplexUri(simplexTeamUri) }, textColor = MaterialTheme.colors.primary, disabled = stopped)
-      }
-      SettingsActionItem(painterResource(MR.images.ic_mail), stringResource(MR.strings.send_us_an_email), { uriHandler.openUriCatching("mailto:chat@simplex.chat") }, textColor = MaterialTheme.colors.primary)
-    }
-    SectionDividerSpaced()
-
-    SectionView(stringResource(MR.strings.settings_section_title_support_project)) {
-      if (!platform.androidIsPlayStoreBuild) {
-        ContributeItem(uriHandler)
-      }
-      if (appPlatform.isAndroid) {
-        RateAppItem(uriHandler)
-      }
-      StarOnGithubItem(uriHandler)
     }
     SectionBottomSpacer()
   }

@@ -6,20 +6,13 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.hardware.display.DisplayManager
-import android.media.AudioAttributes
-import android.net.Uri
-import android.view.Display
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.core.app.*
 import chat.simplex.app.*
 import chat.simplex.app.TAG
-import chat.simplex.app.views.call.CallActivity
-import chat.simplex.app.views.call.getKeyguardManager
 import chat.simplex.common.views.helpers.*
 import chat.simplex.common.model.*
 import chat.simplex.common.platform.*
-import chat.simplex.common.views.call.CallMediaType
 import chat.simplex.common.views.call.RcvCallInvitation
 import kotlinx.datetime.Clock
 import chat.simplex.res.MR
@@ -30,11 +23,6 @@ object NtfManager {
   const val OpenChatAction: String = "chat.simplex.app.OPEN_CHAT"
   const val ShowChatsAction: String = "chat.simplex.app.SHOW_CHATS"
 
-  // DO NOT change notification channel settings / names
-  const val CallChannel: String = "chat.simplex.app.CALL_NOTIFICATION_2"
-  const val AcceptCallAction: String = "chat.simplex.app.ACCEPT_CALL"
-  const val RejectCallAction: String = "chat.simplex.app.REJECT_CALL"
-  const val EndCallAction: String = "chat.simplex.app.END_CALL"
   const val CallNotificationId: Int = -1
   private const val UserIdKey: String = "userId"
   private const val ChatIdKey: String = "chatId"
@@ -54,22 +42,6 @@ object NtfManager {
 
   init {
     if (areNotificationsEnabledInSystem()) createNtfChannelsMaybeShowAlert()
-  }
-
-  private fun callNotificationChannel(channelId: String, channelName: String): NotificationChannel {
-    val callChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
-    val attrs = AudioAttributes.Builder()
-      .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-      .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-      .build()
-    val soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.packageName + "/raw/ring_once")
-    Log.d(TAG, "callNotificationChannel sound: $soundUri")
-    callChannel.setSound(soundUri, attrs)
-    callChannel.enableVibration(true)
-    // the numbers below are explained here: https://developer.android.com/reference/android/os/Vibrator
-    // (wait, vibration duration, wait till off, wait till on again = ringtone mp3 duration - vibration duration - ~50ms lost somewhere)
-    callChannel.vibrationPattern = longArrayOf(250, 250, 0, 2600)
-    return callChannel
   }
 
   fun cancelNotificationsForChat(chatId: String) {
@@ -157,74 +129,7 @@ object NtfManager {
     }
   }
 
-  fun notifyCallInvitation(invitation: RcvCallInvitation): Boolean {
-    val keyguardManager = getKeyguardManager(context)
-    Log.d(
-      TAG,
-      "notifyCallInvitation pre-requests: " +
-          "keyguard locked ${keyguardManager.isKeyguardLocked}, " +
-          "callOnLockScreen ${appPreferences.callOnLockScreen.get()}, " +
-          "onForeground ${isAppOnForeground}"
-    )
-    if (isAppOnForeground) return false
-    val contactId = invitation.contact.id
-    Log.d(TAG, "notifyCallInvitation $contactId")
-    val image = invitation.contact.image
-    val displayManager = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-    val screenOff = displayManager.displays.all { it.state != Display.STATE_ON }
-    var ntfBuilder =
-      if ((keyguardManager.isKeyguardLocked || screenOff) && appPreferences.callOnLockScreen.get() != CallOnLockScreen.DISABLE) {
-        val fullScreenIntent = Intent(context, CallActivity::class.java)
-        val fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        NotificationCompat.Builder(context, CallChannel)
-          .setFullScreenIntent(fullScreenPendingIntent, true)
-          .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-      } else {
-        val soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.packageName + "/raw/ring_once")
-        val fullScreenPendingIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        NotificationCompat.Builder(context, CallChannel)
-          .setContentIntent(chatPendingIntent(OpenChatAction, invitation.user.userId, invitation.contact.id))
-          .addAction(R.drawable.ntf_icon, generalGetString(MR.strings.accept), chatPendingIntent(AcceptCallAction, invitation.user.userId, contactId))
-          .addAction(R.drawable.ntf_icon, generalGetString(MR.strings.reject), chatPendingIntent(RejectCallAction, invitation.user.userId, contactId, true))
-          .setFullScreenIntent(fullScreenPendingIntent, true)
-          .setSound(soundUri)
-      }
-    val text = generalGetString(
-      if (invitation.callType.media == CallMediaType.Video) {
-        if (invitation.sharedKey == null) MR.strings.video_call_no_encryption else MR.strings.encrypted_video_call
-      } else {
-        if (invitation.sharedKey == null) MR.strings.audio_call_no_encryption else MR.strings.encrypted_audio_call
-      }
-    )
-    val previewMode = appPreferences.notificationPreviewMode.get()
-    val title = if (previewMode == NotificationPreviewMode.HIDDEN.name)
-      generalGetString(MR.strings.notification_preview_somebody)
-    else
-      invitation.contact.displayName
-    val largeIcon = if (image == null || previewMode == NotificationPreviewMode.HIDDEN.name)
-      BitmapFactory.decodeResource(context.resources, R.drawable.icon)
-    else
-      base64ToBitmap(image).asAndroidBitmap()
-
-    ntfBuilder = ntfBuilder
-      .setContentTitle(title)
-      .setContentText(text)
-      .setPriority(NotificationCompat.PRIORITY_HIGH)
-      .setCategory(NotificationCompat.CATEGORY_CALL)
-      .setSmallIcon(R.drawable.ntf_icon)
-      .setLargeIcon(largeIcon)
-      .setColor(0x88FFFF)
-      .setAutoCancel(true)
-    val notification = ntfBuilder.build()
-    // This makes notification sound and vibration repeat endlessly
-    notification.flags = notification.flags or NotificationCompat.FLAG_INSISTENT
-    with(NotificationManagerCompat.from(context)) {
-      if (ActivityCompat.checkSelfPermission(SimplexApp.context, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-        notify(CallNotificationId, notification)
-      }
-    }
-    return true
-  }
+  fun notifyCallInvitation(invitation: RcvCallInvitation): Boolean = false
 
   fun showMessage(title: String, text: String) {
     val builder = NotificationCompat.Builder(context, MessageChannel)
@@ -297,7 +202,6 @@ object NtfManager {
    * */
   fun createNtfChannelsMaybeShowAlert() {
     manager.createNotificationChannel(NotificationChannel(MessageChannel, generalGetString(MR.strings.ntf_channel_messages), NotificationManager.IMPORTANCE_HIGH))
-    manager.createNotificationChannel(callNotificationChannel(CallChannel, generalGetString(MR.strings.ntf_channel_calls)))
     // Remove old channels since they can't be edited
     manager.deleteNotificationChannel("chat.simplex.app.CALL_NOTIFICATION")
     manager.deleteNotificationChannel("chat.simplex.app.CALL_NOTIFICATION_1")
@@ -315,13 +219,6 @@ object NtfManager {
       val m = SimplexApp.context.chatModel
       when (intent.action) {
         NotificationAction.ACCEPT_CONTACT_REQUEST.name -> ntfManager.acceptContactRequestAction(userId, incognito = false, chatId)
-        RejectCallAction -> {
-          val invitation = m.callInvitations[chatId]
-          if (invitation != null) {
-            m.callManager.endCall(invitation = invitation)
-          }
-        }
-
         else -> {
           Log.e(TAG, "Unknown action. Make sure you provide action from NotificationAction enum")
         }

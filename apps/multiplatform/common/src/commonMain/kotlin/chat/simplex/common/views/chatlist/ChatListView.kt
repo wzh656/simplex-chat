@@ -179,17 +179,6 @@ private fun ToolbarSegment(
 fun ChatListView(chatModel: ChatModel, userPickerState: MutableStateFlow<AnimatedViewState>, setPerformLA: (Boolean) -> Unit, stopped: Boolean) {
   val oneHandUI = remember { appPrefs.oneHandUI.state }
 
-  LaunchedEffect(Unit) {
-    val showWhatsNew = shouldShowWhatsNew(chatModel)
-    val showUpdatedConditions = chatModel.conditions.value.conditionsAction?.shouldShowNotice ?: false
-    if (showWhatsNew || showUpdatedConditions) {
-      // Requested here, so that the country is known by the time the modal opens
-      platform.androidLoadPlayStoreCountry()
-      delay(1000L)
-      ModalManager.center.showCustomModal { close -> WhatsNewView(close = close, updatedConditions = showUpdatedConditions) }
-    }
-  }
-
   if (appPlatform.isDesktop) {
     KeyChangeEffect(chatModel.chatId.value) {
       if (chatModel.chatId.value != null && !ModalManager.end.isLastModalOpen(ModalViewId.SECONDARY_CHAT)) {

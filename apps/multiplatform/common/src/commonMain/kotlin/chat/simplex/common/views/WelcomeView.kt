@@ -49,9 +49,15 @@ import chat.simplex.res.MR
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.withContext
 import java.net.URI
 
 const val MAX_BIO_LENGTH_BYTES = 160
+
+private val firstProfileProvisioningMutex = Mutex()
+private val firstProfileProvisioningInProgress = mutableStateOf(false)
 
 fun bioFitsLimit(bio: String): Boolean {
   return chatJsonLength(bio) <= MAX_BIO_LENGTH_BYTES
@@ -190,6 +196,12 @@ fun CreateProfile(chatModel: ChatModel, close: () -> Unit) {
 
 @Composable
 fun CreateFirstProfile(chatModel: ChatModel, close: () -> Unit) {
+  if (OnboardingServerState.verifiedServers == null && chatModel.currentUser.value == null) {
+    LaunchedEffect(Unit) {
+      chatModel.controller.appPrefs.onboardingStage.set(OnboardingStage.Step2_ConfigureServers)
+    }
+    return
+  }
   if (appPlatform.isDesktop) {
     CreateFirstProfileDesktop(chatModel, close)
   } else {
@@ -238,8 +250,8 @@ private fun CreateFirstProfileMobile(chatModel: ChatModel, close: () -> Unit) {
     val focusRequester = remember { FocusRequester() }
     val refocusTrigger = remember { mutableStateOf(0) }
     ModalView(
-      close = { onboardingBackAction(chatModel, close) },
-      endButtons = { MigrateButton(refocusTrigger) }
+      close = { if (!firstProfileProvisioningInProgress.value) onboardingBackAction(chatModel, close) },
+      endButtons = { if (!firstProfileProvisioningInProgress.value) MigrateButton(refocusTrigger) }
     ) {
       val displayName = rememberSaveable { mutableStateOf("") }
       val keyboardState by getKeyboardState()
@@ -292,7 +304,7 @@ private fun CreateFirstProfileMobile(chatModel: ChatModel, close: () -> Unit) {
             Modifier.fillMaxWidth(),
             labelId = MR.strings.create_profile,
             onboarding = null,
-            enabled = canCreateProfile(displayName.value),
+            enabled = canCreateProfile(displayName.value) && !firstProfileProvisioningInProgress.value,
             onclick = { createProfileOnboarding(chatModel, displayName.value, close) }
           )
         }
@@ -301,9 +313,6 @@ private fun CreateFirstProfileMobile(chatModel: ChatModel, close: () -> Unit) {
           delay(300)
           focusRequester.requestFocus()
         }
-      }
-      LaunchedEffect(Unit) {
-        setLastVersionDefault(chatModel)
       }
     }
   }
@@ -316,8 +325,8 @@ private fun CreateFirstProfileDesktop(chatModel: ChatModel, close: () -> Unit) {
   val displayName = rememberSaveable { mutableStateOf("") }
   CompositionLocalProvider(LocalAppBarHandler provides rememberAppBarHandler()) {
     ModalView(
-      close = { onboardingBackAction(chatModel, close) },
-      endButtons = { MigrateButton(refocusTrigger) }
+      close = { if (!firstProfileProvisioningInProgress.value) onboardingBackAction(chatModel, close) },
+      endButtons = { if (!firstProfileProvisioningInProgress.value) MigrateButton(refocusTrigger) }
     ) {
       ColumnWithScrollBar(horizontalAlignment = Alignment.CenterHorizontally) {
         Column(Modifier.widthIn(max = 600.dp).fillMaxHeight().padding(horizontal = DEFAULT_PADDING).align(Alignment.CenterHorizontally), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -336,14 +345,11 @@ private fun CreateFirstProfileDesktop(chatModel: ChatModel, close: () -> Unit) {
             Modifier.widthIn(min = 300.dp),
             labelId = MR.strings.create_profile,
             onboarding = null,
-            enabled = canCreateProfile(displayName.value),
+            enabled = canCreateProfile(displayName.value) && !firstProfileProvisioningInProgress.value,
             onclick = { createProfileOnboarding(chatModel, displayName.value, close) }
           )
           TextButtonBelowOnboardingButton("", null)
         }
-      }
-      LaunchedEffect(Unit) {
-        setLastVersionDefault(chatModel)
       }
     }
   }
@@ -388,28 +394,138 @@ fun createProfileInProfiles(chatModel: ChatModel, displayName: String, shortDesc
 
 fun createProfileOnboarding(chatModel: ChatModel, displayName: String, close: () -> Unit) {
   withBGApi {
-    chatModel.currentUser.value = chatModel.controller.apiCreateActiveUser(
-      null, Profile(displayName.trim(), "", null, null)
-    ) ?: return@withBGApi
-    chatModel.localUserCreated.value = true
-    // new users don't need the local file encryption indicator (all files are encrypted); existing users keep it on
-    chatModel.controller.appPrefs.privacyShowEncryption.set(false)
-    val onboardingStage = chatModel.controller.appPrefs.onboardingStage
-    // No users or no visible users
-    if (chatModel.users.none { u -> !u.user.hidden }) {
-      onboardingStage.set(if (appPlatform.isDesktop && chatModel.controller.appPrefs.initialRandomDBPassphrase.get() && !chatModel.desktopOnboardingRandomPassword.value) {
-        OnboardingStage.Step2_5_SetupDatabasePassphrase
-      } else {
-        OnboardingStage.Step3_ChooseServerOperators
-      })
-    } else {
-      // the next two lines are only needed for failure case when because of the database error the app gets stuck on on-boarding screen,
-      // this will get it unstuck.
-      onboardingStage.set(OnboardingStage.OnboardingComplete)
-      close()
+    if (!firstProfileProvisioningMutex.tryLock()) return@withBGApi
+    firstProfileProvisioningInProgress.value = true
+    var provisioningChatStarted = false
+    try {
+      val servers = OnboardingServerState.verifiedServers
+      if (servers == null) {
+        chatModel.controller.appPrefs.onboardingStage.set(OnboardingStage.Step2_ConfigureServers)
+        return@withBGApi
+      }
+      chatModel.controller.appPrefs.profileProvisioning.set(true)
+      val user = chatModel.controller.apiCreateActiveUser(
+        null, Profile(displayName.trim(), "", null, null)
+      ) ?: throw IllegalStateException("Unable to create profile")
+      chatModel.currentUser.value = user
+      chatModel.controller.apiStartChat()
+      provisioningChatStarted = true
+
+      val currentServers = chatModel.controller.getUserServers(null, user.userId)
+        ?: throw IllegalStateException("Unable to load profile servers")
+      val disabledPresetServers = currentServers.map { operatorServers ->
+        operatorServers.copy(
+          smpServers = operatorServers.smpServers.map { it.copy(enabled = false) },
+          xftpServers = operatorServers.xftpServers.map { it.copy(enabled = false) },
+          chatRelays = operatorServers.chatRelays.map { it.copy(enabled = false) }
+        )
+      }
+      val customServers = UserOperatorServers(
+        operator = null,
+        smpServers = listOf(onboardingUserServer(servers.smp)),
+        xftpServers = listOf(onboardingUserServer(servers.xftp)),
+        chatRelays = emptyList()
+      )
+      val userServers = disabledPresetServers + customServers
+      val validation = chatModel.controller.validateServers(null, userServers, user.userId)
+        ?: throw IllegalStateException("Unable to validate profile servers")
+      if (validation.first.isNotEmpty()) {
+        throw IllegalStateException("Profile server validation failed")
+      }
+      if (!chatModel.controller.setUserServers(null, userServers, user.userId, showAlertOnError = false)) {
+        throw IllegalStateException("Unable to save profile servers")
+      }
+
+      val conditions = chatModel.controller.getServerOperators(null)
+        ?: throw IllegalStateException("Unable to load server operators")
+      val disabledOperators = conditions.serverOperators.map { it.copy(enabled = false) }
+      chatModel.conditions.value = chatModel.controller.setServerOperators(null, disabledOperators)
+        ?: throw IllegalStateException("Unable to disable server operators")
+
+      chatModel.controller.apiGetChats(null)
+        .filter { it.chatInfo.contactCard }
+        .forEach { chat ->
+          if (!chatModel.controller.apiDeleteChat(null, chat.chatInfo.chatType, chat.chatInfo.apiId, ChatDeleteMode.Full(notify = false))) {
+            throw IllegalStateException("Unable to remove preset contact card")
+          }
+        }
+
+      val savedServers = chatModel.controller.getUserServers(null, user.userId)
+        ?: throw IllegalStateException("Unable to verify profile servers")
+      val enabledSmp = savedServers.flatMap { it.smpServers }.filter { it.enabled && !it.deleted }
+      val enabledXftp = savedServers.flatMap { it.xftpServers }.filter { it.enabled && !it.deleted }
+      val enabledRelays = savedServers.flatMap { it.chatRelays }.filter { it.enabled && !it.deleted }
+      if (enabledSmp.size != 1 || !sameServerAddress(enabledSmp.single().server, servers.smp) ||
+        enabledXftp.size != 1 || !sameServerAddress(enabledXftp.single().server, servers.xftp) ||
+        enabledRelays.isNotEmpty() ||
+        chatModel.conditions.value.serverOperators.any { it.enabled } ||
+        chatModel.controller.apiGetChats(null).any { it.chatInfo.contactCard }
+      ) {
+        throw IllegalStateException("Profile server verification failed")
+      }
+
+      chatModel.controller.apiStopChat()
+      provisioningChatStarted = false
+      delay(200)
+
+      chatModel.localUserCreated.value = true
+      chatModel.controller.appPrefs.privacyShowEncryption.set(false)
+      chatModel.controller.appPrefs.profileProvisioning.set(false)
+      chatModel.controller.appPrefs.onboardingStage.set(
+        if (appPlatform.isDesktop && chatModel.controller.appPrefs.initialRandomDBPassphrase.get() && !chatModel.desktopOnboardingRandomPassword.value) {
+          OnboardingStage.Step2_5_SetupDatabasePassphrase
+        } else {
+          OnboardingStage.Step3_ChooseServerOperators
+        }
+      )
+      OnboardingServerState.verifiedServers = null
+    } catch (e: Throwable) {
+      Log.e(TAG, "Unable to provision first profile: ${e.stackTraceToString()}")
+      withContext(NonCancellable) {
+        if (provisioningChatStarted) {
+          runCatching { chatModel.controller.apiStopChat() }
+            .onFailure { Log.e(TAG, "Unable to stop failed profile provisioning: ${it.stackTraceToString()}") }
+          provisioningChatStarted = false
+          delay(200)
+        }
+        if (clearIncompleteProfileProvisioning()) initChatController()
+        AlertManager.shared.showAlertMsg(
+          generalGetString(MR.strings.failed_to_save_servers),
+          e.message ?: generalGetString(MR.strings.error)
+        )
+      }
+    } finally {
+      withContext(NonCancellable) {
+        if (provisioningChatStarted) {
+          runCatching { chatModel.controller.apiStopChat() }
+            .onFailure { Log.e(TAG, "Unable to stop failed profile provisioning: ${it.stackTraceToString()}") }
+        }
+        firstProfileProvisioningInProgress.value = false
+        firstProfileProvisioningMutex.unlock()
+      }
     }
   }
 }
+
+private fun sameServerAddress(first: String, second: String): Boolean {
+  val a = ServerAddress.parseServerAddress(first) ?: return false
+  val b = ServerAddress.parseServerAddress(second) ?: return false
+  return a.serverProtocol == b.serverProtocol &&
+      a.hostnames.toSet() == b.hostnames.toSet() &&
+      a.port == b.port &&
+      a.keyHash == b.keyHash &&
+      a.basicAuth == b.basicAuth
+}
+
+private fun onboardingUserServer(server: String) = UserServer(
+  remoteHostId = null,
+  serverId = null,
+  server = server,
+  preset = false,
+  tested = true,
+  enabled = true,
+  deleted = false
+)
 
 @Composable
 fun ProfileNameField(name: MutableState<String>, placeholder: String = "", isValid: (String) -> Boolean = { true }, focusRequester: FocusRequester? = null) {

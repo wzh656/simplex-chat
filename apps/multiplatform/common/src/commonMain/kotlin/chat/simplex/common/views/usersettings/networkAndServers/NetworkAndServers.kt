@@ -166,8 +166,6 @@ fun ModalData.NetworkAndServersView(closeNetworkAndServers: () -> Unit) {
   toggleSocksProxy: (Boolean) -> Unit,
 ) {
   val m = chatModel
-  val conditionsAction = remember { m.conditions.value.conditionsAction }
-  val anyOperatorEnabled = remember { derivedStateOf { userServers.value.any { it.operator?.enabled == true } } }
   val scope = rememberCoroutineScope()
 
   LaunchedEffect(Unit) {
@@ -209,26 +207,6 @@ fun ModalData.NetworkAndServersView(closeNetworkAndServers: () -> Unit) {
     val showCustomModal = { it: @Composable (close: () -> Unit) -> Unit -> ModalManager.start.showCustomModal { close -> it(close) } }
 
     AppBarTitle(stringResource(MR.strings.network_and_servers))
-    // TODO: Review this and socks.
-    if (!chatModel.desktopNoUserNoRemote) {
-      SectionView(generalGetString(MR.strings.network_preset_servers_title)) {
-        userServers.value.forEachIndexed { index, srv ->
-          srv.operator?.let { ServerOperatorRow(index, it, currUserServers, userServers, serverErrors, serverWarnings, currentRemoteHost?.remoteHostId) }
-        }
-      }
-      if (conditionsAction != null && anyOperatorEnabled.value) {
-        ConditionsButton(conditionsAction, rhId = currentRemoteHost?.remoteHostId)
-      }
-      val footerText = if (conditionsAction is UsageConditionsAction.Review && conditionsAction.deadline != null && anyOperatorEnabled.value) {
-        String.format(generalGetString(MR.strings.operator_conditions_will_be_accepted_on), localDate(conditionsAction.deadline))
-      } else null
-
-      if (footerText != null) {
-        SectionTextFooter(footerText)
-      }
-      SectionDividerSpaced()
-    }
-
     SectionView(generalGetString(MR.strings.settings_section_title_messages)) {
       val nullOperatorIndex = userServers.value.indexOfFirst { it.operator == null }
 
@@ -295,12 +273,6 @@ fun ModalData.NetworkAndServersView(closeNetworkAndServers: () -> Unit) {
       SectionCustomFooter {
         ServersWarningFooter(warn)
       }
-    }
-
-    SectionDividerSpaced()
-
-    SectionView(generalGetString(MR.strings.settings_section_title_calls)) {
-      SettingsActionItem(painterResource(MR.images.ic_electrical_services), stringResource(MR.strings.webrtc_ice_servers), { ModalManager.start.showModal { RTCServersView(m) } })
     }
 
     if (appPlatform.isAndroid) {
@@ -959,7 +931,7 @@ fun globalServersErrors(serverErrors: List<UserServersError>): List<String> =
   serverErrors.mapNotNull { it.globalError }
 
 fun globalServersWarnings(serverWarnings: List<UserServersWarning>): List<String> =
-  serverWarnings.mapNotNull { it.globalWarning }
+  serverWarnings.filterNot { it is UserServersWarning.NoChatRelays }.mapNotNull { it.globalWarning }
 
 fun globalSMPServersError(serverErrors: List<UserServersError>): String? {
   for (err in serverErrors) {
