@@ -33,7 +33,7 @@
       android:name="com.grayheterotopia.app.SimplexApp"
       android:allowBackup="false"
       android:fullBackupOnly="false"
-      android:icon="@mipmap/grayheterotopia"
+      android:icon="@mipmap/icon"
       android:label="${app_name}"
       android:largeHeap="true"
       android:extractNativeLibs="${extract_native_libs}"
@@ -80,7 +80,7 @@
     <activity-alias
         android:name="com.grayheterotopia.app.MainActivity_default"
         android:exported="true"
-        android:icon="@mipmap/grayheterotopia"
+        android:icon="@mipmap/icon"
         android:enabled="true"
         android:targetActivity="com.grayheterotopia.app.MainActivity">
       <intent-filter>
@@ -92,7 +92,7 @@
     <activity-alias
         android:name="com.grayheterotopia.app.MainActivity_dark_blue"
         android:exported="true"
-        android:icon="@mipmap/grayheterotopia"
+        android:icon="@mipmap/icon_dark_blue"
         android:enabled="false"
         android:targetActivity="com.grayheterotopia.app.MainActivity">
       <intent-filter>

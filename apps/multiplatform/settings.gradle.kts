@@ -16,6 +16,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "gray-heterotopia"
+rootProject.name = "app"
 
 include(":android", ":desktop", ":common")

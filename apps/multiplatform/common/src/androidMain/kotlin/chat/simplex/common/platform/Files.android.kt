@@ -13,17 +13,17 @@ import java.net.URI
 
 actual val dataDir: File = androidAppContext.dataDir
 actual val tmpDir: File = androidAppContext.getDir("temp", Application.MODE_PRIVATE)
-actual val filesDir: File = File(dataDir.absolutePath + File.separator + "grayheterotopia_files")
-actual val appFilesDir: File = File(filesDir.absolutePath + File.separator + "grayheterotopia_app_files")
-actual val wallpapersDir: File = File(filesDir.absolutePath + File.separator + "grayheterotopia_assets" + File.separator + "wallpapers").also { it.mkdirs() }
-actual val coreTmpDir: File = File(filesDir.absolutePath + File.separator + "grayheterotopia_temp_files")
-actual val dbAbsolutePrefixPath: String = dataDir.absolutePath + File.separator + "grayheterotopia_files"
+actual val filesDir: File = File(dataDir.absolutePath + File.separator + "files")
+actual val appFilesDir: File = File(filesDir.absolutePath + File.separator + "app_files")
+actual val wallpapersDir: File = File(filesDir.absolutePath + File.separator + "assets" + File.separator + "wallpapers").also { it.mkdirs() }
+actual val coreTmpDir: File = File(filesDir.absolutePath + File.separator + "temp_files")
+actual val dbAbsolutePrefixPath: String = dataDir.absolutePath + File.separator + "files"
 actual val preferencesDir = File(dataDir.absolutePath + File.separator + "shared_prefs")
 actual val preferencesTmpDir = File(tmpDir, "prefs_tmp")
   .also { it.deleteRecursively() }
 
-actual val chatDatabaseFileName: String = "grayheterotopia_chat.db"
-actual val agentDatabaseFileName: String = "grayheterotopia_agent.db"
+actual val chatDatabaseFileName: String = "files_chat.db"
+actual val agentDatabaseFileName: String = "files_agent.db"
 
 actual val databaseExportDir: File = androidAppContext.cacheDir
 
