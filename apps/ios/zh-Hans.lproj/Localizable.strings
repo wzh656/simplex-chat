@@ -2855,7 +2855,7 @@ server test error */
 "Faster sending messages." = "更快发送消息。";
 
 /* swipe action */
-"Favorite" = "最喜欢";
+"Favorite" = "收藏";
 
 /* No comment provided by engineer. */
 "Favorites" = "收藏";
@@ -5574,10 +5574,10 @@ chat item action */
 "Set 1 day" = "设定1天";
 
 /* No comment provided by engineer. */
-"Set chat name…" = "设置聊天名称…";
+"Set chat name…" = "设置聊天备注…";
 
 /* No comment provided by engineer. */
-"Set contact name…" = "设置联系人姓名……";
+"Set contact name…" = "设置联系人备注……";
 
 /* No comment provided by engineer. */
 "Set default theme" = "设置默认主题";
@@ -6403,7 +6403,7 @@ alert subtitle */
 "Unexpected migration state" = "未预料的迁移状态";
 
 /* swipe action */
-"Unfav." = "取消最喜欢";
+"Unfav." = "取消收藏";
 
 /* No comment provided by engineer. */
 "Unhide" = "取消隐藏";

@@ -4335,7 +4335,7 @@ server test error</note>
       </trans-unit>
       <trans-unit id="Favorite" xml:space="preserve">
         <source>Favorite</source>
-        <target>最喜欢</target>
+        <target>收藏</target>
         <note>swipe action</note>
       </trans-unit>
       <trans-unit id="Favorites" xml:space="preserve">
@@ -8518,12 +8518,12 @@ chat item action</note>
       </trans-unit>
       <trans-unit id="Set chat name…" xml:space="preserve">
         <source>Set chat name…</source>
-        <target>设置聊天名称…</target>
+        <target>设置聊天备注…</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Set contact name…" xml:space="preserve">
         <source>Set contact name…</source>
-        <target>设置联系人姓名……</target>
+        <target>设置联系人备注……</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Set default theme" xml:space="preserve">
@@ -9931,7 +9931,7 @@ You will be prompted to complete authentication before this feature is enabled.<
       </trans-unit>
       <trans-unit id="Unfav." xml:space="preserve">
         <source>Unfav.</source>
-        <target>取消最喜欢</target>
+        <target>取消收藏</target>
         <note>swipe action</note>
       </trans-unit>
       <trans-unit id="Unhide" xml:space="preserve">

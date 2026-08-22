@@ -481,7 +481,7 @@
     <string name="share_file">分享文件……</string>
     <string name="share_image">分享媒体……</string>
     <string name="share_message">分享消息……</string>
-    <string name="text_field_set_contact_placeholder">设置联系人姓名……</string>
+    <string name="text_field_set_contact_placeholder">设置联系人备注……</string>
     <string name="callstate_received_answer">已收到回复……</string>
     <string name="callstate_received_confirmation">已受到确认……</string>
     <string name="only_client_devices_store_contacts_groups_e2e_encrypted_messages">仅客户端设备存储用户个人资料、联系人、群和消息。</string>
@@ -516,7 +516,7 @@
     <string name="notifications">通知</string>
     <string name="simplex_service_notification_text">正在接收消息……</string>
     <string name="enter_passphrase_notification_desc">要接收通知，请输入数据库密码</string>
-    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[To improve privacy, <b>Gray Heterotopia 在后台运行</b>而不是使用推送通知。]]></string>
+    <string name="to_preserve_privacy_simplex_has_background_service_instead_of_push_notifications_it_uses_a_few_pc_battery"><![CDATA[为了您的隐私，<b>Gray Heterotopia 在后台运行</b>而不是使用推送通知。]]></string>
     <string name="your_settings">你的设置</string>
     <string name="turn_off_battery_optimization"><![CDATA[在下个对话框中<b>允许它</b> 来立即接收通知。]]></string>
     <string name="settings_notification_preview_title">通知预览</string>
@@ -598,7 +598,7 @@
     <string name="your_current_profile">你当前的资料</string>
     <string name="your_profile_is_stored_on_device_and_shared_only_with_contacts_simplex_cannot_see_it">你的资料存储在你的设备上并且仅与你的联系人共享。Gray Heterotopia 服务器无法看见你的资料。</string>
     <string name="your_profile_is_stored_on_your_device">你的资料、联系人和发送的消息存储在你的设备上。</string>
-    <string name="profile_is_only_shared_with_your_contacts">该资料仅与你的联系人共享。</string>
+    <string name="profile_is_only_shared_with_your_contacts">新的资料相当于一个新的身份。该资料仅与你的联系人共享。</string>
     <string name="chat_preferences_on">开启</string>
     <string name="delete_chat_profile_action_cannot_be_undone_warning">此操作无法撤消——你的个人资料、联系人、消息和文件将不可逆地丢失。</string>
     <string name="messages_section_description">此设置适用于你当前聊天资料中的消息</string>
@@ -743,7 +743,7 @@
     <string name="add_contact_or_create_group">开始新聊天</string>
     <string name="to_share_with_your_contact">（与你的联系人分享）</string>
     <string name="to_connect_via_link_title">通过链接连接</string>
-    <string name="set_contact_name">设置联系人姓名</string>
+    <string name="set_contact_name">设置联系人备注</string>
     <string name="connection_you_accepted_will_be_cancelled">你接受的连接将被取消！</string>
     <string name="contact_you_shared_link_with_wont_be_able_to_connect">你与之共享此链接的联系人将无法连接！</string>
     <string name="show_QR_code">显示二维码</string>
@@ -854,7 +854,7 @@
     <string name="chat_preferences_yes">是</string>
     <string name="you_will_be_connected_when_group_host_device_is_online">你将在群主设备上线时连接到该群，请稍等或稍后再检查！</string>
     <string name="auth_you_will_be_required_to_authenticate_when_you_start_or_resume">当你启动应用或在应用程序驻留后台超过30 秒后，你将需要进行身份验证。</string>
-    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[你可以 <font color="#0088ff"> 连接到  Gray Heterotopia  开发者提出任何问题并接收更新 </font>。]]></string>
+    <string name="you_can_connect_to_simplex_chat_founder"><![CDATA[你可以 <font color="#0088ff"> 连接到 Gray Heterotopia 开发者提出任何问题并接收更新 </font>。]]></string>
     <string name="you_accepted_connection">你已接受连接</string>
     <string name="your_SMP_servers">你的 SMP 服务器</string>
     <string name="integrity_msg_skipped">%1$d 条已跳过消息</string>
@@ -872,7 +872,7 @@
     <string name="alert_text_connection_pending_they_need_to_be_online_can_delete_and_retry">你的联系人需要在线才能完成连接。 \n你可以取消此连接并删除联系人（稍后尝试使用新链接）。</string>
     <string name="image_descr_simplex_logo">Gray Heterotopia 标志</string>
     <string name="your_simplex_contact_address">你的 SimpleX 地址</string>
-    <string name="install_simplex_chat_for_terminal">为终端安装 Gray Heterotopia</string>
+    <string name="install_simplex_chat_for_terminal">为终端安装 SimpleX</string>
     <string name="use_simplex_chat_servers__question">使用 Gray Heterotopia 服务器？</string>
     <string name="we_do_not_store_contacts_or_messages_on_servers">我们不会在服务器上存储你的任何联系人或消息（一旦发送）。</string>
     <string name="webrtc_ice_servers">WebRTC ICE 服务器</string>
@@ -961,7 +961,7 @@
     <string name="smp_save_servers_question">保存服务器？</string>
     <string name="to_reveal_profile_enter_password">要显示你的隐藏的个人资料，请在你的聊天个人资料页面的搜索字段中输入完整密码。</string>
     <string name="save_welcome_message_question">保存欢迎信息？</string>
-    <string name="tap_to_activate_profile">点击以激活个人资料。</string>
+    <string name="tap_to_activate_profile">点击以切换个人资料。</string>
     <string name="user_unhide">取消隐藏</string>
     <string name="v4_6_group_welcome_message_descr">设置向新成员显示的消息！</string>
     <string name="v4_6_audio_video_calls_descr">支持蓝牙和其他改进。</string>
@@ -1237,8 +1237,8 @@
     <string name="prohibit_sending_files">禁止发送文件和媒体。</string>
     <string name="files_and_media_prohibited">禁止文件和媒体！</string>
     <string name="no_filtered_chats">无过滤聊天</string>
-    <string name="unfavorite_chat">取消最喜欢</string>
-    <string name="favorite_chat">最喜欢</string>
+    <string name="unfavorite_chat">取消收藏</string>
+    <string name="favorite_chat">收藏</string>
     <string name="search_verb">搜索</string>
     <string name="la_mode_off">已关闭</string>
     <string name="network_option_protocol_timeout_per_kb">协议超时每 KB</string>
@@ -2171,7 +2171,7 @@
     <string name="address_settings">地址设置</string>
     <string name="operator_conditions_accepted">已接受的条款</string>
     <string name="appearance_app_toolbars">应用工具栏</string>
-    <string name="one_time_link_can_be_used_with_one_contact_only"><![CDATA[1-time link can be used <i>仅用于一名联系人</i> - 面对面或通过任何消息应用分享.]]></string>
+    <string name="one_time_link_can_be_used_with_one_contact_only"><![CDATA[一次性链接 <i>仅能用于一名联系人</i> - 面对面或通过任何消息应用分享.]]></string>
     <string name="operator_conditions_accepted_for_some"><![CDATA[已经接受了下列运营方的条款: <b>%s</b>.]]></string>
     <string name="operator_conditions_will_be_accepted_for_some"><![CDATA[将接受运营方的条款:<b>%s</b>.]]></string>
     <string name="operator_same_conditions_will_be_applied"><![CDATA[相同条款将应用于运营方 <b>%s</b>.]]></string>
@@ -2204,7 +2204,7 @@
     <string name="maximum_message_size_reached_non_text">请减小消息大小或删除媒体并再次发送。</string>
     <string name="add_your_team_members_to_conversations">将你的团队成员加入对话。</string>
     <string name="business_address">企业地址</string>
-    <string name="all_message_and_files_e2e_encrypted"><![CDATA[All messages and files are sent <b>端到端加密</b>，私信具备后量子密码安全性。]]></string>
+    <string name="all_message_and_files_e2e_encrypted"><![CDATA[所有消息和文件均 <b>端到端加密</b>，私信具备后量子密码安全性。]]></string>
     <string name="onboarding_notifications_mode_off_desc_short">无后台服务</string>
     <string name="onboarding_notifications_mode_periodic_desc_short">每 10 分钟检查消息</string>
     <string name="how_it_helps_privacy">它如何帮助隐私</string>
@@ -2311,7 +2311,7 @@
     <string name="privacy_chat_list_open_web_link_question">打开 web 链接？</string>
     <string name="privacy_chat_list_open_web_link">打开链接</string>
     <string name="privacy_chat_list_open_links">打开来自聊天列表的链接</string>
-    <string name="text_field_set_chat_placeholder">设置聊天名称…</string>
+    <string name="text_field_set_chat_placeholder">设置聊天备注…</string>
     <string name="disable_automatic_deletion_question">停用消息自动删除？</string>
     <string name="disable_automatic_deletion">停用消息删除</string>
     <string name="chat_item_ttl_year">1 年</string>
@@ -2429,8 +2429,8 @@
     <string name="add_short_link">升级地址</string>
     <string name="accept_contact_request">接受联络请求</string>
     <string name="compose_view_add_message">添加消息</string>
-    <string name="e2ee_info_e2ee"><![CDATA[Messages are protected by <b>端到端加密</b>.]]></string>
-    <string name="compose_view_send_contact_request_alert_text"><![CDATA[You will be able to send messages <b>仅在你的请求被接收后</b>.]]></string>
+    <string name="e2ee_info_e2ee"><![CDATA[消息被 <b>端到端加密</b> 保护。]]></string>
+    <string name="compose_view_send_contact_request_alert_text"><![CDATA[<b>仅在你的请求被接收后</b> 你才能发送消息。]]></string>
     <string name="compose_view_connect">连接</string>
     <string name="contact_should_accept">联系人应当接受…</string>
     <string name="error_changing_user">更改户出错</string>
@@ -2729,18 +2729,18 @@
     <string name="v6_5_safe_web_links">安全的 web 链接</string>
     <string name="v6_5_security">安全性：所有者持有频道密钥。</string>
     <string name="onboarding_send_1_time_link">通过任何通讯应用发送链接 — 这是安全的。请求粘贴到 Gray Heterotopia 中。</string>
-    <string name="talk_to_someone">和某人交谈</string>
+    <string name="talk_to_someone">和某人聊天</string>
     <string name="v6_5_non_profit_governance_descr">让 SimpleX 网络持续。</string>
     <string name="onboarding_post_address">在社交媒体资料、网站或电子邮件签名中使用该地址。</string>
     <string name="v6_5_invite_friends_descr">我们让连接对新用户更简单。</string>
     <string name="your_public_address">你的公开地址</string>
-    <string name="why_built_heading">你生来就没有账户。</string>
-    <string name="why_built_p1">没有人追踪你的谈话内容。没有人绘制你去过的地方的地图。隐私从来都不是一项功能--而是一种生活方式。</string>
-    <string name="why_built_p2">然后我们转向线上，每个平台都要求你提供一些信息--你的姓名、电话号码、好友列表。我们接受了这样一个事实：与人交流的代价就是让别人知道我们在和谁交流。每一代人，每一代科技，都遵循着这样的模式--电话、电子邮件、即时通讯、社交媒体。这似乎是唯一可行的方式。</string>
+    <string name="why_built_heading">人生来是没有账号的。</string>
+    <string name="why_built_p1">没有人追踪你的谈话内容。没有人知道你去过的地方。隐私从来都不是一项功能──而是一种生活方式。</string>
+    <string name="why_built_p2">然后我们转向线上，每个平台都要求你提供一些信息──你的姓名、电话号码、好友列表。我们接受了这样一个事实：与人交流的代价就是让别人知道我们在和谁交流。每一代人，每一代科技，都遵循着这样的模式──电话、电子邮件、即时通讯、社交媒体。这似乎是唯一可行的方式。</string>
     <string name="why_built_p3">还有另一种方法。一个没有电话号码、没有用户名、没有账户、没有任何用户身份的网络。一个连接人们并传输加密信息的网络，而无需知道谁连接了。</string>
-    <string name="why_built_p4">别人家的门锁再好也比不上这里。房东再好也比不上这里，他既尊重你的隐私，又保留着所有访客的记录。你不是客人，你是家。没有国王能闯入--你是主人。</string>
+    <string name="why_built_p4">别人家的门锁再好也比不上这里。房东再好也比不上这里，他既尊重你的隐私，又保留着所有访客的记录。你不是客人，你是家。没有国王能闯入──你是主人。</string>
     <string name="why_built_p5">你的对话内容始终属于你，就像互联网出现之前一样。网络不是一个你访问的地方，而是一个你创建并拥有的地方。无论你将其设为私密还是公开，任何人都无法将其夺走。</string>
-    <string name="why_built_p6">人类最古老的自由--与他人交谈而不被监视--建立在不会背叛它的基础设施之上。</string>
+    <string name="why_built_p6">人类最古老的自由──与他人交谈而不被监视──建立在不会背叛它的基础设施之上。</string>
     <string name="why_built_p7">因为我们摧毁了知道你是谁的权力，因而您的权利永远不会被夺走。</string>
     <string name="why_built_tagline">在你的网络中自由畅行。</string>
     <string name="allow_chat_with_admins">允许成员与管理员聊天。</string>
