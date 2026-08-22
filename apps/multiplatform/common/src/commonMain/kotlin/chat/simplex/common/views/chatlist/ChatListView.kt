@@ -598,16 +598,11 @@ fun UserProfileButton(image: String?, allRead: Boolean, onButtonClicked: () -> U
 
 
 @Composable
-private fun BoxScope.unreadBadge(text: String? = "") {
-  Text(
-    text ?: "",
-    color = MaterialTheme.colors.onPrimary,
-    fontSize = 6.sp,
-    modifier = Modifier
+private fun BoxScope.unreadBadge() {
+  Box(
+    Modifier
+      .size(8.dp)
       .background(MaterialTheme.colors.primary, shape = CircleShape)
-      .badgeLayout()
-      .padding(horizontal = 3.dp)
-      .padding(vertical = 1.dp)
       .align(Alignment.TopEnd)
   )
 }
@@ -659,14 +654,8 @@ private fun ChatListSearchBar(listState: LazyListState, searchText: MutableState
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
       val focusRequester = remember { FocusRequester() }
       var focused by remember { mutableStateOf(false) }
-      Icon(
-        painterResource(MR.images.ic_search),
-        contentDescription = null,
-        Modifier.padding(start = DEFAULT_PADDING, end = DEFAULT_PADDING_HALF).size(22.dp * fontSizeSqrtMultiplier),
-        tint = MaterialTheme.colors.secondary
-      )
       SearchTextField(
-        Modifier.weight(1f).onFocusChanged { focused = it.hasFocus }.focusRequester(focusRequester),
+        Modifier.weight(1f).padding(start = 16.dp, top = 6.dp, bottom = 6.dp).onFocusChanged { focused = it.hasFocus }.focusRequester(focusRequester),
         placeholder = stringResource(MR.strings.search_or_paste_simplex_link),
         alwaysVisible = true,
         searchText = searchText,

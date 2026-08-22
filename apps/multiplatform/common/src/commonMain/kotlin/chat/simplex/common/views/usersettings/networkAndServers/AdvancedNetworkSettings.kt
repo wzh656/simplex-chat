@@ -9,7 +9,10 @@ import SectionView
 import SectionViewSelectableCards
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.DropdownMenuItem as Material3DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -432,6 +435,7 @@ fun EnableKeepAliveSwitch(
   }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IntSettingRow(title: String, selection: MutableState<Int>, values: List<Int>, label: String) {
   Row(
@@ -443,14 +447,11 @@ fun IntSettingRow(title: String, selection: MutableState<Int>, values: List<Int>
 
     Text(title)
 
-    ExposedDropdownMenuBox(
-      expanded = expanded.value,
-      onExpandedChange = {
-        expanded.value = !expanded.value
-      }
-    ) {
+    Box {
       Row(
-        Modifier.width(140.dp),
+        Modifier
+          .clickable { expanded.value = !expanded.value }
+          .width(140.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
       ) {
@@ -468,29 +469,23 @@ fun IntSettingRow(title: String, selection: MutableState<Int>, values: List<Int>
           tint = MaterialTheme.colors.secondary
         )
       }
-      DefaultExposedDropdownMenu(
-        expanded = expanded,
+      androidx.compose.material3.DropdownMenu(
+        expanded = expanded.value,
+        onDismissRequest = { expanded.value = false },
+        modifier = Modifier.widthIn(min = 180.dp, max = 280.dp),
       ) {
         values.forEach { selectionOption ->
-          DropdownMenuItem(
-            onClick = {
-              selection.value = selectionOption
-              expanded.value = false
-            },
-            contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)
-          ) {
-            Text(
-              "$selectionOption $label",
-              maxLines = 1,
-              overflow = TextOverflow.Ellipsis,
-            )
-          }
+          Material3DropdownMenuItem(
+            text = { Text("$selectionOption $label", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+            onClick = { selection.value = selectionOption; expanded.value = false },
+            contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f),
+          )
         }
       }
     }
   }
 }
-
+ 
 @Composable
 fun TimeoutSettingRow(title: String, selection: MutableState<Long>, values: List<Long>, label: String) {
   Row(
@@ -499,59 +494,31 @@ fun TimeoutSettingRow(title: String, selection: MutableState<Long>, values: List
     horizontalArrangement = Arrangement.SpaceBetween
   ) {
     val expanded = remember { mutableStateOf(false) }
-
+    val df = DecimalFormat("#.###")
     Text(title)
-
-    ExposedDropdownMenuBox(
-      expanded = expanded.value,
-      onExpandedChange = {
-        expanded.value = !expanded.value
-      }
-    ) {
-      val df = DecimalFormat("#.###")
+    Box {
       Row(
-        Modifier.width(140.dp),
+        Modifier.clickable { expanded.value = !expanded.value }.width(140.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
       ) {
-        Text(
-          "${df.format(selection.value / 1_000_000.0)} $label",
-          maxLines = 1,
-          overflow = TextOverflow.Ellipsis,
-          color = MaterialTheme.colors.secondary
-        )
+        Text("${df.format(selection.value / 1_000_000.0)} $label", maxLines = 1, overflow = TextOverflow.Ellipsis, color = MaterialTheme.colors.secondary)
         Spacer(Modifier.size(4.dp))
-        Icon(
-          if (!expanded.value) painterResource(MR.images.ic_arrow_drop_down) else painterResource(MR.images.ic_arrow_drop_up),
-          contentDescription = null,
-          modifier = Modifier.padding(start = 8.dp),
-          tint = MaterialTheme.colors.secondary
-        )
+        Icon(if (!expanded.value) painterResource(MR.images.ic_arrow_drop_down) else painterResource(MR.images.ic_arrow_drop_up), null, Modifier.padding(start = 8.dp), tint = MaterialTheme.colors.secondary)
       }
-      DefaultExposedDropdownMenu(
-        expanded = expanded
-      ) {
-        val v = selection.value
-        val vs = if (values.contains(v)) values else values + v
-        vs.forEach { selectionOption ->
-          DropdownMenuItem(
-            onClick = {
-              selection.value = selectionOption
-              expanded.value = false
-            },
-            contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)
-          ) {
-            Text(
-              "${df.format(selectionOption / 1_000_000.0)} $label",
-              maxLines = 1,
-              overflow = TextOverflow.Ellipsis,
-            )
-          }
+      androidx.compose.material3.DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }, modifier = Modifier.widthIn(min = 180.dp, max = 280.dp)) {
+        values.forEach { selectionOption ->
+          Material3DropdownMenuItem(
+            text = { Text("${df.format(selectionOption / 1_000_000.0)} $label", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+            onClick = { selection.value = selectionOption; expanded.value = false },
+            contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f),
+          )
         }
       }
     }
   }
 }
+
 
 fun showUpdateNetworkSettingsDialog(action: () -> Unit) {
   AlertManager.shared.showAlertDialog(

@@ -44,7 +44,7 @@ fun ModalView(
   Surface(Modifier.fillMaxSize(), contentColor = LocalContentColor.current) {
     val bgOverride = if (cardScreen) canvasColorForCurrentTheme() else if (background != Color.Unspecified) background else null
     CompositionLocalProvider(LocalCardScreen provides cardScreen) {
-    Box(Modifier.themedBackground(bgLayerSize = LocalAppBarHandler.current?.backgroundGraphicsLayerSize, bgLayer = LocalAppBarHandler.current?.backgroundGraphicsLayer, overrideColor = bgOverride)) {
+    Box(Modifier.themedBackground(overrideColor = bgOverride)) {
       Box(modifier = modifier) {
         content()
       }
@@ -86,7 +86,7 @@ class ModalData(val keyboardCoversBar: Boolean = true) {
   fun <T> stateGetOrPutNullable (key: String, default: () -> T?): MutableState<T?> =
     state.getOrPut(key) { mutableStateOf(default() as Any?) } as MutableState<T?>
 
-  val appBarHandler = AppBarHandler(null, null, keyboardCoversBar = keyboardCoversBar)
+  val appBarHandler = AppBarHandler(keyboardCoversBar = keyboardCoversBar)
 }
 
 enum class ModalViewId {

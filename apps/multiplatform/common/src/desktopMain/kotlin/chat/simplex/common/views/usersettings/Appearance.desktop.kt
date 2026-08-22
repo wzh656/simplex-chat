@@ -74,11 +74,6 @@ fun AppearanceScope.AppearanceLayout(
       MinimizeToTraySection()
     }
 
-    SectionDividerSpaced()
-    AppToolbarsSection()
-
-    SectionDividerSpaced()
-    MessageShapeSection()
 
     SectionDividerSpaced()
     ProfileImageSection()

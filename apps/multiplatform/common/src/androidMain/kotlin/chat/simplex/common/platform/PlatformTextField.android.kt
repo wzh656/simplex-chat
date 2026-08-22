@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
@@ -65,11 +66,13 @@ actual fun PlatformTextField(
   val cs = composeState.value
   val textColor = MaterialTheme.colors.onBackground
   val hintColor = MaterialTheme.colors.secondary
-  val padding = PaddingValues(0.dp, 7.dp, 50.dp, 0.dp)
+  val trailingPadding = if (showVoiceButton) 96.dp else 48.dp
+  val padding = PaddingValues(end = trailingPadding)
   val paddingStart = 0
-  val paddingTop = with(LocalDensity.current) { 7.dp.roundToPx() }
-  val paddingEnd = with(LocalDensity.current) { 50.dp.roundToPx() }
-  val paddingBottom = with(LocalDensity.current) { 7.dp.roundToPx() }
+  val paddingTop = 0
+  val paddingEnd = with(LocalDensity.current) { trailingPadding.roundToPx() }
+  val paddingBottom = 0
+  val inputMinHeight = with(LocalDensity.current) { 48.dp.roundToPx() }
   var showKeyboard by remember { mutableStateOf(false) }
   var freeFocus by remember { mutableStateOf(false) }
   LaunchedEffect(cs.contextItem) {
@@ -96,7 +99,7 @@ actual fun PlatformTextField(
   }
 
   val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-  AndroidView(modifier = Modifier, factory = { context ->
+  AndroidView(modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp), factory = { context ->
     val editText = @SuppressLint("AppCompatCustomView") object: EditText(context) {
       override fun setOnReceiveContentListener(
         mimeTypes: Array<out String>?,
@@ -128,6 +131,9 @@ actual fun PlatformTextField(
       }
     }
     editText.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    editText.minHeight = inputMinHeight
+    editText.includeFontPadding = false
+    editText.gravity = Gravity.CENTER_VERTICAL or Gravity.START
     editText.maxLines = 16
     editText.inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or editText.inputType
     editText.setTextColor(textColor.toArgb())
@@ -168,6 +174,7 @@ actual fun PlatformTextField(
     editText.doAfterTextChanged { text -> if (composeState.value.preview is ComposePreview.VoicePreview && text.toString() != "") editText.setText("") }
     val workaround = WorkaroundFocusSearchLayout(context)
     workaround.addView(editText)
+    workaround.minimumHeight = inputMinHeight
     workaround.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     workaround
   }) {
@@ -176,6 +183,10 @@ actual fun PlatformTextField(
     it.setHintTextColor(hintColor.toArgb())
     it.hint = placeholder
     it.textSize = textStyle.value.fontSize.value * appPrefs.fontScale.get()
+    it.setPaddingRelative(paddingStart, paddingTop, paddingEnd, paddingBottom)
+    it.minHeight = inputMinHeight
+    it.includeFontPadding = false
+    it.gravity = Gravity.CENTER_VERTICAL or Gravity.START
     it.isFocusable = composeState.value.preview !is ComposePreview.VoicePreview
     it.isFocusableInTouchMode = it.isFocusable
     if (cs.message.text != it.text.toString() || cs.message.selection.start != it.selectionStart || cs.message.selection.end != it.selectionEnd) {
@@ -204,10 +215,14 @@ actual fun PlatformTextField(
 
 @Composable
 private fun ComposeOverlay(text: String, textStyle: MutableState<TextStyle>, padding: PaddingValues) {
-  Text(
-    text,
-    Modifier.padding(padding),
-    color = MaterialTheme.colors.secondary,
-    style = textStyle.value.copy(fontStyle = FontStyle.Italic)
-  )
+  Box(
+    Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(padding),
+    contentAlignment = Alignment.CenterStart,
+  ) {
+    Text(
+      text,
+      color = MaterialTheme.colors.secondary,
+      style = textStyle.value.copy(fontStyle = FontStyle.Italic)
+    )
+  }
 }

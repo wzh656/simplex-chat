@@ -86,9 +86,8 @@ fun ChatPreviewView(
     Text(
       cInfo.chatViewName,
       maxLines = 1,
-      overflow = TextOverflow.Ellipsis,
       style = MaterialTheme.typography.h3,
-      fontWeight = FontWeight.Bold,
+      fontWeight = FontWeight.SemiBold,
       color = color
     )
   }
@@ -158,7 +157,7 @@ fun ChatPreviewView(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.h3,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = color
           )
         }
@@ -239,9 +238,9 @@ fun ChatPreviewView(
         overflow = TextOverflow.Ellipsis,
         style = TextStyle(
           fontFamily = Inter,
-          fontSize = 15.sp,
+          fontSize = 14.sp,
           color = if (isInDarkTheme()) MessagePreviewDark else MessagePreviewLight,
-          lineHeight = 21.sp
+          lineHeight = 20.sp
         ),
         inlineContent = inlineTextContent,
         modifier = Modifier.fillMaxWidth()
@@ -293,9 +292,9 @@ fun ChatPreviewView(
         overflow = TextOverflow.Ellipsis,
         style = TextStyle(
           fontFamily = Inter,
-          fontSize = 15.sp,
+          fontSize = 14.sp,
           color = if (isInDarkTheme()) MessagePreviewDark else MessagePreviewLight,
-          lineHeight = 21.sp
+          lineHeight = 20.sp
         ),
         inlineContent = inlineTextContent,
         modifier = Modifier.fillMaxWidth(),
@@ -395,16 +394,16 @@ fun ChatPreviewView(
   }
 
   Box(contentAlignment = Alignment.Center) {
-    Row {
+    Row(verticalAlignment = Alignment.CenterVertically) {
       Box(contentAlignment = Alignment.BottomEnd) {
-        ChatInfoImage(cInfo, size = 72.dp * fontSizeSqrtMultiplier)
-        Box(Modifier.padding(end = 6.sp.toDp(), bottom = 6.sp.toDp())) {
+        ChatInfoImage(cInfo, size = 52.dp * fontSizeSqrtMultiplier)
+        Box(Modifier.padding(end = 2.sp.toDp(), bottom = 2.sp.toDp())) {
           chatPreviewImageOverlayIcon()
         }
       }
-      Spacer(Modifier.width(8.dp))
+      Spacer(Modifier.width(12.dp))
       Column(Modifier.weight(1f)) {
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
           Box(Modifier.weight(1f)) {
             chatPreviewTitle()
           }
@@ -412,8 +411,8 @@ fun ChatPreviewView(
           val ts = getTimestampText(chat.chatItems.lastOrNull()?.meta?.itemTs ?: chat.chatInfo.chatTs)
           ChatListTimestampView(ts)
         }
-        Row(Modifier.heightIn(min = 46.sp.toDp()).fillMaxWidth()) {
-          Row(Modifier.padding(top = 3.sp.toDp()).weight(1f)) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+          Row(Modifier.padding(top = 2.sp.toDp()).weight(1f)) {
             val activeVoicePreview: MutableState<(ActiveVoicePreview)?> = remember(chat.id) { mutableStateOf(null) }
             val chat = activeVoicePreview.value?.chat ?: chat
             val ci = activeVoicePreview.value?.ci ?: chat.chatItems.lastOrNull()
@@ -591,14 +590,12 @@ fun UnreadBadge(
   Text(
     text,
     color = Color.White,
-    fontSize = 10.sp,
-    style = TextStyle(textAlign = TextAlign.Center),
+    style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center),
     modifier = Modifier
       .offset(y = yOffset ?: 0.dp)
+      .defaultMinSize(minWidth = 20.dp, minHeight = 20.dp)
       .background(backgroundColor, shape = CircleShape)
-      .badgeLayout()
-      .padding(horizontal = 2.sp.toDp())
-      .padding(vertical = 1.sp.toDp())
+      .padding(horizontal = 6.dp, vertical = 2.dp)
   )
 }
 
@@ -607,21 +604,14 @@ fun unreadCountStr(n: Int): String {
   return if (n < 1000) "$n" else "${n / 1000}" + stringResource(MR.strings.thousand_abbreviation)
 }
 
-@Composable fun ChatListTimestampView(ts: String) {
-  Box(contentAlignment = Alignment.BottomStart) {
-    // This should be the same font style as in title to make date located on the same line as title
-    Text(
-      " ",
-      style = MaterialTheme.typography.h3,
-      fontWeight = FontWeight.Bold,
-    )
-    Text(
-      ts,
-      Modifier.padding(bottom = 5.sp.toDp()).offset(x = if (appPlatform.isDesktop) 1.5.sp.toDp() else 0.dp),
-      color = MaterialTheme.colors.secondary,
-      style = MaterialTheme.typography.body2.copy(fontSize = 13.sp),
-    )
-  }
+@Composable
+fun ChatListTimestampView(ts: String) {
+  Text(
+    ts,
+    color = MaterialTheme.colors.secondary,
+    style = MaterialTheme.typography.caption,
+    maxLines = 1,
+  )
 }
 
 private data class ActiveVoicePreview(

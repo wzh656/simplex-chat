@@ -52,7 +52,7 @@ fun YourNetworkView(chatModel: ChatModel) {
     CompositionLocalProvider(LocalAppBarHandler provides rememberAppBarHandler()) {
       ModalView({}, showClose = false, showAppBar = false) {
         OnboardingShrinkingLayout(
-          modifier = Modifier.fillMaxSize().themedBackground(bgLayerSize = LocalAppBarHandler.current?.backgroundGraphicsLayerSize, bgLayer = LocalAppBarHandler.current?.backgroundGraphicsLayer)
+          modifier = Modifier.fillMaxSize().themedBackground()
             .systemBarsPadding()
             .padding(horizontal = DEFAULT_ONBOARDING_HORIZONTAL_PADDING),
           topPadding = DEFAULT_PADDING,

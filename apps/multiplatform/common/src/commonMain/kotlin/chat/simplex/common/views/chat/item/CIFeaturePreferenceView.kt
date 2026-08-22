@@ -21,6 +21,7 @@ fun CIFeaturePreferenceView(
   allowed: FeatureAllowed,
   acceptFeature: (Contact, ChatFeature, Int?) -> Unit
 ) {
+  if (feature == ChatFeature.Calls) return
   Row(
     Modifier.padding(horizontal = 6.dp, vertical = 6.dp),
     verticalAlignment = Alignment.CenterVertically,

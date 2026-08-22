@@ -210,10 +210,6 @@ fun AddGroupMembersLayout(
 private fun SearchRowView(
   searchText: MutableState<TextFieldValue> = rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
 ) {
-  Box(Modifier.width(36.dp), contentAlignment = Alignment.Center) {
-    Icon(painterResource(MR.images.ic_search), stringResource(MR.strings.search_verb), tint = MaterialTheme.colors.secondary)
-  }
-  Spacer(Modifier.width(DEFAULT_SPACE_AFTER_ICON))
   SearchTextField(Modifier.fillMaxWidth(), searchText = searchText, alwaysVisible = true) {
     searchText.value = searchText.value.copy(it)
   }

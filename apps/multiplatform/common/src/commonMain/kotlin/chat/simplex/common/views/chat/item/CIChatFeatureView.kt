@@ -24,8 +24,11 @@ fun CIChatFeatureView(
   icon: Painter? = null,
   revealed: State<Boolean>,
   showMenu: MutableState<Boolean>,
-) {
+  ) {
+  val callsFeature = feature == ChatFeature.Calls
+  val directCallsFeature = callsFeature && chatInfo is ChatInfo.Direct
   val merged = if (!revealed.value) mergedFeatures(chatsCtx, chatItem, chatInfo) else emptyList()
+  if (directCallsFeature && merged == null) return
   Box(
     Modifier
       .combinedClickable(
@@ -43,7 +46,7 @@ fun CIChatFeatureView(
           FeatureIconView(it)
         }
       }
-    } else {
+    } else if (!directCallsFeature) {
       FullFeatureView(chatItem, feature, iconColor, icon)
     }
   }
@@ -79,6 +82,10 @@ private fun mergedFeatures(chatsCtx: ChatModel.ChatsContext, chatItem: ChatItem,
   var i = getChatItemIndexOrNull(chatItem, reversedChatItems)
   if (i != null) {
     while (i < reversedChatItems.size) {
+      if (reversedChatItems[i].isDirectCallsFeature()) {
+        i++
+        continue
+      }
       val f = featureInfo(reversedChatItems[i], chatInfo) ?: break
       if (!icons.contains(f.icon)) {
         fs.add(0, f)
@@ -87,7 +94,14 @@ private fun mergedFeatures(chatsCtx: ChatModel.ChatsContext, chatItem: ChatItem,
       i++
     }
   }
-  return if (fs.size > 1) fs else null
+  return fs.takeIf { it.size > 1 || (chatItem.isDirectCallsFeature() && it.isNotEmpty()) }
+}
+
+private fun ChatItem.isDirectCallsFeature(): Boolean = when (val itemContent = content) {
+  is CIContent.RcvChatFeature -> itemContent.feature == ChatFeature.Calls
+  is CIContent.SndChatFeature -> itemContent.feature == ChatFeature.Calls
+  is CIContent.RcvChatFeatureRejected -> itemContent.feature == ChatFeature.Calls
+  else -> false
 }
 
 @Composable

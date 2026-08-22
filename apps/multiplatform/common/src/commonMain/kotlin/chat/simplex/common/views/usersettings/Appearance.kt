@@ -90,122 +90,6 @@ object AppearanceScope {
     }
   }
 
-  @Composable
-  fun AppToolbarsSection() {
-    BoxWithConstraints {
-      SectionView(stringResource(MR.strings.appearance_app_toolbars)) {
-        SectionItemViewWithoutMinPadding {
-          Box(Modifier.weight(1f)) {
-            var fontScale by remember { mutableStateOf(1f) }
-            Text(
-              stringResource(MR.strings.appearance_in_app_bars_alpha),
-              Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-              ) {
-                appPrefs.inAppBarsAlpha.set(appPrefs.inAppBarsDefaultAlpha)
-              },
-              maxLines = 1,
-              fontSize = MaterialTheme.typography.body1.fontSize * fontScale,
-              onTextLayout = { if (it.hasVisualOverflow && fontScale > 0.5f) fontScale -= 0.05f }
-            )
-          }
-          Spacer(Modifier.padding(end = 10.dp))
-          Slider(
-            (1 - remember { appPrefs.inAppBarsAlpha.state }.value).coerceIn(0f, 0.5f),
-            onValueChange = {
-              val diff = it % 0.025f
-              appPrefs.inAppBarsAlpha.set(1f - (String.format(Locale.US, "%.3f", it + (if (diff >= 0.0125f) -diff + 0.025f else -diff)).toFloatOrNull() ?: 1f))
-            },
-            Modifier.widthIn(max = (this@BoxWithConstraints.maxWidth - DEFAULT_PADDING * 2) * 0.618f),
-            valueRange = 0f..0.5f,
-            steps = 21,
-            colors = SliderDefaults.colors(
-              activeTickColor = Color.Transparent,
-              inactiveTickColor = Color.Transparent,
-            )
-          )
-        }
-        // In Android in OneHandUI there is a problem with setting initial value of blur if it was 0 before entering the screen.
-        // So doing in two steps works ok
-        fun saveBlur(value: Int) {
-          val oneHandUI = appPrefs.oneHandUI.get()
-          val pref = appPrefs.appearanceBarsBlurRadius
-          if (appPlatform.isAndroid && oneHandUI && pref.get() == 0) {
-            pref.set(if (value > 2) value - 1 else value + 1)
-            withApi {
-              delay(50)
-              pref.set(value)
-            }
-          } else {
-            pref.set(value)
-          }
-        }
-        val blur = remember { appPrefs.appearanceBarsBlurRadius.state }
-        if (appPrefs.deviceSupportsBlur || blur.value > 0) {
-          SectionItemViewWithoutMinPadding {
-            Box(Modifier.weight(1f)) {
-              Text(
-                stringResource(MR.strings.appearance_bars_blur_radius),
-                Modifier.clickable(
-                  interactionSource = remember { MutableInteractionSource() },
-                  indication = null
-                ) {
-                  saveBlur(50)
-                },
-                maxLines = 1
-              )
-            }
-            Spacer(Modifier.padding(end = 10.dp))
-            Slider(
-              blur.value.toFloat() / 100f,
-              onValueChange = {
-                val diff = it % 0.05f
-                saveBlur(((String.format(Locale.US, "%.2f", it + (if (diff >= 0.025f) -diff + 0.05f else -diff)).toFloatOrNull() ?: 1f) * 100).toInt())
-              },
-              Modifier.widthIn(max = (this@BoxWithConstraints.maxWidth - DEFAULT_PADDING * 2) * 0.618f),
-              valueRange = 0f..1f,
-              steps = 21,
-              colors = SliderDefaults.colors(
-                activeTickColor = Color.Transparent,
-                inactiveTickColor = Color.Transparent,
-              )
-            )
-          }
-        }
-      }
-    }
-  }
-
-  @Composable
-  fun MessageShapeSection() {
-    BoxWithConstraints {
-      SectionView(stringResource(MR.strings.settings_section_title_message_shape)) {
-        SectionItemViewWithoutMinPadding {
-          Text(stringResource(MR.strings.settings_message_shape_corner), Modifier.weight(1f))
-          Spacer(Modifier.width(10.dp))
-          Slider(
-            remember { appPreferences.chatItemRoundness.state }.value,
-            onValueChange = {
-              val diff = it % 0.05f
-              appPreferences.chatItemRoundness.set(it + (if (diff >= 0.025f) -diff + 0.05f else -diff))
-              saveThemeToDatabase(null)
-            },
-            Modifier.widthIn(max = (this@BoxWithConstraints.maxWidth - DEFAULT_PADDING * 2) * 0.618f),
-            valueRange = 0f..1f,
-            steps = 20,
-            colors = SliderDefaults.colors(
-              activeTickColor = Color.Transparent,
-              inactiveTickColor = Color.Transparent,
-            )
-          )
-        }
-        if (appPlatform.isDesktop || (platform.androidApiLevel ?: 0) > 27) {
-          SettingsPreferenceItem(icon = null, stringResource(MR.strings.settings_message_shape_tail), appPreferences.chatItemTail)
-        }
-      }
-    }
-  }
 
   @Composable
   fun FontScaleSection() {
@@ -282,7 +166,7 @@ object AppearanceScope {
     Column(Modifier
       .drawWithCache {
         if (wallpaperImage != null && wallpaperType != null && backgroundColor != null && tintColor != null) {
-          chatViewBackground(wallpaperImage, wallpaperType, backgroundColor, tintColor, null, null)
+          chatViewBackground(wallpaperImage, wallpaperType, backgroundColor, tintColor)
         } else {
           onDrawBehind {
             drawRect(themeBackgroundColor)

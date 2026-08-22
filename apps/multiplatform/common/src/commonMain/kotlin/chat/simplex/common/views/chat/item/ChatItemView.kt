@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.*
+import androidx.compose.material3.DropdownMenuItem as Material3DropdownMenuItem
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,8 +43,8 @@ import kotlin.math.*
 
 // TODO refactor so that FramedItemView can show all CIContent items if they're deleted (see Swift code)
 
-private val msgRectMaxRadius = 18.dp
-private val msgBubbleMaxRadius = msgRectMaxRadius * 1.2f
+private val msgRectMaxRadius = 16.dp
+private val msgBubbleMaxRadius = msgRectMaxRadius
 val msgTailWidthDp = 9.dp
 private val msgTailMinHeightDp = msgTailWidthDp * 1.254f // ~56deg
 private val msgTailMaxHeightDp = msgTailWidthDp * 1.732f // 60deg
@@ -349,25 +350,24 @@ fun ChatItemView(
 
             @Composable
             fun MsgReactionsMenu() {
-              val rs = MsgReaction.supported.mapNotNull { r ->
-                if (null == cItem.reactions.find { it.userReacted && it.reaction.text == r.text }) {
-                  r
-                } else {
-                  null
-                }
+              val reactions = MsgReaction.supported.filterNot { candidate ->
+                cItem.reactions.any { it.userReacted && it.reaction.text == candidate.text }
               }
-              if (rs.isNotEmpty()) {
-                Row(modifier = Modifier.padding(horizontal = DEFAULT_PADDING).horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
-                  rs.forEach() { r ->
-                    Box(
-                      Modifier.size(36.dp).clip(CircleShape).clickable {
-                        setReaction(cInfo, cItem, true, r)
-                        showMenu.value = false
-                      },
-                      contentAlignment = Alignment.Center
-                    ) {
-                      ReactionIcon(r.text, 12.sp)
-                    }
+              if (reactions.isEmpty()) return
+              Row(
+                Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically,
+              ) {
+                reactions.forEach { reaction ->
+                  Box(
+                    Modifier.size(36.dp).clip(CircleShape).clickable {
+                      setReaction(cInfo, cItem, true, reaction)
+                      showMenu.value = false
+                    },
+                    contentAlignment = Alignment.Center
+                  ) {
+                    ReactionIcon(reaction.text, 24.sp)
                   }
                 }
               }
@@ -400,10 +400,18 @@ fun ChatItemView(
                   }
                 }
                 cItem.content.msgContent != null && cItem.id >= 0 && !cItem.isReport -> {
-                  DefaultDropdownMenu(showMenu) {
-                    if (cInfo.featureEnabled(ChatFeature.Reactions) && cItem.allowAddReaction) {
-                      MsgReactionsMenu()
-                    }
+                  MessageDropdownMenu(
+                    showMenu,
+                    reactions = if (
+                      cInfo.featureEnabled(ChatFeature.Reactions) &&
+                      cItem.allowAddReaction &&
+                      MsgReaction.supported.any { candidate -> cItem.reactions.none { it.userReacted && it.reaction.text == candidate.text } }
+                    ) {
+                      { MsgReactionsMenu() }
+                    } else {
+                      null
+                    },
+                  ) {
                     if (cItem.meta.itemDeleted == null && !live && !cItem.localNote && cInfo.sendMsgEnabled) {
                       ItemAction(stringResource(MR.strings.reply_verb), painterResource(MR.images.ic_reply), onClick = {
                         if (composeState.value.editing) {
@@ -1094,48 +1102,29 @@ fun showArchiveReportsAlert(ids: List<Long>, allowForAll: Boolean, archiveReport
 
 @Composable
 fun ItemAction(text: String, icon: Painter, color: Color = Color.Unspecified, onClick: () -> Unit) {
-  val finalColor = if (color == Color.Unspecified) {
-    MenuTextColor
-  } else color
-  DropdownMenuItem(onClick, contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-      Text(
-        text,
-        modifier = Modifier
-          .fillMaxWidth()
-          .weight(1F)
-          .padding(end = 15.dp),
-        color = finalColor
-      )
-      Icon(icon, text, tint = finalColor)
-    }
-  }
+  val finalColor = if (color == Color.Unspecified) MenuTextColor else color
+  Material3DropdownMenuItem(
+    text = { Text(text, color = finalColor, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+    leadingIcon = { Icon(icon, text, tint = finalColor, modifier = Modifier.size(20.dp)) },
+    onClick = onClick,
+    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+    modifier = Modifier.heightIn(min = 44.dp),
+  )
 }
 
 @Composable
 fun ItemAction(text: String, icon: ImageBitmap, textColor: Color = Color.Unspecified, iconColor: Color = Color.Unspecified, onClick: () -> Unit) {
-  val finalColor = if (textColor == Color.Unspecified) {
-    MenuTextColor
-  } else textColor
-  DropdownMenuItem(onClick, contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-      Text(
-        text,
-        modifier = Modifier
-          .fillMaxWidth()
-          .weight(1F)
-          .padding(end = 15.dp),
-        color = finalColor,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-      )
-      if (iconColor == Color.Unspecified) {
-        Image(icon, text, Modifier.size(22.dp))
-      } else {
-        Icon(icon, text, Modifier.size(22.dp), tint = iconColor)
-      }
-    }
-  }
+  val finalTextColor = if (textColor == Color.Unspecified) MenuTextColor else textColor
+  Material3DropdownMenuItem(
+    text = { Text(text, color = finalTextColor, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+    leadingIcon = {
+      if (iconColor == Color.Unspecified) Image(icon, text, Modifier.size(20.dp))
+      else Icon(icon, text, Modifier.size(20.dp), tint = iconColor)
+    },
+    onClick = onClick,
+    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+    modifier = Modifier.heightIn(min = 44.dp),
+  )
 }
 
 @Composable
@@ -1146,67 +1135,42 @@ fun ItemAction(
   onClick: () -> Unit,
   lineLimit: Int = Int.MAX_VALUE
 ) {
-  val finalColor = if (color == Color.Unspecified) {
-    MenuTextColor
-  } else color
-  DropdownMenuItem(onClick, contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-      Text(
-        text,
-        modifier = Modifier
-          .fillMaxWidth()
-          .weight(1F)
-          .padding(end = 15.dp),
-        color = finalColor,
-        maxLines = lineLimit,
-        overflow = TextOverflow.Ellipsis
-      )
-      composable()
-    }
-  }
+  val finalColor = if (color == Color.Unspecified) MenuTextColor else color
+  Material3DropdownMenuItem(
+    text = { Text(text, color = finalColor, maxLines = lineLimit, overflow = TextOverflow.Ellipsis) },
+    leadingIcon = composable,
+    onClick = onClick,
+    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+    modifier = Modifier.heightIn(min = 44.dp),
+  )
 }
 
 @Composable
 fun ItemAction(text: String, icon: ImageVector, onClick: () -> Unit, color: Color = Color.Unspecified) {
-  val finalColor = if (color == Color.Unspecified) {
-    MenuTextColor
-  } else color
-  DropdownMenuItem(onClick, contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-      Text(
-        text,
-        modifier = Modifier
-          .fillMaxWidth()
-          .weight(1F)
-          .padding(end = 15.dp),
-        color = finalColor
-      )
-      Icon(icon, text, tint = finalColor)
-    }
-  }
+  val finalColor = if (color == Color.Unspecified) MenuTextColor else color
+  Material3DropdownMenuItem(
+    text = { Text(text, color = finalColor, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+    leadingIcon = { Icon(icon, text, tint = finalColor, modifier = Modifier.size(20.dp)) },
+    onClick = onClick,
+    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+    modifier = Modifier.heightIn(min = 44.dp),
+  )
 }
 
 @Composable
 fun ItemAction(text: String, color: Color = Color.Unspecified, onClick: () -> Unit) {
-  val finalColor = if (color == Color.Unspecified) {
-    MenuTextColor
-  } else color
-  DropdownMenuItem(onClick, contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)) {
-    Text(
-      text,
-      modifier = Modifier
-        .fillMaxWidth()
-        .weight(1F)
-        .padding(end = 15.dp),
-      color = finalColor
-    )
-  }
+  val finalColor = if (color == Color.Unspecified) MenuTextColor else color
+  Material3DropdownMenuItem(
+    text = { Text(text, Modifier.fillMaxWidth(), color = finalColor, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+    onClick = onClick,
+    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+    modifier = Modifier.heightIn(min = 44.dp),
+  )
 }
 
 @Composable
 fun Modifier.chatItemOffset(cItem: ChatItem, tailVisible: Boolean, inverted: Boolean = false, revealed: Boolean): Modifier {
-  val chatItemTail = remember { appPreferences.chatItemTail.state }
-  val style = shapeStyle(cItem, chatItemTail.value, tailVisible, revealed)
+  val style = shapeStyle(cItem, false, tailVisible, revealed)
 
   val offset = if (style is ShapeStyle.Bubble) {
     if (style.tailVisible) {
@@ -1221,10 +1185,8 @@ fun Modifier.chatItemOffset(cItem: ChatItem, tailVisible: Boolean, inverted: Boo
 
 @Composable
 fun Modifier.clipChatItem(chatItem: ChatItem? = null, tailVisible: Boolean = false, revealed: Boolean = false): Modifier {
-  val chatItemRoundness = remember { appPreferences.chatItemRoundness.state }
-  val chatItemTail = remember { appPreferences.chatItemTail.state }
-  val style = shapeStyle(chatItem, chatItemTail.value, tailVisible, revealed)
-  val cornerRoundness = chatItemRoundness.value.coerceIn(0f, 1f)
+  val style = shapeStyle(chatItem, false, tailVisible, revealed)
+  val cornerRoundness = 1f
 
   return when (style) {
     is ShapeStyle.Bubble -> {
@@ -1313,15 +1275,12 @@ sealed class ShapeStyle {
 }
 
 val shapeStyle: (chatItem: ChatItem?, tailEnabled: Boolean, tailVisible: Boolean, revealed: Boolean) -> ShapeStyle =
-  if (appPlatform.isDesktop || (platform.androidApiLevel ?: 0) > 27) ::shapeStyleWithTail
-  else { _, _, _, _ -> ShapeStyle.RoundRect(msgRectMaxRadius) }
+  ::shapeStyleWithTail
 
+/** A quiet Telegram-like bubble: fixed radius, no decorative tail. */
 fun shapeStyleWithTail(chatItem: ChatItem? = null, tailEnabled: Boolean, tailVisible: Boolean, revealed: Boolean): ShapeStyle {
-  if (chatItem == null) {
-    return ShapeStyle.RoundRect(msgRectMaxRadius)
-  }
-
-  when (chatItem.content) {
+  if (chatItem == null) return ShapeStyle.RoundRect(msgRectMaxRadius)
+  return when (chatItem.content) {
     is CIContent.SndMsgContent,
     is CIContent.RcvMsgContent,
     is CIContent.RcvDecryptionError,
@@ -1332,40 +1291,10 @@ fun shapeStyleWithTail(chatItem: ChatItem? = null, tailEnabled: Boolean, tailVis
     is CIContent.SndModerated,
     is CIContent.RcvModerated,
     is CIContent.RcvBlocked,
-    is CIContent.InvalidJSON -> {
-      if (chatItem.meta.itemDeleted != null && (!revealed || chatItem.isDeletedContent)) {
-        return ShapeStyle.RoundRect(msgRectMaxRadius)
-      }
-
-      val tail = when (val content = chatItem.content.msgContent) {
-        is MsgContent.MCImage,
-        is MsgContent.MCVideo,
-        is MsgContent.MCVoice -> {
-          if (content.text.isEmpty()) {
-            false
-          } else {
-            tailVisible
-          }
-        }
-        is MsgContent.MCText -> {
-          if (isShortEmoji(content.text)) {
-            false
-          } else {
-            tailVisible
-          }
-        }
-        else -> tailVisible
-      }
-      return if (tailEnabled) {
-        ShapeStyle.Bubble(tail, !chatItem.chatDir.sent)
-      } else {
-        ShapeStyle.RoundRect(msgRectMaxRadius)
-      }
-    }
-
+    is CIContent.InvalidJSON,
     is CIContent.RcvGroupInvitation,
-    is CIContent.SndGroupInvitation -> return ShapeStyle.RoundRect(msgRectMaxRadius)
-    else -> return ShapeStyle.RoundRect(8.dp)
+    is CIContent.SndGroupInvitation -> ShapeStyle.RoundRect(msgRectMaxRadius)
+    else -> ShapeStyle.RoundRect(8.dp)
   }
 }
 

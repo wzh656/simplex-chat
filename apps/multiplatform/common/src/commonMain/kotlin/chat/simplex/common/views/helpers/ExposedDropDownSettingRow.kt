@@ -2,30 +2,31 @@ package chat.simplex.common.views.helpers
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import dev.icerock.moko.resources.compose.painterResource
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
 import chat.simplex.res.MR
 import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.usersettings.SettingsActionItemWithContent
 import dev.icerock.moko.resources.ImageResource
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun <T> ExposedDropDownSetting(
   values: List<Pair<T, String>>,
   selection: State<T>,
-  textColor: Color = MaterialTheme.colors.secondary,
+  textColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
   fontSize: TextUnit = 16.sp,
   label: String? = null,
   enabled: State<Boolean> = mutableStateOf(true),
@@ -34,14 +35,11 @@ fun <T> ExposedDropDownSetting(
   onSelected: (T) -> Unit
 ) {
   val expanded = remember { mutableStateOf(false) }
-  ExposedDropdownMenuBox(
-    expanded = expanded.value,
-    onExpandedChange = {
-      expanded.value = !expanded.value && enabled.value
-    }
-  ) {
+  Box {
     Row(
-      Modifier.padding(start = 10.dp),
+      Modifier
+        .clickable(enabled = enabled.value) { expanded.value = !expanded.value }
+        .padding(start = 10.dp),
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.End
     ) {
@@ -57,34 +55,35 @@ fun <T> ExposedDropDownSetting(
       Icon(
         if (!expanded.value) painterResource(MR.images.ic_arrow_drop_down) else painterResource(MR.images.ic_arrow_drop_up),
         generalGetString(MR.strings.icon_descr_more_button),
-        tint = MaterialTheme.colors.secondary
+        tint = MaterialTheme.colorScheme.onSurfaceVariant
       )
     }
-    DefaultExposedDropdownMenu(
-      modifier = Modifier.widthIn(min = minWidth),
-      expanded = expanded,
+    androidx.compose.material3.DropdownMenu(
+      expanded = expanded.value,
+      onDismissRequest = { expanded.value = false },
+      modifier = Modifier.widthIn(min = minWidth, max = 280.dp),
     ) {
       values.forEach { selectionOption ->
         DropdownMenuItem(
+          text = {
+            Text(
+              selectionOption.second + (if (label != null) " $label" else ""),
+              maxLines = 1,
+              overflow = TextOverflow.Ellipsis,
+              color = MenuTextColor,
+              fontSize = fontSize,
+            )
+          },
           onClick = {
             onSelected(selectionOption.first)
             expanded.value = false
           },
-          contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)
-        ) {
-          Text(
-            selectionOption.second + (if (label != null) " $label" else ""),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = MenuTextColor,
-            fontSize = fontSize,
-          )
-        }
+          contentPadding = PaddingValues(horizontal = 12.dp),
+        )
       }
     }
   }
 }
-
 @Composable
 fun <T> ExposedDropDownSettingWithIcon(
   values: List<Triple<T, ImageResource, String>>,
@@ -100,73 +99,57 @@ fun <T> ExposedDropDownSettingWithIcon(
   onSelected: (T) -> Unit
 ) {
   val expanded = remember { mutableStateOf(false) }
-  ExposedDropdownMenuBox(
-    expanded = expanded.value,
-    onExpandedChange = {
-      expanded.value = !expanded.value && enabled.value
-    }
-  ) {
-    val ripple = remember { ripple(bounded = false, radius = boxSize / 2, color = background.lighter(0.1f)) }
+  Box {
     Box(
       Modifier
+        .clickable(enabled = enabled.value) { expanded.value = !expanded.value }
         .background(background, CircleShape)
-        .size(boxSize)
-        .clickable(
-          onClick = {},
-          role = Role.Button,
-          interactionSource = remember { MutableInteractionSource() },
-          indication = ripple,
-          enabled = enabled.value
-        ),
+        .size(boxSize),
       contentAlignment = Alignment.Center
     ) {
-      val choice = values.firstOrNull { it.first == selection.value }
-      if (choice != null) {
+      values.firstOrNull { it.first == selection.value }?.let { choice ->
         Icon(painterResource(choice.second), choice.third, Modifier.padding(boxSize * iconPaddingPercent).fillMaxSize(), tint = iconColor)
       }
     }
-    DefaultExposedDropdownMenu(
-      modifier = Modifier.widthIn(min = minWidth),
-      expanded = expanded,
+    androidx.compose.material3.DropdownMenu(
+      expanded = expanded.value,
+      onDismissRequest = { expanded.value = false },
+      modifier = Modifier.widthIn(min = minWidth, max = 280.dp),
     ) {
       values.forEach { selectionOption ->
         DropdownMenuItem(
+          text = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+              Icon(painterResource(selectionOption.second), selectionOption.third, Modifier.size(listIconSize))
+              Spacer(Modifier.width(12.dp))
+              Text(selectionOption.third, maxLines = 1, overflow = TextOverflow.Ellipsis, color = MenuTextColor, fontSize = fontSize)
+            }
+          },
           onClick = {
             onSelected(selectionOption.first)
             expanded.value = false
           },
-          contentPadding = PaddingValues(horizontal = DEFAULT_PADDING * 1.5f)
-        ) {
-          Icon(painterResource(selectionOption.second), selectionOption.third, Modifier.size(listIconSize))
-          Spacer(Modifier.width(15.dp))
-          Text(
-            selectionOption.third,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = MenuTextColor,
-            fontSize = fontSize,
-          )
-        }
+          contentPadding = PaddingValues(horizontal = 12.dp),
+        )
       }
     }
   }
 }
-
 @Composable
 fun <T> ExposedDropDownSettingRow(
   title: String,
   values: List<Pair<T, String>>,
   selection: State<T>,
-  textColor: Color = MaterialTheme.colors.secondary,
+  textColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
   label: String? = null,
   icon: Painter? = null,
-  iconTint: Color = MaterialTheme.colors.secondary,
+  iconTint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
   enabled: State<Boolean> = mutableStateOf(true),
   minWidth: Dp = 200.dp,
   maxWidth: Dp = with(LocalDensity.current) { 180.sp.toDp() },
   onSelected: (T) -> Unit
 ) {
   SettingsActionItemWithContent(icon, title, iconColor = iconTint, disabled = !enabled.value) {
-    ExposedDropDownSetting(values, selection ,textColor, label = label, enabled = enabled, minWidth = minWidth, maxWidth = maxWidth, onSelected = onSelected)
+    ExposedDropDownSetting(values, selection, textColor, label = label, enabled = enabled, minWidth = minWidth, maxWidth = maxWidth, onSelected = onSelected)
   }
 }

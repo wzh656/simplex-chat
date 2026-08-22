@@ -104,7 +104,7 @@ private fun SetupDatabasePassphraseLayout(
   CompositionLocalProvider(LocalAppBarHandler provides rememberAppBarHandler()) {
     ModalView({}, showClose = false) {
       ColumnWithScrollBar(
-        Modifier.themedBackground(bgLayerSize = LocalAppBarHandler.current?.backgroundGraphicsLayerSize, bgLayer = LocalAppBarHandler.current?.backgroundGraphicsLayer).padding(horizontal = DEFAULT_PADDING),
+        Modifier.themedBackground().padding(horizontal = DEFAULT_PADDING),
         horizontalAlignment = Alignment.CenterHorizontally,
       ) {
         AppBarTitle(stringResource(MR.strings.setup_database_passphrase), overrideTitleColor = MaterialTheme.colors.onBackground)

@@ -7,6 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -124,7 +126,7 @@ fun CommandsMenuView(
     ) {
       Row(Modifier.padding(horizontal = DEFAULT_PADDING), verticalAlignment = Alignment.CenterVertically) {
         Icon(
-          painterResource(MR.images.ic_arrow_back_ios_new),
+          Icons.AutoMirrored.Filled.ArrowBack,
           contentDescription = null,
           tint = MaterialTheme.colors.secondary
         )

@@ -388,8 +388,6 @@ fun CacheDrawScope.chatViewBackground(
   imageType: WallpaperType,
   background: Color,
   tint: Color,
-  graphicsLayerSize: MutableState<IntSize>? = null,
-  backgroundGraphicsLayer: GraphicsLayer? = null
 ): DrawResult {
   val imageScale = if (imageType is WallpaperType.Preset) {
     (imageType.scale ?: 1f) * imageType.predefinedImageScale
@@ -405,7 +403,6 @@ fun CacheDrawScope.chatViewBackground(
   }
 
   return onDrawBehind {
-    copyBackgroundToAppBar(graphicsLayerSize, backgroundGraphicsLayer) {
       val quality = if (appPlatform.isAndroid) FilterQuality.High else FilterQuality.Low
       drawRect(background)
       when (imageType) {
@@ -454,6 +451,5 @@ fun CacheDrawScope.chatViewBackground(
         }
         is WallpaperType.Empty -> {}
       }
-    }
   }
 }

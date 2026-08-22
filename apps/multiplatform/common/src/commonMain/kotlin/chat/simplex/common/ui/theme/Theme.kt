@@ -1,6 +1,7 @@
 package chat.simplex.common.ui.theme
 
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -622,16 +623,12 @@ fun sectionCardColor(): Color {
   else theme.colors.background.mixWith(theme.colors.onBackground, 0.95f)
 }
 
-fun Modifier.themedBackground(baseTheme: DefaultTheme = CurrentColors.value.base, bgLayerSize: MutableState<IntSize>?, bgLayer: GraphicsLayer?, overrideColor: Color? = null): Modifier {
+fun Modifier.themedBackground(baseTheme: DefaultTheme = CurrentColors.value.base, overrideColor: Color? = null): Modifier {
   return drawBehind {
-    copyBackgroundToAppBar(bgLayerSize, bgLayer) {
-      if (overrideColor != null) {
-        drawRect(overrideColor)
-      } else if (baseTheme == DefaultTheme.SIMPLEX) {
-        drawRect(brush = themedBackgroundBrush())
-      } else {
-        drawRect(CurrentColors.value.colors.background)
-      }
+    when {
+      overrideColor != null -> drawRect(overrideColor)
+      baseTheme == DefaultTheme.SIMPLEX -> drawRect(brush = themedBackgroundBrush())
+      else -> drawRect(CurrentColors.value.colors.background)
     }
   }
 }
@@ -661,93 +658,97 @@ val DEFAULT_END_MODAL_WIDTH = 388.dp
 val DEFAULT_MAX_IMAGE_WIDTH = 500.dp
 
 val DarkColorPalette = darkColors(
-  primary = SimplexBlue,  // If this value changes also need to update #0088ff in string resource files
-  primaryVariant = SimplexBlue,
-  secondary = HighOrLowlight,
-  secondaryVariant = DarkGray,
-//  background = Color.Black,
-  surface = Color(0xFF222222),
-//  background = Color(0xFF121212),
-  error = Color.Red,
-  onBackground = Color(0xFFFFFBFA),
-  onSurface = Color(0xFFFFFBFA),
-//  onError: Color = Color.Black,
+  primary = PortalViolet,
+  primaryVariant = PortalVioletDark,
+  secondary = SlateDark,
+  secondaryVariant = Color(0xFF42444C),
+  background = Night,
+  surface = Graphite,
+  error = Color(0xFFFFB4AB),
+  onPrimary = Color.White,
+  onSecondary = Color(0xFF29303A),
+  onBackground = OnGraphite,
+  onSurface = OnGraphite,
+  onError = Color(0xFF690005),
 )
 val DarkColorPaletteApp = AppColors(
-  title = SimplexBlue,
-  primaryVariant2 = Color(0xFF18262E),
-  sentMessage = Color(0xFF18262E),
-  sentQuote = Color(0xFF1D3847),
-  receivedMessage = Color(0xff262627),
-  receivedQuote = Color(0xff373739),
+  title = PortalViolet,
+  primaryVariant2 = Color(0xFF302C52),
+  sentMessage = Color(0xFF302C52),
+  sentQuote = Color(0xFF3A3565),
+  receivedMessage = Color(0xFF24272D),
+  receivedQuote = Color(0xFF30343C),
 )
 
 val LightColorPalette = lightColors(
-  primary = SimplexBlue,  // If this value changes also need to update #0088ff in string resource files
-  primaryVariant = SimplexBlue,
-  secondary = HighOrLowlight,
-  secondaryVariant = LightGray,
-  error = Color.Red,
-//  background = Color.White,
-  surface = Color.White,
-//  onPrimary = Color.White,
-//  onSecondary = Color.Black,
-//  onBackground = Color.Black,
-//  onSurface = Color.Black,
+  primary = PortalViolet,
+  primaryVariant = PortalVioletDark,
+  secondary = Slate,
+  secondaryVariant = Color(0xFFE3E4EA),
+  background = Fog,
+  surface = Paper,
+  error = Color(0xFFBA1A1A),
+  onPrimary = Color.White,
+  onSecondary = Color.White,
+  onBackground = Color(0xFF1D2025),
+  onSurface = Color(0xFF1D2025),
+  onError = Color.White,
 )
 val LightColorPaletteApp = AppColors(
-  title = SimplexBlue,
-  primaryVariant2 = Color(0xFFE9F7FF),
-  sentMessage = Color(0xFFE9F7FF),
-  sentQuote = Color(0xFFD6F0FF),
-  receivedMessage = Color(0xfff5f5f6),
-  receivedQuote = Color(0xffececee),
+  title = PortalVioletDark,
+  primaryVariant2 = Color(0xFFE9E6FF),
+  sentMessage = Color(0xFFE9E6FF),
+  sentQuote = Color(0xFFD8D2FF),
+  receivedMessage = Color(0xFFE8E9ED),
+  receivedQuote = Color(0xFFDADCE1),
 )
 
+// Branded dark theme retained under the upstream enum name until the separate product-name
+// cutover. Its visual identity is Gray Heterotopia rather than the old cyan SimpleX palette.
 val SimplexColorPalette = darkColors(
-  primary = Color(0xFF70F0F9),  // If this value changes also need to update #0088ff in string resource files
-  primaryVariant = Color(0xFF1298A5),
-  secondary = HighOrLowlight,
-  secondaryVariant = Color(0xFF2C464D),
-  background = Color(0xFF111528),
-  //  surface = Color.Black,
-  //  background = Color(0xFF121212),
-  surface = Color(0xFF121C37),
-  error = Color.Red,
-//  onBackground = Color(0xFFFFFBFA),
-//  onSurface = Color(0xFFFFFBFA),
-  //  onError: Color = Color.Black,
+  primary = PortalViolet,
+  primaryVariant = PortalVioletDark,
+  secondary = SlateDark,
+  secondaryVariant = Color(0xFF42444C),
+  background = Color(0xFF12131A),
+  surface = Color(0xFF1C1E27),
+  error = Color(0xFFFFB4AB),
+  onPrimary = Color.White,
+  onSecondary = Color(0xFF29303A),
+  onBackground = OnGraphite,
+  onSurface = OnGraphite,
+  onError = Color(0xFF690005),
 )
 val SimplexColorPaletteApp = AppColors(
-  title = Color(0xFF267BE5),
-  primaryVariant2 = Color(0xFF172941),
-  sentMessage = Color(0xFF172941),
-  sentQuote = Color(0xFF1C3A57),
-  receivedMessage = Color(0xff25283a),
-  receivedQuote = Color(0xff36394a),
+  title = PortalViolet,
+  primaryVariant2 = Color(0xFF302C52),
+  sentMessage = Color(0xFF302C52),
+  sentQuote = Color(0xFF3A3565),
+  receivedMessage = Color(0xFF252831),
+  receivedQuote = Color(0xFF323640),
 )
 
 val BlackColorPalette = darkColors(
-  primary = Color(0xff0077e0),  // If this value changes also need to update #0088ff in string resource files
-  primaryVariant = Color(0xff0077e0),
-  secondary = HighOrLowlight,
-  secondaryVariant = DarkGray,
-  background = Color(0xff070707),
-  surface = Color(0xff161617),
-  //  background = Color(0xFF121212),
-  //  surface = Color(0xFF121212),
-  error = Color.Red,
-  onBackground = Color(0xFFFFFBFA),
-  onSurface = Color(0xFFFFFBFA),
-  //  onError: Color = Color.Black,
+  primary = PortalViolet,
+  primaryVariant = PortalVioletDark,
+  secondary = SlateDark,
+  secondaryVariant = Color(0xFF363840),
+  background = Color.Black,
+  surface = Color(0xFF101116),
+  error = Color(0xFFFFB4AB),
+  onPrimary = Color.White,
+  onSecondary = Color(0xFF29303A),
+  onBackground = OnGraphite,
+  onSurface = OnGraphite,
+  onError = Color(0xFF690005),
 )
 val BlackColorPaletteApp = AppColors(
-  title = Color(0xff0077e0),
-  primaryVariant2 = Color(0xff243747),
-  sentMessage = Color(0xFF18262E),
-  sentQuote = Color(0xFF1D3847),
-  receivedMessage = Color(0xff1b1b1b),
-  receivedQuote = Color(0xff29292b),
+  title = PortalViolet,
+  primaryVariant2 = Color(0xFF292544),
+  sentMessage = Color(0xFF292544),
+  sentQuote = Color(0xFF363058),
+  receivedMessage = Color(0xFF18191E),
+  receivedQuote = Color(0xFF24262D),
 )
 
 var systemInDarkThemeCurrently: Boolean = isInNightMode()
@@ -827,18 +828,15 @@ fun SimpleXTheme(darkTheme: Boolean? = null, content: @Composable () -> Unit) {
     colors = theme.colors,
     typography = Typography,
     shapes = Shapes,
-    content = {
+  ) {
+    Material3Theme(
+      colorScheme = remember(theme.colors) { grayColorScheme(theme.colors) },
+      typography = GrayTypography,
+      shapes = GrayShapes,
+    ) {
       val density = Density(LocalDensity.current.density * desktopDensityScaleMultiplier, LocalDensity.current.fontScale * fontSizeMultiplier)
-      val rememberedAppColors = remember {
-        // Explicitly creating a new object here so we don't mutate the initial [appColors]
-        // provided, and overwrite the values set in it.
-        theme.appColors.copy()
-      }.apply { updateColorsFrom(theme.appColors) }
-      val rememberedWallpaper = remember {
-        // Explicitly creating a new object here so we don't mutate the initial [wallpaper]
-        // provided, and overwrite the values set in it.
-        theme.wallpaper.copy()
-      }.apply { updateWallpaperFrom(theme.wallpaper) }
+      val rememberedAppColors = remember { theme.appColors.copy() }.apply { updateColorsFrom(theme.appColors) }
+      val rememberedWallpaper = remember { theme.wallpaper.copy() }.apply { updateWallpaperFrom(theme.wallpaper) }
       CompositionLocalProvider(
         LocalContentColor provides MaterialTheme.colors.onBackground,
         LocalAppColors provides rememberedAppColors,
@@ -847,7 +845,7 @@ fun SimpleXTheme(darkTheme: Boolean? = null, content: @Composable () -> Unit) {
         content = content
       )
     }
-  )
+  }
 }
 
 @Composable
@@ -856,22 +854,20 @@ fun SimpleXThemeOverride(theme: ThemeManager.ActiveTheme, content: @Composable (
     colors = theme.colors,
     typography = Typography,
     shapes = Shapes,
-    content = {
-      val rememberedAppColors = remember {
-        // Explicitly creating a new object here so we don't mutate the initial [appColors]
-        // provided, and overwrite the values set in it.
-        theme.appColors.copy()
-      }.apply { updateColorsFrom(theme.appColors) }
-      val rememberedWallpaper = remember {
-        // Explicitly creating a new object here so we don't mutate the initial [wallpaper]
-        // provided, and overwrite the values set in it.
-        theme.wallpaper.copy()
-      }.apply { updateWallpaperFrom(theme.wallpaper) }
+  ) {
+    Material3Theme(
+      colorScheme = remember(theme.colors) { grayColorScheme(theme.colors) },
+      typography = GrayTypography,
+      shapes = GrayShapes,
+    ) {
+      val rememberedAppColors = remember { theme.appColors.copy() }.apply { updateColorsFrom(theme.appColors) }
+      val rememberedWallpaper = remember { theme.wallpaper.copy() }.apply { updateWallpaperFrom(theme.wallpaper) }
       CompositionLocalProvider(
         LocalContentColor provides MaterialTheme.colors.onBackground,
         LocalAppColors provides rememberedAppColors,
         LocalAppWallpaper provides rememberedWallpaper,
-        content = content)
+        content = content
+      )
     }
-  )
+  }
 }

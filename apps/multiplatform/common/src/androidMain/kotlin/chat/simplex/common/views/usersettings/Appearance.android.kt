@@ -117,12 +117,6 @@ fun AppearanceScope.AppearanceLayout(
     ThemesSection(systemDarkTheme)
 
     SectionDividerSpaced()
-    AppToolbarsSection()
-
-    SectionDividerSpaced()
-    MessageShapeSection()
-
-    SectionDividerSpaced()
     ProfileImageSection()
 
     SectionDividerSpaced()

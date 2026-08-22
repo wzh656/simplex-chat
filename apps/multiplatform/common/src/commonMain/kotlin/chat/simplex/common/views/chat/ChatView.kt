@@ -6,6 +6,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -983,7 +984,7 @@ fun ChatLayout(
       sheetShape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp)
     ) {
       val composeViewHeight = remember { mutableStateOf(0.dp) }
-      Box(Modifier.fillMaxSize().chatViewBackgroundModifier(MaterialTheme.colors, MaterialTheme.wallpaper, LocalAppBarHandler.current?.backgroundGraphicsLayerSize, LocalAppBarHandler.current?.backgroundGraphicsLayer, drawWallpaper = chatsCtx.secondaryContextFilter == null)) {
+      Box(Modifier.fillMaxSize().chatViewBackgroundModifier(MaterialTheme.colors, MaterialTheme.wallpaper, drawWallpaper = chatsCtx.secondaryContextFilter == null)) {
         val remoteHostId = remember { remoteHostId }.value
         val chat = remember { chat }.value
         val chatInfo = chat?.chatInfo
@@ -1208,6 +1209,8 @@ fun BoxScope.ChatInfoToolbar(
   }
   val barButtons = arrayListOf<@Composable RowScope.() -> Unit>()
   val menuItems = arrayListOf<@Composable () -> Unit>()
+  val oneHandUI = remember { appPrefs.oneHandUI.state }
+  val chatBottomBar = remember { appPrefs.chatBottomBar.state }
   val showContentFilterButton = availableContent.value.isNotEmpty()
 
   // Chat-type specific buttons
@@ -1269,19 +1272,67 @@ fun BoxScope.ChatInfoToolbar(
     else -> {}
   }
 
+  @Composable
+  fun ContentFilterDropdown() {
+    DefaultDropdownMenu(showContentFilterMenu) {
+      val contentFilterMenuItems: List<@Composable () -> Unit> = buildList {
+        availableContent.value.forEach { filter ->
+          val isSelected = contentFilter.value == filter
+          add {
+            ItemAction(
+              stringResource(filter.label),
+              painterResource(if (isSelected) filter.iconFilled else filter.icon),
+              color = if (isSelected) MaterialTheme.colors.primary else Color.Unspecified,
+              onClick = {
+                showContentFilterMenu.value = false
+                if (contentFilter.value == filter) return@ItemAction
+                contentFilter.value = filter
+                showSearch.value = true
+                scope.launch {
+                  chatModel.getChat(chatInfo.id)?.let { apiFindMessages(chatsCtx, it, filter.contentTag, "") }
+                }
+              }
+            )
+          }
+        }
+        if (showSearch.value) {
+          add {
+            ItemAction(
+              stringResource(MR.strings.content_filter_all_messages),
+              painterResource(MR.images.ic_forum),
+              onClick = {
+                showContentFilterMenu.value = false
+                contentFilter.value = null
+                showSearch.value = false
+                scope.launch {
+                  chatModel.getChat(chatInfo.id)?.let { apiFindMessages(chatsCtx, it, null, "") }
+                }
+              }
+            )
+          }
+        }
+      }
+      if (oneHandUI.value && chatBottomBar.value) contentFilterMenuItems.asReversed().forEach { it() }
+      else contentFilterMenuItems.forEach { it() }
+    }
+  }
+
   // Content filters stay in the toolbar for direct and group chats.
-  if (showContentFilterButton && (appPlatform.isDesktop || chatInfo is ChatInfo.Group || chatInfo is ChatInfo.Direct)) {
+  if (showContentFilterButton && !showSearch.value && (appPlatform.isDesktop || chatInfo is ChatInfo.Group || chatInfo is ChatInfo.Direct)) {
     val enabled = chatInfo !is ChatInfo.Local || chatInfo.noteFolder.ready
     barButtons.add {
-      IconButton(
-        { showContentFilterMenu.value = true },
-        enabled = enabled
-      ) {
-        Icon(
-          painterResource(MR.images.ic_photo_library),
-          null,
-          tint = MaterialTheme.colors.primary
-        )
+      Box {
+        IconButton(
+          { showContentFilterMenu.value = true },
+          enabled = enabled
+        ) {
+          Icon(
+            painterResource(MR.images.ic_photo_library),
+            null,
+            tint = MaterialTheme.colors.primary
+          )
+        }
+        ContentFilterDropdown()
       }
     }
   }
@@ -1354,23 +1405,32 @@ fun BoxScope.ChatInfoToolbar(
 
   if (menuItems.isNotEmpty()) {
     barButtons.add {
-      IconButton({ showMenu.value = true }) {
-        Icon(MoreVertFilled, stringResource(MR.strings.icon_descr_more_button), tint = MaterialTheme.colors.primary)
+      Box {
+        IconButton({ showMenu.value = true }) {
+          Icon(MoreVertFilled, stringResource(MR.strings.icon_descr_more_button), tint = MaterialTheme.colors.primary)
+        }
+        DefaultDropdownMenu(showMenu) {
+          if (oneHandUI.value && chatBottomBar.value) menuItems.asReversed().forEach { it() }
+          else menuItems.forEach { it() }
+        }
       }
     }
   }
-  val oneHandUI = remember { appPrefs.oneHandUI.state }
-  val chatBottomBar = remember { appPrefs.chatBottomBar.state }
-  val searchTrailingContent: @Composable (() -> Unit)? = if (showContentFilterButton) {{
-    IconButton({ showContentFilterMenu.value = true }) {
-      Icon(
-        painterResource(if (contentFilter.value == null) MR.images.ic_photo_library else MR.images.ic_photo_library_filled),
-        null,
-        Modifier.padding(4.dp),
-        tint = MaterialTheme.colors.primary
-      )
+  val searchTrailingContent: @Composable (() -> Unit)? = if (showContentFilterButton && showSearch.value) {
+    {
+      Box {
+        IconButton({ showContentFilterMenu.value = true }) {
+          Icon(
+            painterResource(if (contentFilter.value == null) MR.images.ic_photo_library else MR.images.ic_photo_library_filled),
+            null,
+            Modifier.padding(4.dp),
+            tint = MaterialTheme.colors.primary
+          )
+        }
+        ContentFilterDropdown()
+      }
     }
-  }} else null
+  } else null
 
   DefaultAppBar(
     navigationButton = { if (appPlatform.isAndroid || showSearch.value) { NavigationButtonBack(onBackClicked) }  },
@@ -1384,84 +1444,6 @@ fun BoxScope.ChatInfoToolbar(
     searchTrailingContent = searchTrailingContent,
     buttons = { barButtons.forEach { it() } }
   )
-  Box(Modifier.fillMaxWidth().wrapContentSize(Alignment.TopEnd)) {
-    val density = LocalDensity.current
-    val width = remember { mutableStateOf(250.dp) }
-    val height = remember { mutableStateOf(0.dp) }
-    DefaultDropdownMenu(
-      showMenu,
-      modifier = Modifier.onSizeChanged { with(density) {
-        width.value = it.width.toDp().coerceAtLeast(250.dp)
-        if (oneHandUI.value && chatBottomBar.value && (appPlatform.isDesktop || (platform.androidApiLevel ?: 0) >= 30)) height.value = it.height.toDp()
-      } },
-      offset = DpOffset(-width.value, if (oneHandUI.value && chatBottomBar.value) -height.value else AppBarHeight)
-    ) {
-      if (oneHandUI.value && chatBottomBar.value) {
-        menuItems.asReversed().forEach { it() }
-      } else {
-        menuItems.forEach { it() }
-      }
-    }
-    val contentFilterWidth = remember { mutableStateOf(250.dp) }
-    val contentFilterHeight = remember { mutableStateOf(0.dp) }
-    DefaultDropdownMenu(
-      showContentFilterMenu,
-      modifier = Modifier.onSizeChanged { with(density) {
-        contentFilterWidth.value = it.width.toDp().coerceAtLeast(250.dp)
-        if (oneHandUI.value && chatBottomBar.value && (appPlatform.isDesktop || (platform.androidApiLevel ?: 0) >= 30)) contentFilterHeight.value = it.height.toDp()
-      } },
-      offset = DpOffset(-contentFilterWidth.value, if (oneHandUI.value && chatBottomBar.value) -contentFilterHeight.value else AppBarHeight)
-    ) {
-      val contentFilterMenuItems: List<@Composable () -> Unit> = buildList {
-        availableContent.value.forEach { filter ->
-          val isSelected = contentFilter.value == filter
-          add {
-            ItemAction(
-              stringResource(filter.label),
-              painterResource(if (isSelected) filter.iconFilled else filter.icon),
-              color = if (isSelected) MaterialTheme.colors.primary else Color.Unspecified,
-              onClick = {
-                showContentFilterMenu.value = false
-                if (contentFilter.value == filter) return@ItemAction
-                contentFilter.value = filter
-                showSearch.value = true
-                scope.launch {
-                  val c = chatModel.getChat(chatInfo.id)
-                  if (c != null) {
-                    apiFindMessages(chatsCtx, c, filter.contentTag, "")
-                  }
-                }
-              }
-            )
-          }
-        }
-        if (showSearch.value) {
-          add {
-            ItemAction(
-              stringResource(MR.strings.content_filter_all_messages),
-              painterResource(MR.images.ic_forum),
-              onClick = {
-                showContentFilterMenu.value = false
-                contentFilter.value = null
-                showSearch.value = false
-                scope.launch {
-                  val c = chatModel.getChat(chatInfo.id)
-                  if (c != null) {
-                    apiFindMessages(chatsCtx, c, null, "")
-                  }
-                }
-              }
-            )
-          }
-        }
-      }
-      if (oneHandUI.value && chatBottomBar.value) {
-        contentFilterMenuItems.asReversed().forEach { it() }
-      } else {
-        contentFilterMenuItems.forEach { it() }
-      }
-    }
-  }
 }
 
 fun subscriberCountStr(count: Long): String =
@@ -1476,7 +1458,7 @@ fun ownersContributorsCountStr(count: Int, withContributors: Boolean): String =
 @Composable
 fun ChatInfoToolbarTitle(cInfo: ChatInfo, imageSize: Dp = 40.dp, iconColor: Color = MaterialTheme.colors.secondaryVariant.mixWith(MaterialTheme.colors.onBackground, 0.97f)) {
   Row(
-    horizontalArrangement = Arrangement.Center,
+    horizontalArrangement = Arrangement.Start,
     verticalAlignment = Alignment.CenterVertically
   ) {
     if (cInfo.incognito) {
@@ -1484,21 +1466,25 @@ fun ChatInfoToolbarTitle(cInfo: ChatInfo, imageSize: Dp = 40.dp, iconColor: Colo
     }
     ChatInfoImage(cInfo, size = imageSize * fontSizeSqrtMultiplier, iconColor)
     Column(
-      Modifier.padding(start = 8.dp),
-      horizontalAlignment = Alignment.CenterHorizontally
+      Modifier.padding(start = 10.dp),
+      horizontalAlignment = Alignment.Start
     ) {
       Row(verticalAlignment = Alignment.CenterVertically) {
         if ((cInfo as? ChatInfo.Direct)?.contact?.verified == true) {
           ContactVerifiedShield()
         }
         NameWithBadge(
-          cInfo.displayName, cInfo.nameBadge, fontWeight = FontWeight.SemiBold,
+          cInfo.displayName, cInfo.nameBadge,
+          style = Material3Theme.typography.titleMedium,
+          fontWeight = FontWeight.SemiBold,
           maxLines = 1, overflow = TextOverflow.Ellipsis
         )
       }
       if (cInfo.fullName != "" && cInfo.fullName != cInfo.displayName && cInfo.localAlias.isEmpty()) {
         Text(
           cInfo.fullName,
+          style = Material3Theme.typography.bodySmall,
+          color = Material3Theme.colorScheme.onSurfaceVariant,
           maxLines = 1, overflow = TextOverflow.Ellipsis
         )
       }
@@ -1508,8 +1494,8 @@ fun ChatInfoToolbarTitle(cInfo: ChatInfo, imageSize: Dp = 40.dp, iconColor: Colo
       if (channelSubscriberCount != null) {
         Text(
           subscriberCountStr(channelSubscriberCount),
-          style = MaterialTheme.typography.body2,
-          color = MaterialTheme.colors.secondary,
+          style = Material3Theme.typography.bodySmall,
+          color = Material3Theme.colorScheme.onSurfaceVariant,
           maxLines = 1, overflow = TextOverflow.Ellipsis
         )
       }
@@ -3031,6 +3017,7 @@ fun supportUnreadCount(staleChatId: String?): Int {
 private fun reversedChatItemsStatic(chatsCtx: ChatModel.ChatsContext): List<ChatItem> =
   chatsCtx.chatItems.value.asReversed()
 
+
 private fun oldestPartiallyVisibleListItemInListStateOrNull(topPaddingToContentPx: State<Int>, mergedItems: State<MergedItems>, listState: State<LazyListState>): ListItem? {
   val lastFullyVisibleOffset = listState.value.layoutInfo.viewportEndOffset - topPaddingToContentPx.value
   val visibleKey: ChatViewItemKey? = listState.value.layoutInfo.visibleItemsInfo.lastOrNull { item ->
@@ -3433,8 +3420,6 @@ private fun memberNames(member: GroupMember, prevMember: GroupMember?, memCount:
 fun Modifier.chatViewBackgroundModifier(
   colors: Colors,
   wallpaper: AppWallpaper,
-  backgroundGraphicsLayerSize: MutableState<IntSize>?,
-  backgroundGraphicsLayer: GraphicsLayer?,
   drawWallpaper: Boolean
 ): Modifier {
   val wallpaperImage = wallpaper.type.image
@@ -3444,9 +3429,9 @@ fun Modifier.chatViewBackgroundModifier(
 
   return this
     .then(if (wallpaperImage != null && drawWallpaper)
-      Modifier.drawWithCache { chatViewBackground(wallpaperImage, wallpaperType, backgroundColor, tintColor, backgroundGraphicsLayerSize, backgroundGraphicsLayer) }
+      Modifier.drawWithCache { chatViewBackground(wallpaperImage, wallpaperType, backgroundColor, tintColor) }
     else
-      Modifier.drawWithCache { onDrawBehind { copyBackgroundToAppBar(backgroundGraphicsLayerSize, backgroundGraphicsLayer) { drawRect(backgroundColor) } } }
+      Modifier.drawWithCache { onDrawBehind { drawRect(backgroundColor) } }
     )
 }
 

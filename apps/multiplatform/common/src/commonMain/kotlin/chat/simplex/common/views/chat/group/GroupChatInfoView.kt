@@ -1379,10 +1379,6 @@ private fun DeleteGroupButton(titleId: StringResource, onClick: () -> Unit) {
 fun MemberListSearchRowView(
   searchText: MutableState<TextFieldValue> = rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
 ) {
-  Box(Modifier.width(36.dp), contentAlignment = Alignment.Center) {
-    Icon(painterResource(MR.images.ic_search), stringResource(MR.strings.search_verb), tint = MaterialTheme.colors.secondary)
-  }
-  Spacer(Modifier.width(14.dp))
   SearchTextField(Modifier.fillMaxWidth(), searchText = searchText, alwaysVisible = true) {
     searchText.value = searchText.value.copy(it)
   }

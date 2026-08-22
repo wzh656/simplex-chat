@@ -63,12 +63,9 @@ actual fun LazyColumnWithScrollBar(
         }
     }
   }
+  val listModifier = if (fillMaxSize) Modifier.fillMaxSize().then(modifier) else modifier
   LazyColumn(
-    if (fillMaxSize) {
-      Modifier.fillMaxSize().copyViewToAppBar(remember { appPrefs.appearanceBarsBlurRadius.state }.value, LocalAppBarHandler.current?.graphicsLayer).then(modifier).nestedScroll(connection)
-    } else {
-      Modifier.copyViewToAppBar(remember { appPrefs.appearanceBarsBlurRadius.state }.value, LocalAppBarHandler.current?.graphicsLayer).then(modifier).nestedScroll(connection)
-    },
+    listModifier.nestedScroll(connection),
     state,
     contentPadding,
     reverseLayout,
@@ -135,9 +132,9 @@ actual fun ColumnWithScrollBar(
   Box(Modifier.fillMaxHeight()) {
     Column(
       if (maxIntrinsicSize) {
-        Modifier.copyViewToAppBar(remember { appPrefs.appearanceBarsBlurRadius.state }.value, LocalAppBarHandler.current?.graphicsLayer).then(modifier).nestedScroll(connection).verticalScroll(state).height(IntrinsicSize.Max)
+        modifier.nestedScroll(connection).verticalScroll(state).height(IntrinsicSize.Max)
       } else {
-        Modifier.copyViewToAppBar(remember { appPrefs.appearanceBarsBlurRadius.state }.value, LocalAppBarHandler.current?.graphicsLayer).then(modifier).nestedScroll(connection).verticalScroll(state)
+        modifier.nestedScroll(connection).verticalScroll(state)
       }, verticalArrangement, horizontalAlignment
     ) {
       if (oneHandUI.value) {

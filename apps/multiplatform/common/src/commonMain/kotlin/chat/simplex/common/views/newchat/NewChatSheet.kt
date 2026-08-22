@@ -476,14 +476,12 @@ private fun ContactsSearchBar(
 
   Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
     val focusRequester = remember { FocusRequester() }
-    Icon(
-      painterResource(MR.images.ic_search),
-      contentDescription = null,
-      Modifier.padding(start = DEFAULT_PADDING, end = DEFAULT_PADDING_HALF).size(22.dp * fontSizeSqrtMultiplier),
-      tint = MaterialTheme.colors.secondary
-    )
     SearchTextField(
-      Modifier.weight(1f).onFocusChanged { focused = it.hasFocus }.focusRequester(focusRequester),
+      Modifier
+        .weight(1f)
+        .padding(start = 16.dp, top = 6.dp, bottom = 6.dp)
+        .onFocusChanged { focused = it.hasFocus }
+        .focusRequester(focusRequester),
       placeholder = stringResource(MR.strings.search_or_paste_simplex_link),
       alwaysVisible = true,
       searchText = searchText,

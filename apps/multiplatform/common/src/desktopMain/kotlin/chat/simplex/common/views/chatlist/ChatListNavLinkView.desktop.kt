@@ -3,10 +3,13 @@ package chat.simplex.common.views.chatlist
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.node.DelegatableNode
 import androidx.compose.ui.node.DrawModifierNode
@@ -34,33 +37,38 @@ actual fun ChatListNavLinkLayout(
   selectedChat: State<Boolean>,
   nextChatSelected: State<Boolean>,
 ) {
-  var modifier = Modifier.fillMaxWidth()
+  val selected = selectedChat.value
+  var modifier = Modifier
+    .fillMaxWidth()
+    .padding(horizontal = 8.dp, vertical = 2.dp)
+    .clip(RoundedCornerShape(12.dp))
+    .background(if (selected) Material3Theme.colorScheme.primaryContainer else Material3Theme.colorScheme.surface)
   if (!disabled) modifier = modifier
     .combinedClickable(onClick = click, onLongClick = { showMenu.value = true })
     .onRightClick { showMenu.value = true }
   CompositionLocalProvider(
-    LocalIndication provides if (selectedChat.value && !disabled) NoIndication else LocalIndication.current
+    LocalIndication provides if (selected && !disabled) NoIndication else LocalIndication.current
   ) {
     Box(modifier) {
       Row(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(start = 8.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.Top
+        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 7.dp, end = 10.dp, bottom = 7.dp),
+        verticalAlignment = Alignment.CenterVertically
       ) {
         chatLinkPreview()
       }
-      if (selectedChat.value) {
-        Box(Modifier.matchParentSize().background(MaterialTheme.colors.onBackground.copy(0.05f)))
+      if (selected) {
+        Box(
+          Modifier
+            .align(Alignment.CenterStart)
+            .padding(vertical = 10.dp)
+            .width(3.dp)
+            .fillMaxHeight()
+            .background(Material3Theme.colorScheme.primary, RoundedCornerShape(topEnd = 3.dp, bottomEnd = 3.dp))
+        )
       }
       if (dropdownMenuItems != null) {
         DefaultDropdownMenu(showMenu, dropdownMenuItems = dropdownMenuItems)
       }
     }
-  }
-  if (selectedChat.value || nextChatSelected.value) {
-    Divider()
-  } else {
-    Divider(Modifier.padding(horizontal = 8.dp))
   }
 }

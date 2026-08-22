@@ -3,6 +3,8 @@ package chat.simplex.common.views.chat.item
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +35,7 @@ actual fun FullScreenVideoView(player: VideoPlayer, modifier: Modifier, close: (
     Box(Modifier.fillMaxSize().padding(bottom = 50.dp)) {
       SurfaceFromPlayer(player, modifier)
       IconButton(onClick = close, Modifier.padding(top = 5.dp)) {
-        Icon(painterResource(MR.images.ic_arrow_back_ios_new), null, Modifier.size(30.dp), tint = MaterialTheme.colors.primary)
+        Icon(Icons.AutoMirrored.Filled.ArrowBack, null, Modifier.size(30.dp), tint = MaterialTheme.colors.primary)
       }
     }
     Controls(player)

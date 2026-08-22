@@ -3,6 +3,9 @@ package chat.simplex.common.views.helpers
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,37 +43,13 @@ fun DefaultAppBar(
   } else if (!onTop) Modifier.imePadding()
   else Modifier
 
-  val themeBackgroundMix = MaterialTheme.colors.background.mixWith(MaterialTheme.colors.onBackground, 0.97f)
-  val prefAlpha = remember { appPrefs.inAppBarsAlpha.state }
   val handler = LocalAppBarHandler.current
-  val connection = LocalAppBarHandler.current?.connection
+  val connection = handler?.connection
   val titleText = remember(handler?.title?.value, fixedTitleText) {
-    if (fixedTitleText != null) {
-      mutableStateOf(fixedTitleText)
-    } else {
-      handler?.title ?: mutableStateOf("")
-    }
+    if (fixedTitleText != null) mutableStateOf(fixedTitleText)
+    else handler?.title ?: mutableStateOf("")
   }
-  val keyboardInset = WindowInsets.ime
-  Box(modifier) {
-    val density = LocalDensity.current
-    val blurRadius = remember { appPrefs.appearanceBarsBlurRadius.state }
-    Box(Modifier
-      .matchParentSize()
-      .blurredBackgroundModifier(keyboardInset, handler, blurRadius, prefAlpha, handler?.keyboardCoversBar == true, onTop, density)
-      .drawWithCache {
-        // store it as a variable, don't put it inside if without holding it here. Compiler don't see it changes otherwise
-        val alpha = prefAlpha.value
-        val backgroundColor = if (title != null || fixedTitleText != null || connection == null || !onTop) {
-          themeBackgroundMix.copy(alpha)
-        } else {
-          themeBackgroundMix.copy(topTitleAlpha(false, connection))
-        }
-        onDrawBehind {
-          drawRect(backgroundColor)
-        }
-      }
-    )
+  Box(modifier.background(Material3Theme.colorScheme.surface)) {
     Box(
       Modifier
         .fillMaxWidth()
@@ -86,14 +65,13 @@ fun DefaultAppBar(
             title()
           } else if (titleText.value.isNotEmpty() && connection != null) {
             Row(
-              Modifier
-                .graphicsLayer {
-                  alpha = if (fixedTitleText != null) 1f else topTitleAlpha(true, connection)
-                }
+              Modifier.graphicsLayer {
+                alpha = if (fixedTitleText != null) 1f else topTitleAlpha(true, connection)
+              }
             ) {
               Text(
                 titleText.value,
-                fontWeight = FontWeight.SemiBold,
+                style = Material3Theme.typography.titleLarge,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
               )
@@ -102,7 +80,7 @@ fun DefaultAppBar(
         },
         navigationIcon = navigationButton,
         buttons = if (!showSearch) buttons else {{}},
-        centered = !showSearch && (title != null || !onTop),
+        centered = false,
         onTop = onTop,
       )
       AppBarDivider(onTop, title != null || fixedTitleText != null, connection)
@@ -125,10 +103,10 @@ fun CallAppBar(
 }
 
 @Composable
-fun NavigationButtonBack(onButtonClicked: (() -> Unit)?, tintColor: Color = if (onButtonClicked != null) MaterialTheme.colors.primary else MaterialTheme.colors.secondary, height: Dp = 24.dp) {
+fun NavigationButtonBack(onButtonClicked: (() -> Unit)?, tintColor: Color = if (onButtonClicked != null) Material3Theme.colorScheme.onSurface else Material3Theme.colorScheme.onSurfaceVariant, height: Dp = 24.dp) {
   IconButton(onButtonClicked ?: {}, enabled = onButtonClicked != null) {
     Icon(
-      painterResource(MR.images.ic_arrow_back_ios_new), stringResource(MR.strings.back), Modifier.height(height), tint = tintColor
+      Icons.AutoMirrored.Filled.ArrowBack, stringResource(MR.strings.back), Modifier.size(height), tint = tintColor
     )
   }
 }
@@ -164,16 +142,18 @@ fun NavigationButtonMenu(onButtonClicked: () -> Unit) {
 
 @Composable
 private fun BoxScope.AppBarDivider(onTop: Boolean, fixedAlpha: Boolean, connection: CollapsingAppBarNestedScrollConnection?) {
+  val color = Material3Theme.colorScheme.outlineVariant.copy(alpha = 0.65f)
   if (connection != null) {
     Divider(
       Modifier
         .align(if (onTop) Alignment.BottomStart else Alignment.TopStart)
         .graphicsLayer {
           alpha = if (!onTop || fixedAlpha) 1f else topTitleAlpha(false, connection, 1f)
-        }
+        },
+      color = color,
     )
   } else {
-    Divider(Modifier.align(if (onTop) Alignment.BottomStart else Alignment.TopStart))
+    Divider(Modifier.align(if (onTop) Alignment.BottomStart else Alignment.TopStart), color = color)
   }
 }
 

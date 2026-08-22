@@ -25,7 +25,7 @@ import dev.icerock.moko.resources.compose.painterResource
 fun SetNotificationsMode(currentMode: MutableState<NotificationsMode>, onDone: () -> Unit) {
   CompositionLocalProvider(LocalAppBarHandler provides rememberAppBarHandler()) {
     ModalView({}, showClose = false) {
-      ColumnWithScrollBar(Modifier.themedBackground(bgLayerSize = LocalAppBarHandler.current?.backgroundGraphicsLayerSize, bgLayer = LocalAppBarHandler.current?.backgroundGraphicsLayer)) {
+      ColumnWithScrollBar(Modifier.themedBackground()) {
         Box(Modifier.align(Alignment.CenterHorizontally)) {
           AppBarTitle(stringResource(MR.strings.onboarding_notifications_mode_title), bottomPadding = DEFAULT_PADDING)
         }

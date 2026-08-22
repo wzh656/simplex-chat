@@ -65,6 +65,7 @@ kotlin {
         api(compose.runtime)
         api(compose.foundation)
         api(compose.material)
+        api(compose.material3)
         api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
         api("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
         api("com.russhwolf:multiplatform-settings:1.1.1")
