@@ -4,7 +4,11 @@ import chat.simplex.common.model.json
 import chat.simplex.common.platform.appPreferences
 import chat.simplex.common.platform.desktopPlatform
 import chat.simplex.common.ui.theme.DEFAULT_WINDOW_WIDTH
+import androidx.compose.ui.unit.dp
 import kotlinx.serialization.*
+
+val DESKTOP_MIN_WINDOW_WIDTH = 760.dp
+val DESKTOP_MIN_WINDOW_HEIGHT = 560.dp
 
 @Serializable
 data class WindowPositionSize(
@@ -23,12 +27,14 @@ fun getStoredWindowState(): WindowPositionSize =
       json.decodeFromString(str)
     }
 
-    // For some reason on Linux actual width will be 10.dp less after specifying it here. If we specify 1366,
-    // it will show 1356. But after that we can still update it to 1366 by changing window state. Just making it +10 now here
+    // Linux applies a small native frame correction to the stored width.
     if (desktopPlatform.isLinux() && state.width == 1366) {
       state = state.copy(width = 1376)
     }
-    state
+    state.copy(
+      width = maxOf(state.width, DESKTOP_MIN_WINDOW_WIDTH.value.toInt()),
+      height = maxOf(state.height, DESKTOP_MIN_WINDOW_HEIGHT.value.toInt())
+    )
   } catch (e: Throwable) {
     WindowPositionSize()
   }

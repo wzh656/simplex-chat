@@ -622,7 +622,7 @@ object AppearanceScope {
   fun ColorModeSwitcher() {
     val currentTheme by CurrentColors.collectAsState()
     val themeMode = if (remember { appPrefs.currentTheme.state }.value == DefaultTheme.SYSTEM_THEME_NAME) {
-      if (systemInDarkThemeCurrently) DefaultThemeMode.DARK else DefaultThemeMode.LIGHT
+      if (systemInDarkThemeCurrently.value) DefaultThemeMode.DARK else DefaultThemeMode.LIGHT
     } else {
       currentTheme.base.mode
     }

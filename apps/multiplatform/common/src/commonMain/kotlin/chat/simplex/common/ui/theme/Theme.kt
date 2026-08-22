@@ -653,7 +653,6 @@ val DEFAULT_MIN_SECTION_ITEM_PADDING_VERTICAL = 15.dp
 
 val DEFAULT_WINDOW_WIDTH = 1366.dp
 val DEFAULT_START_MODAL_WIDTH = 388.dp
-val DEFAULT_MIN_CENTER_MODAL_WIDTH = 590.dp
 val DEFAULT_END_MODAL_WIDTH = 388.dp
 val DEFAULT_MAX_IMAGE_WIDTH = 500.dp
 
@@ -751,7 +750,7 @@ val BlackColorPaletteApp = AppColors(
   receivedQuote = Color(0xFF24262D),
 )
 
-var systemInDarkThemeCurrently: Boolean = isInNightMode()
+val systemInDarkThemeCurrently = mutableStateOf(isInNightMode())
 
 // Spec: spec/services/theme.md#CurrentColors
 val CurrentColors: MutableStateFlow<ThemeManager.ActiveTheme> = MutableStateFlow(ThemeManager.currentColors(null, null, chatModel.currentUser.value?.uiThemes, appPreferences.themeOverrides.get()))
@@ -791,7 +790,7 @@ val MaterialTheme.wallpaper: AppWallpaper
   get() = LocalAppWallpaper.current
 
 fun reactOnDarkThemeChanges(isDark: Boolean) {
-  systemInDarkThemeCurrently = isDark
+  systemInDarkThemeCurrently.value = isDark
   if (ChatController.appPrefs.currentTheme.get() == DefaultTheme.SYSTEM_THEME_NAME && CurrentColors.value.colors.isLight == isDark) {
     // Change active colors from light to dark and back based on system theme
     ThemeManager.applyTheme(DefaultTheme.SYSTEM_THEME_NAME)

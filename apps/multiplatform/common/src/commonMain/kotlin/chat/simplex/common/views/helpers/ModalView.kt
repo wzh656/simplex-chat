@@ -17,9 +17,11 @@ import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.chatlist.StatusBarBackground
 import chat.simplex.common.views.onboarding.OnboardingStage
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.delay
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.min
-import kotlin.math.sqrt
+internal val LocalModalViewBackground = compositionLocalOf { Color.Unspecified }
+
 
 @Composable
 fun ModalView(
@@ -41,8 +43,18 @@ fun ModalView(
     BackHandler(enabled = enableClose, onBack = close)
   }
   val oneHandUI = remember { derivedStateOf { if (appPrefs.onboardingStage.state.value == OnboardingStage.OnboardingComplete) appPrefs.oneHandUI.state.value else false } }
-  Surface(Modifier.fillMaxSize(), contentColor = LocalContentColor.current) {
-    val bgOverride = if (cardScreen) canvasColorForCurrentTheme() else if (background != Color.Unspecified) background else null
+  val inheritedBackground = LocalModalViewBackground.current
+  val bgOverride = when {
+    cardScreen -> canvasColorForCurrentTheme()
+    background != Color.Unspecified -> background
+    inheritedBackground != Color.Unspecified -> inheritedBackground
+    else -> null
+  }
+  Surface(
+    Modifier.fillMaxSize(),
+    color = bgOverride ?: MaterialTheme.colors.surface,
+    contentColor = LocalContentColor.current
+  ) {
     CompositionLocalProvider(LocalCardScreen provides cardScreen) {
     Box(Modifier.themedBackground(overrideColor = bgOverride)) {
       Box(modifier = modifier) {
@@ -106,6 +118,8 @@ class ModalManager(private val placement: ModalPlacement? = null) {
   private val _modalCount = mutableStateOf(0)
   val modalCount: State<Int> = _modalCount
   private val toRemove = mutableSetOf<Int>()
+  private val endVisible = mutableStateOf(false)
+  private val drawerClosing = mutableStateOf(false)
   private var oldViewChanging = AtomicBoolean(false)
   // Don't use mutableStateOf() here, because it produces this if showing from SimpleXAPI.startChat():
   // java.lang.IllegalStateException: Reading a state that was created after the snapshot was taken or in a snapshot that has not yet been applied
@@ -131,21 +145,24 @@ class ModalManager(private val placement: ModalPlacement? = null) {
   fun showCustomModal(animated: Boolean = true, keyboardCoversBar: Boolean = true, id: ModalViewId? = null, forceAnimated: Boolean = false, modal: @Composable ModalData.(close: () -> Unit) -> Unit) {
     Log.d(TAG, "ModalManager.showCustomModal")
     val data = ModalData(keyboardCoversBar = keyboardCoversBar)
-    // Means, animation is in progress or not started yet. Do not wait until animation finishes, just remove all from screen.
-    // This is useful when invoking close() and ShowCustomModal one after another without delay. Otherwise, screen will hold prev view
+    // Remove an interrupted exit before adding the next page.
     if (toRemove.isNotEmpty()) {
-      runAtomically { toRemove.removeIf { elem -> modalViews.removeAt(elem); true } }
+      runAtomically {
+        toRemove.sortedDescending().forEach { index ->
+          if (index in modalViews.indices) modalViews.removeAt(index)
+        }
+        toRemove.clear()
+      }
     }
-    // Make animated appearance only on Android (everytime) and on Desktop (when it's on the start part of the screen or modals > 0)
-    // to prevent unneeded animation on different situations
-    val anim = if (appPlatform.isAndroid) animated else (animated && (modalCount.value > 0 || placement == ModalPlacement.START)) || forceAnimated
+    drawerClosing.value = false
+    val anim = if (appPlatform.isAndroid) animated else
+      (animated && modalCount.value > 0) || forceAnimated
     modalViews.add(ModalViewHolder(id, anim, data, modal))
     _modalCount.value = modalViews.size - toRemove.size
+    if (placement == ModalPlacement.END) endVisible.value = true
 
     if (placement == ModalPlacement.CENTER) {
       ChatModel.chatId.value = null
-    } else if (placement == ModalPlacement.END) {
-      desktopExpandWindowToWidth(DEFAULT_START_MODAL_WIDTH * sqrt(appPrefs.fontScale.get()) + DEFAULT_MIN_CENTER_MODAL_WIDTH + DEFAULT_END_MODAL_WIDTH * sqrt(appPrefs.fontScale.get()))
     }
   }
 
@@ -158,11 +175,10 @@ class ModalManager(private val placement: ModalPlacement? = null) {
     }
   }
 
-  fun hasModalsOpen() = modalCount.value > 0
+  fun hasModalsOpen() = if (placement == ModalPlacement.END) endVisible.value else modalCount.value > 0
 
   val hasModalsOpen: Boolean
-  @Composable get () = remember { modalCount }.value > 0
-
+  @Composable get () = if (placement == ModalPlacement.END) endVisible.value else remember { modalCount }.value > 0
   fun openModalCount() = modalCount.value
 
   fun closeModal() {
@@ -170,19 +186,30 @@ class ModalManager(private val placement: ModalPlacement? = null) {
       val lastModal = modalViews.lastOrNull()
       if (lastModal != null) {
         if (lastModal.id == ModalViewId.SECONDARY_CHAT) chatModel.secondaryChatsContext.value = null
-        if (!lastModal.animated)
-          modalViews.removeAt(modalViews.lastIndex)
-        else
+        if (placement == ModalPlacement.END || lastModal.animated) {
           runAtomically { toRemove.add(modalViews.lastIndex - min(toRemove.size, modalViews.lastIndex)) }
+        } else {
+          modalViews.removeAt(modalViews.lastIndex)
+        }
       }
     }
     _modalCount.value = modalViews.size - toRemove.size
+    if (placement == ModalPlacement.END && _modalCount.value == 0) {
+      drawerClosing.value = true
+      endVisible.value = false
+    }
   }
 
   fun closeModals() {
     chatModel.secondaryChatsContext.value = null
-    modalViews.clear()
-    toRemove.clear()
+    if (placement == ModalPlacement.END && modalViews.isNotEmpty()) {
+      drawerClosing.value = true
+      endVisible.value = false
+      toRemove.addAll(modalViews.indices)
+    } else {
+      modalViews.clear()
+      toRemove.clear()
+    }
     _modalCount.value = 0
   }
 
@@ -194,7 +221,64 @@ class ModalManager(private val placement: ModalPlacement? = null) {
 
   @OptIn(ExperimentalAnimationApi::class)
   @Composable
+  private fun showEndInView() {
+    Box(Modifier.fillMaxSize()) {
+      modalViews.forEachIndexed { index, holder ->
+        val visible = index < modalCount.value || drawerClosing.value
+        if (holder.animated) {
+          val visibilityState = remember(holder) {
+            MutableTransitionState(false).apply { targetState = visible }
+          }
+          LaunchedEffect(visible) {
+            visibilityState.targetState = visible
+          }
+          AnimatedVisibility(
+            visibleState = visibilityState,
+            modifier = Modifier.fillMaxSize(),
+            enter = slideInHorizontally(
+              initialOffsetX = { fullWidth -> fullWidth },
+              animationSpec = animationSpec()
+            ),
+            exit = slideOutHorizontally(
+              targetOffsetX = { fullWidth -> fullWidth },
+              animationSpec = animationSpec()
+            )
+          ) {
+            CompositionLocalProvider(LocalAppBarHandler provides adjustAppBarHandler(holder.data.appBarHandler)) {
+              holder.modal(holder.data, ::closeModal)
+            }
+          }
+        } else if (visible) {
+          CompositionLocalProvider(LocalAppBarHandler provides adjustAppBarHandler(holder.data.appBarHandler)) {
+            holder.modal(holder.data, ::closeModal)
+          }
+        }
+      }
+      if (toRemove.isNotEmpty()) {
+        LaunchedEffect(modalCount.value, toRemove.size) {
+          delay(275)
+          if (toRemove.isNotEmpty()) {
+            runAtomically {
+              toRemove.sortedDescending().forEach { index ->
+                if (index in modalViews.indices) modalViews.removeAt(index)
+              }
+              toRemove.clear()
+              drawerClosing.value = false
+            }
+            _modalCount.value = modalViews.size
+          }
+        }
+      }
+    }
+  }
+
+  @OptIn(ExperimentalAnimationApi::class)
+  @Composable
   fun showInView() {
+    if (placement == ModalPlacement.END) {
+      showEndInView()
+      return
+    }
     // Without animation
     if (modalCount.value > 0 && modalViews.lastOrNull()?.animated == false) {
       modalViews.lastOrNull()?.let {
@@ -218,7 +302,6 @@ class ModalManager(private val placement: ModalPlacement? = null) {
           it.modal(it.data, ::closeModal)
         }
       }
-      // This is needed because if we delete from modalViews immediately on request, animation will be bad
       if (toRemove.isNotEmpty() && it == modalCount.value && transition.currentState == EnterExitState.Visible && !transition.isRunning) {
         runAtomically { toRemove.removeIf { elem -> modalViews.removeAt(elem); true } }
       }

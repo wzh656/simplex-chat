@@ -378,19 +378,26 @@ private fun GlobalSettingsSection(
     )
   }
 
-  SectionItemView(
-    click = {
-      ModalManager.start.showModalCloseable(cardScreen = true) { close ->
-        SettingsView(chatModel, setPerformLA, close)
-      }
-    },
-    padding = if (appPlatform.isDesktop) PaddingValues(start = DEFAULT_PADDING * 1.7f, end = DEFAULT_PADDING + 2.dp) else PaddingValues(start = DEFAULT_PADDING, end = DEFAULT_PADDING_HALF)
-  ) {
-    val text = generalGetString(MR.strings.settings_section_title_settings).lowercase().capitalize(Locale.current)
-    Icon(painterResource(MR.images.ic_settings), text, tint = MaterialTheme.colors.secondary)
-    TextIconSpaced()
-    Text(text, color = Color.Unspecified)
-    Spacer(Modifier.weight(1f))
+  val openSettings = {
+    ModalManager.start.showModalCloseable(cardScreen = true) { close ->
+      SettingsView(chatModel, setPerformLA, close)
+    }
+  }
+  val settingsPadding = if (appPlatform.isDesktop) {
+    PaddingValues(start = DEFAULT_PADDING * 1.7f, end = DEFAULT_PADDING + 2.dp)
+  } else {
+    PaddingValues(start = DEFAULT_PADDING, end = DEFAULT_PADDING_HALF)
+  }
+  SectionItemView(openSettings, padding = settingsPadding) {
+    Row(
+      Modifier.weight(1f),
+      verticalAlignment = Alignment.CenterVertically
+    ) {
+      val text = generalGetString(MR.strings.settings_section_title_settings).lowercase().capitalize(Locale.current)
+      Icon(painterResource(MR.images.ic_settings), text, tint = MaterialTheme.colors.secondary)
+      TextIconSpaced()
+      Text(text, color = Color.Unspecified)
+    }
     ColorModeSwitcher()
   }
 }

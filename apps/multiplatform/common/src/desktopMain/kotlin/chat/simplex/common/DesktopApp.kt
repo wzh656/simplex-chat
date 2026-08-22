@@ -27,7 +27,9 @@ import java.awt.Frame
 import java.awt.event.WindowEvent
 import java.awt.event.WindowFocusListener
 import java.io.File
+import java.awt.Dimension
 import kotlin.system.exitProcess
+import kotlin.math.roundToInt
 
 val simplexWindowState = SimplexWindowState()
 
@@ -131,6 +133,15 @@ private fun ApplicationScope.AppWindow(closedByError: MutableState<Boolean>) {
     }, title = "Gray Heterotopia") {
 //      val hardwareAccelerationDisabled = remember { listOf(GraphicsApi.SOFTWARE_FAST, GraphicsApi.SOFTWARE_COMPAT, GraphicsApi.UNKNOWN).contains(window.renderApi) }
       simplexWindowState.window = window
+      val density = LocalDensity.current
+      SideEffect {
+        with(density) {
+          window.minimumSize = Dimension(
+            DESKTOP_MIN_WINDOW_WIDTH.toPx().roundToInt(),
+            DESKTOP_MIN_WINDOW_HEIGHT.toPx().roundToInt()
+          )
+        }
+      }
       AppScreen()
       if (simplexWindowState.openDialog.isAwaiting) {
         FileDialogChooser(
@@ -283,6 +294,7 @@ data class DialogParams(
   val allowMultiple: Boolean = false,
   val fileFilter: ((File?) -> Boolean)? = null,
   val fileFilterDescription: String = "",
+  val fileExtensions: Set<String> = emptySet(),
 )
 
 class DialogState<T> {

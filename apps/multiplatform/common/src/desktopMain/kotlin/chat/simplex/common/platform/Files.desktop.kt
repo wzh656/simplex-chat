@@ -66,19 +66,17 @@ actual class FileChooserLauncher actual constructor() {
   }
 
   actual suspend fun launch(input: String) {
-    var res: File?
-    if (getContent) {
-      val params = DialogParams(
-        allowMultiple = false,
-        fileFilter = fileFilter(input),
-        fileFilterDescription = fileFilterDescription(input),
+    val res: File? = if (getContent) {
+      simplexWindowState.openDialog.awaitResult(
+        DialogParams(
+          allowMultiple = false,
+          fileFilter = fileFilter(input),
+          fileFilterDescription = fileFilterDescription(input),
+          fileExtensions = fileExtensions(input),
+        )
       )
-      res = simplexWindowState.openDialog.awaitResult(params)
     } else {
-      res = simplexWindowState.saveDialog.awaitResult(DialogParams(filename = input))
-      if (res != null && res.isDirectory) {
-        res = File(res, input)
-      }
+      simplexWindowState.saveDialog.awaitResult(DialogParams(filename = input))
     }
     onResult(res?.toURI())
   }
@@ -93,10 +91,11 @@ actual class FileChooserMultipleLauncher actual constructor() {
 
   actual suspend fun launch(input: String) {
     val params = DialogParams(
-        allowMultiple = true,
-        fileFilter = fileFilter(input),
-        fileFilterDescription = fileFilterDescription(input),
-      )
+      allowMultiple = true,
+      fileFilter = fileFilter(input),
+      fileFilterDescription = fileFilterDescription(input),
+      fileExtensions = fileExtensions(input),
+    )
     onResult(simplexWindowState.openMultipleDialog.awaitResult(params).map { it.toURI() })
   }
 }
@@ -106,6 +105,14 @@ private fun fileFilter(input: String): (File?) -> Boolean = when(input) {
   "video/*" -> { file -> if (file?.isDirectory == true) true else if (file != null) isVideo(file.toURI()) else false }
   "*/*" -> { _ -> true }
   else -> { _ -> true }
+}
+
+private fun fileExtensions(input: String): Set<String> = when (input) {
+  "image/*" -> setOf("jpg", "jpeg", "png", "gif", "webp", "bmp", "heic", "heif")
+  "video/*" -> setOf("mp4", "m4v", "mov", "avi", "mkv", "webm", "3gp")
+  "application/zip" -> setOf("zip")
+  "*/*" -> emptySet()
+  else -> input.substringAfterLast('.', "").takeIf { it.isNotEmpty() }?.let { setOf(it) } ?: emptySet()
 }
 
 private fun fileFilterDescription(input: String): String = when(input) {

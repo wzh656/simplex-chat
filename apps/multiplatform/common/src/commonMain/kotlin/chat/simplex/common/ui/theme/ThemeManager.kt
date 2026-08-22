@@ -32,7 +32,7 @@ object ThemeManager {
     return if (themeName != DefaultTheme.SYSTEM_THEME_NAME) {
       themeName
     } else {
-      if (systemInDarkThemeCurrently) appPrefs.systemDarkTheme.get()!! else DefaultTheme.LIGHT.themeName
+      if (systemInDarkThemeCurrently.value) appPrefs.systemDarkTheme.get()!! else DefaultTheme.LIGHT.themeName
     }
   }
 

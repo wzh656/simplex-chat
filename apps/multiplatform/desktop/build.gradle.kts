@@ -162,8 +162,12 @@ cmake {
 tasks.named("clean") {
   dependsOn("cmakeClean")
 }
-tasks.named("compileKotlinJvm") {
-  dependsOn("cmakeBuildAndCopy")
+// Desktop builds use the checked-in prebuilt native libraries by default. Rebuilding them is
+// explicit so routine compilation and :desktop:run cannot overwrite the validated Windows DLLs.
+if (providers.gradleProperty("rebuildDesktopNative").orNull == "true") {
+  tasks.named("compileKotlinJvm") {
+    dependsOn("cmakeBuildAndCopy")
+  }
 }
 afterEvaluate {
   tasks.create("cmakeBuildAndCopy") {

@@ -33,7 +33,6 @@ expect fun windowWidth(): Dp
 @Composable
 expect fun windowHeight(): Dp
 
-expect fun desktopExpandWindowToWidth(width: Dp)
 
 expect fun isRtl(text: CharSequence): Boolean
 

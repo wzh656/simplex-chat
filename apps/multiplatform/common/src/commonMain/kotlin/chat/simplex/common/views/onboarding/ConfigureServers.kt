@@ -17,6 +17,7 @@ import chat.simplex.res.MR
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
@@ -205,7 +206,7 @@ private suspend fun testOnboardingServers(
   controller: ChatController,
   smp: String,
   xftp: String
-): Pair<ProtocolTestFailure?, ProtocolTestFailure?> {
+): Pair<ProtocolTestFailure?, ProtocolTestFailure?> = withContext(Dispatchers.IO) {
   val root = File(dataDir, "server_test_${UUID.randomUUID()}")
   val database = File(root, "simplex_test")
   var ctrl: Long? = null
@@ -227,13 +228,13 @@ private suspend fun testOnboardingServers(
     }
     controller.apiSetAppFilePaths(root.absolutePath, root.absolutePath, root.absolutePath, root.absolutePath, temporaryCtrl)
     controller.apiStartChat(temporaryCtrl, mainApp = false)
-    return controller.testProtoServer(null, smp, user.userId, temporaryCtrl) to
+    controller.testProtoServer(null, smp, user.userId, temporaryCtrl) to
         controller.testProtoServer(null, xftp, user.userId, temporaryCtrl)
   } catch (e: Throwable) {
     primaryFailure = e
     throw e
   } finally {
-    withContext(NonCancellable) {
+    withContext(NonCancellable + Dispatchers.IO) {
       val cleanupErrors = mutableListOf<String>()
       var canDelete = true
       ctrl?.let {

@@ -59,7 +59,6 @@ actual fun windowWidth(): Dp {
 @Composable
 actual fun windowHeight(): Dp = LocalConfiguration.current.screenHeightDp.dp
 
-actual fun desktopExpandWindowToWidth(width: Dp) {}
 
 actual fun isRtl(text: CharSequence): Boolean = BidiFormatter.getInstance().isRtl(text)
 

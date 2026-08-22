@@ -55,10 +55,10 @@ fun FrameWindowScope.FileDialogChooser(
   params: DialogParams,
   onResult: (result: List<File>) -> Unit
 ) {
-  if (desktopPlatform.isLinux() || desktopPlatform.isWindows()) {
-    FileDialogChooserMultiple(title, isLoad, params.filename, params.allowMultiple, params.fileFilter, params.fileFilterDescription, onResult)
-  } else {
-    FileDialogAwt(title, isLoad, params.filename, params.allowMultiple, params.fileFilter, onResult)
+  when {
+    desktopPlatform.isWindows() -> WindowsFileDialogChooser(title, isLoad, params, onResult)
+    desktopPlatform.isLinux() -> FileDialogChooserMultiple(title, isLoad, params.filename, params.allowMultiple, params.fileFilter, params.fileFilterDescription, onResult)
+    else -> FileDialogAwt(title, isLoad, params.filename, params.allowMultiple, params.fileFilter, onResult)
   }
 }
 

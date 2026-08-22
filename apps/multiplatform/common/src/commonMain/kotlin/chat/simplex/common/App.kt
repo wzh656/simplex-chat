@@ -1,11 +1,11 @@
 package chat.simplex.common
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -404,42 +404,89 @@ fun EndPartOfScreen() {
 // Spec: spec/client/navigation.md#DesktopScreen
 @Composable
 fun DesktopScreen(userPickerState: MutableStateFlow<AnimatedViewState>) {
-  Box(Modifier.width(DEFAULT_START_MODAL_WIDTH * fontSizeSqrtMultiplier)) {
-    StartPartOfScreen(userPickerState)
-    tryOrShowError("UserPicker", error = {}) {
-      UserPicker(chatModel, userPickerState, setPerformLA = AppLock::setPerformLA)
+  BoxWithConstraints(Modifier.fillMaxSize()) {
+    val preferredStartWidth = DEFAULT_START_MODAL_WIDTH * fontSizeSqrtMultiplier
+    val startWidth = minOf(preferredStartWidth, maxWidth * 0.45f)
+    val endDrawerVisible = ModalManager.end.hasModalsOpen()
+    val endDrawerWidth = minOf(DEFAULT_END_MODAL_WIDTH * fontSizeSqrtMultiplier, maxWidth)
+    val endDrawerColor = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant
+    val endDrawerShape = RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp)
+    Box(Modifier.width(startWidth)) {
+      StartPartOfScreen(userPickerState)
+      tryOrShowError("UserPicker", error = {}) {
+        UserPicker(chatModel, userPickerState, setPerformLA = AppLock::setPerformLA)
+      }
     }
-  }
-  Box(Modifier.widthIn(max = DEFAULT_START_MODAL_WIDTH * fontSizeSqrtMultiplier)) {
-    ModalManager.start.showInView()
-    SwitchingUsersView()
-  }
-  Row(Modifier.padding(start = DEFAULT_START_MODAL_WIDTH * fontSizeSqrtMultiplier).clipToBounds()) {
-    Box(Modifier.widthIn(min = DEFAULT_MIN_CENTER_MODAL_WIDTH).weight(1f)) {
-      CenterPartOfScreen()
+    Box(Modifier.widthIn(max = startWidth)) {
+      ModalManager.start.showInView()
+      SwitchingUsersView()
     }
-    if (ModalManager.end.hasModalsOpen()) {
-      VerticalDivider()
-    }
-    Box(Modifier.widthIn(max = DEFAULT_END_MODAL_WIDTH * fontSizeSqrtMultiplier).clipToBounds()) {
-      EndPartOfScreen()
-    }
-  }
-  if (userPickerState.collectAsState().value.isVisible() || (ModalManager.start.hasModalsOpen && !ModalManager.center.hasModalsOpen)) {
-    Box(
+    Row(
       Modifier
         .fillMaxSize()
-        .padding(start = DEFAULT_START_MODAL_WIDTH * fontSizeSqrtMultiplier)
-        .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = {
-          if (chatModel.centerPanelBackgroundClickHandler == null || chatModel.centerPanelBackgroundClickHandler?.invoke() == false) {
-            ModalManager.start.closeModals()
-            userPickerState.value = AnimatedViewState.HIDING
-          }
-        })
-    )
+        .padding(start = startWidth)
+    ) {
+      Box(Modifier.fillMaxHeight().weight(1f)) {
+        CenterPartOfScreen()
+      }
+    }
+    AnimatedVisibility(
+      visible = endDrawerVisible,
+      modifier = Modifier.fillMaxSize(),
+      enter = fadeIn(tween(180)),
+      exit = fadeOut(tween(180))
+    ) {
+      Box(
+        Modifier
+          .fillMaxSize()
+          .background(Color.Black.copy(alpha = 0.24f))
+          .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = ModalManager.end::closeModals
+          )
+      )
+    }
+    AnimatedVisibility(
+      visible = endDrawerVisible,
+      modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight().width(endDrawerWidth),
+      enter = slideInHorizontally(
+        initialOffsetX = { fullWidth -> fullWidth },
+        animationSpec = tween(250, easing = FastOutSlowInEasing)
+      ),
+      exit = slideOutHorizontally(
+        targetOffsetX = { fullWidth -> fullWidth },
+        animationSpec = tween(250, easing = FastOutSlowInEasing)
+      )
+    ) {
+      Box(
+        Modifier
+          .fillMaxSize()
+          .shadow(16.dp, endDrawerShape, clip = false)
+          .clip(endDrawerShape)
+          .background(endDrawerColor)
+      ) {
+        CompositionLocalProvider(LocalModalViewBackground provides endDrawerColor) {
+          EndPartOfScreen()
+        }
+      }
+    }
+    if (userPickerState.collectAsState().value.isVisible() || (ModalManager.start.hasModalsOpen && !ModalManager.center.hasModalsOpen)) {
+      Box(
+        Modifier
+          .fillMaxSize()
+          .padding(start = startWidth)
+          .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = {
+            if (chatModel.centerPanelBackgroundClickHandler == null || chatModel.centerPanelBackgroundClickHandler?.invoke() == false) {
+              ModalManager.start.closeModals()
+              userPickerState.value = AnimatedViewState.HIDING
+            }
+          })
+      )
+    }
+    VerticalDivider(Modifier.padding(start = startWidth))
+    ModalManager.fullscreen.showInView()
   }
-  VerticalDivider(Modifier.padding(start = DEFAULT_START_MODAL_WIDTH * fontSizeSqrtMultiplier))
-  ModalManager.fullscreen.showInView()
 }
 
 @Composable
