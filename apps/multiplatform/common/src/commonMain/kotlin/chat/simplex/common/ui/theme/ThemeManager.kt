@@ -10,9 +10,8 @@ import chat.simplex.common.platform.*
 import chat.simplex.common.views.helpers.*
 import java.io.File
 
-// https://github.com/rsms/inter
-// I place it here because IDEA shows an error (but still works anyway) when this declaration inside Type.kt
-expect val Inter: FontFamily
+// App-wide font family, supplied from the shared multiplatform resources.
+expect val AppFont: FontFamily
 expect val EmojiFont: FontFamily
 
 object ThemeManager {

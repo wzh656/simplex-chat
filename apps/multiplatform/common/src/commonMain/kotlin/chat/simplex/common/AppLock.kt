@@ -114,7 +114,7 @@ object AppLock {
 
     val appPrefs = ChatController.appPrefs
     ModalManager.fullscreen.showCustomModal { close ->
-      Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+      ModalSurface {
         SetAppPasscodeView(
           submit = {
             ChatModel.showAuthScreen.value = true

@@ -4,11 +4,12 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import chat.simplex.common.model.ChatController.appPrefs
 import chat.simplex.common.model.ChatModel
 import chat.simplex.common.platform.*
@@ -21,6 +22,21 @@ import kotlinx.coroutines.delay
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.min
 internal val LocalModalViewBackground = compositionLocalOf { Color.Unspecified }
+
+@Composable
+fun ModalSurface(
+  modifier: Modifier = Modifier,
+  background: Color = Color.Unspecified,
+  content: @Composable () -> Unit,
+) {
+  val surfaceColor = if (background == Color.Unspecified) MaterialTheme.colorScheme.surface else background
+  Surface(
+    modifier.fillMaxSize(),
+    color = surfaceColor,
+    contentColor = if (surfaceColor.luminance() < 0.5f) Color.White else MaterialTheme.colorScheme.onSurface,
+    content = content,
+  )
+}
 
 
 @Composable
@@ -50,10 +66,11 @@ fun ModalView(
     inheritedBackground != Color.Unspecified -> inheritedBackground
     else -> null
   }
+  val surfaceColor = bgOverride ?: MaterialTheme.colorScheme.surface
   Surface(
     Modifier.fillMaxSize(),
-    color = bgOverride ?: MaterialTheme.colors.surface,
-    contentColor = LocalContentColor.current
+    color = surfaceColor,
+    contentColor = if (surfaceColor.luminance() < 0.5f) Color.White else MaterialTheme.colorScheme.onSurface
   ) {
     CompositionLocalProvider(LocalCardScreen provides cardScreen) {
     Box(Modifier.themedBackground(overrideColor = bgOverride)) {

@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -74,6 +75,7 @@ fun AppScreen() {
           }) {
             MainScreen()
           }
+          ToastManager.Host()
         }
       }
     }
@@ -409,7 +411,7 @@ fun DesktopScreen(userPickerState: MutableStateFlow<AnimatedViewState>) {
     val startWidth = minOf(preferredStartWidth, maxWidth * 0.45f)
     val endDrawerVisible = ModalManager.end.hasModalsOpen()
     val endDrawerWidth = minOf(DEFAULT_END_MODAL_WIDTH * fontSizeSqrtMultiplier, maxWidth)
-    val endDrawerColor = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant
+    val endDrawerColor = Material3Theme.colorScheme.surfaceVariant
     val endDrawerShape = RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp)
     Box(Modifier.width(startWidth)) {
       StartPartOfScreen(userPickerState)

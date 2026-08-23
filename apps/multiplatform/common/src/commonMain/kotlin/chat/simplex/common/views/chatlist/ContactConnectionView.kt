@@ -43,7 +43,7 @@ fun ContactConnectionView(contactConnection: PendingContactConnection) {
         Modifier.heightIn(min = 46.sp.toDp()).padding(top = 3.sp.toDp()),
         maxLines = 2,
         style = TextStyle(
-          fontFamily = Inter,
+          fontFamily = AppFont,
           fontSize = 15.sp,
           color = if (isInDarkTheme()) MessagePreviewDark else MessagePreviewLight,
           lineHeight = 21.sp

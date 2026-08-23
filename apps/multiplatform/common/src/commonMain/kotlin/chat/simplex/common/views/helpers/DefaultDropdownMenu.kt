@@ -1,9 +1,13 @@
 package chat.simplex.common.views.helpers
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +30,7 @@ fun DefaultDropdownMenu(
   shadowElevation: Dp = 6.dp,
   dropdownMenuItems: (@Composable () -> Unit)?
 ) {
-  androidx.compose.material3.DropdownMenu(
+  DropdownMenu(
     expanded = showMenu.value,
     onDismissRequest = { showMenu.value = false },
     modifier = modifier.widthIn(max = 280.dp),
@@ -50,36 +54,43 @@ fun MessageDropdownMenu(
   reactions: @Composable (() -> Unit)?,
   dropdownMenuItems: @Composable () -> Unit,
 ) {
-  androidx.compose.material3.DropdownMenu(
+  DropdownMenu(
     expanded = showMenu.value,
     onDismissRequest = { showMenu.value = false },
-    modifier = Modifier,
+    // Keep room on every side inside the popup's clipping surface for the child card shadows.
+    modifier = Modifier.padding(6.dp),
     shape = RectangleShape,
     containerColor = Color.Transparent,
     tonalElevation = 0.dp,
     shadowElevation = 0.dp,
   ) {
-    Column(horizontalAlignment = Alignment.Start) {
-      if (reactions != null) {
+    Box {
+      // The popup width is set by the reaction row; unused space must dismiss the menu.
+      Box(
+        Modifier.matchParentSize().clickable { showMenu.value = false }
+      )
+      Column(horizontalAlignment = Alignment.Start) {
+        if (reactions != null) {
+          Surface(
+            modifier = Modifier.width(IntrinsicSize.Max),
+            shape = RoundedCornerShape(28.dp),
+            tonalElevation = 3.dp,
+            shadowElevation = 6.dp,
+          ) {
+            reactions()
+          }
+          Spacer(Modifier.height(6.dp))
+        }
         Surface(
-          modifier = Modifier.width(320.dp),
-          shape = RoundedCornerShape(28.dp),
+          modifier = Modifier.width(IntrinsicSize.Max),
+          color = MaterialTheme.colorScheme.surfaceContainerHigh,
+          shape = RoundedCornerShape(14.dp),
           tonalElevation = 3.dp,
           shadowElevation = 6.dp,
         ) {
-          reactions()
-        }
-        Spacer(Modifier.height(6.dp))
-      }
-      Surface(
-        modifier = Modifier.width(240.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shape = RoundedCornerShape(14.dp),
-        tonalElevation = 3.dp,
-        shadowElevation = 6.dp,
-      ) {
-        Column(Modifier.padding(vertical = 4.dp)) {
-          dropdownMenuItems()
+          Column(Modifier.padding(vertical = 4.dp)) {
+            dropdownMenuItems()
+          }
         }
       }
     }

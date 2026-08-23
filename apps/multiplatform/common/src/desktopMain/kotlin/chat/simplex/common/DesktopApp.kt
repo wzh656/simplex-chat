@@ -1,12 +1,8 @@
 package chat.simplex.common
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.input.key.*
@@ -173,25 +169,6 @@ private fun ApplicationScope.AppWindow(closedByError: MutableState<Boolean>) {
           onResult = { simplexWindowState.saveDialog.onResult(it.firstOrNull()) }
         )
       }
-      val toasts = remember { simplexWindowState.toasts }
-      val toast = toasts.firstOrNull()
-      if (toast != null) {
-        SimpleXTheme {
-          Box(Modifier.fillMaxSize().padding(bottom = 20.dp), contentAlignment = Alignment.BottomCenter) {
-            Text(
-              escapedHtmlToAnnotatedString(toast.first, LocalDensity.current),
-              Modifier.background(MaterialTheme.colors.primary, RoundedCornerShape(100)).padding(vertical = 5.dp, horizontal = 10.dp),
-              color = MaterialTheme.colors.onPrimary,
-              style = MaterialTheme.typography.body1
-            )
-          }
-        }
-        // Shows toast in insertion order with preferred delay per toast. New one will be shown once previous one expires
-        LaunchedEffect(toast, toasts.size) {
-          delay(toast.second)
-          simplexWindowState.toasts.removeFirstOrNull()
-        }
-      }
       var windowFocused by remember { simplexWindowState.windowFocused }
       LaunchedEffect(windowFocused) {
         val delay = ChatController.appPrefs.laLockDelay.get()
@@ -283,7 +260,6 @@ class SimplexWindowState {
   val openDialog = DialogState<File?>()
   val openMultipleDialog = DialogState<List<File>>()
   val saveDialog = DialogState<File?>()
-  val toasts = mutableStateListOf<Pair<String, Long>>()
   var windowFocused = mutableStateOf(true)
   val windowVisible = mutableStateOf(true)
   var window: ComposeWindow? = null

@@ -5,13 +5,8 @@ import androidx.compose.ui.text.platform.Font
 import chat.simplex.common.platform.desktopPlatform
 import chat.simplex.res.MR
 
-actual val Inter: FontFamily = FontFamily(
-  Font(MR.fonts.Inter.regular.file),
-  Font(MR.fonts.Inter.italic.file, style = FontStyle.Italic),
-  Font(MR.fonts.Inter.bold.file, FontWeight.Bold),
-  Font(MR.fonts.Inter.semibold.file, FontWeight.SemiBold),
-  Font(MR.fonts.Inter.medium.file, FontWeight.Medium),
-  Font(MR.fonts.Inter.light.file, FontWeight.Light)
+actual val AppFont: FontFamily = FontFamily(
+  Font(MR.fonts.Xwwk.regular.file),
 )
 
 actual val EmojiFont: FontFamily = if (desktopPlatform.isMac()) {

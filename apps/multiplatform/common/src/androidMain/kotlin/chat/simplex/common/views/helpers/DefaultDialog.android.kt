@@ -8,9 +8,9 @@ actual fun DefaultDialog(
   onDismissRequest: () -> Unit,
   content: @Composable () -> Unit
 ) {
-  Dialog(
-    onDismissRequest = onDismissRequest
-  ) {
-    content()
+  Dialog(onDismissRequest = onDismissRequest) {
+    AppDialogSurface {
+      content()
+    }
   }
 }

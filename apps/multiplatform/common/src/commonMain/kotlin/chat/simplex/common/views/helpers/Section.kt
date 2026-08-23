@@ -3,6 +3,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.TextButton as Material3TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -206,14 +208,24 @@ fun SectionItemView(
     PaddingValues(horizontal = itemHPadding, vertical = DEFAULT_MIN_SECTION_ITEM_PADDING_VERTICAL),
   content: (@Composable RowScope.() -> Unit)
 ) {
-  val modifier = Modifier
-    .fillMaxWidth()
-    .sizeIn(minHeight = minHeight)
-  Row(
-    if (click == null || disabled) modifier.padding(padding) else modifier.clickable(onClick = click).padding(padding),
-    verticalAlignment = Alignment.CenterVertically
-  ) {
-    content()
+  if (LocalAlertDialogSectionStyle.current && click != null) {
+    Material3TextButton(
+      onClick = click,
+      modifier = Modifier.fillMaxWidth().heightIn(min = minHeight).padding(horizontal = 12.dp),
+      enabled = !disabled,
+      shape = Material3Theme.shapes.small,
+      contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+      content = content,
+    )
+  } else {
+    val modifier = Modifier
+      .fillMaxWidth()
+      .sizeIn(minHeight = minHeight)
+    Row(
+      if (click == null || disabled) modifier.padding(padding) else modifier.clickable(onClick = click).padding(padding),
+      verticalAlignment = Alignment.CenterVertically,
+      content = content,
+    )
   }
 }
 
@@ -269,20 +281,30 @@ fun SectionItemViewSpaceBetween(
   disabled: Boolean = false,
   content: (@Composable RowScope.() -> Unit)
 ) {
-  val modifier = Modifier
-    .fillMaxWidth()
-    .sizeIn(minHeight = minHeight)
-  Row(
-    if (click == null || disabled) modifier.padding(padding).padding(vertical = DEFAULT_MIN_SECTION_ITEM_PADDING_VERTICAL) else modifier
-      .combinedClickable(onClick = click, onLongClick = onLongClick).padding(padding)
-      .onRightClick { onLongClick?.invoke() },
-    horizontalArrangement = Arrangement.SpaceBetween,
-    verticalAlignment = Alignment.CenterVertically
-  ) {
-    content()
+  if (LocalAlertDialogSectionStyle.current && click != null) {
+    Material3TextButton(
+      onClick = click,
+      modifier = Modifier.fillMaxWidth().heightIn(min = minHeight).padding(horizontal = 12.dp),
+      enabled = !disabled,
+      shape = Material3Theme.shapes.small,
+      contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+      content = content,
+    )
+  } else {
+    val modifier = Modifier
+      .fillMaxWidth()
+      .sizeIn(minHeight = minHeight)
+    Row(
+      if (click == null || disabled) modifier.padding(padding).padding(vertical = DEFAULT_MIN_SECTION_ITEM_PADDING_VERTICAL) else modifier
+        .combinedClickable(onClick = click, onLongClick = onLongClick).padding(padding)
+        .onRightClick { onLongClick?.invoke() },
+      horizontalArrangement = Arrangement.SpaceBetween,
+      verticalAlignment = Alignment.CenterVertically,
+      content = content,
+    )
   }
-}
 
+}
 @Composable
 fun <T> SectionItemWithValue(
   title: String,

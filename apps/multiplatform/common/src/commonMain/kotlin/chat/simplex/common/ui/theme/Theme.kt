@@ -841,7 +841,7 @@ fun SimpleXTheme(darkTheme: Boolean? = null, content: @Composable () -> Unit) {
         LocalAppColors provides rememberedAppColors,
         LocalAppWallpaper provides rememberedWallpaper,
         LocalDensity provides density,
-        content = content
+        content = { ProvideTextStyle(GrayTypography.bodyLarge, content) }
       )
     }
   }
@@ -865,7 +865,7 @@ fun SimpleXThemeOverride(theme: ThemeManager.ActiveTheme, content: @Composable (
         LocalContentColor provides MaterialTheme.colors.onBackground,
         LocalAppColors provides rememberedAppColors,
         LocalAppWallpaper provides rememberedWallpaper,
-        content = content
+        content = { ProvideTextStyle(GrayTypography.bodyLarge, content) }
       )
     }
   }

@@ -9,7 +9,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -129,10 +129,10 @@ actual fun QRCodeScanner(
       }
     } else {
       val buttonColors = ButtonDefaults.buttonColors(
-        backgroundColor = MaterialTheme.colors.background.mixWith(MaterialTheme.colors.onBackground, 0.9f),
-        contentColor = MaterialTheme.colors.primary,
-        disabledBackgroundColor = MaterialTheme.colors.background.mixWith(MaterialTheme.colors.onBackground, 0.9f),
-        disabledContentColor = MaterialTheme.colors.primary,
+        containerColor = MaterialTheme.colorScheme.background.mixWith(MaterialTheme.colorScheme.onBackground, 0.9f),
+        contentColor = MaterialTheme.colorScheme.primary,
+        disabledContainerColor = MaterialTheme.colorScheme.background.mixWith(MaterialTheme.colorScheme.onBackground, 0.9f),
+        disabledContentColor = MaterialTheme.colorScheme.primary,
       )
       var permissionRequested by rememberSaveable { mutableStateOf(false) }
       when {

@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.*
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.Text as Material3Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -260,20 +262,20 @@ private fun deleteContactOrConversationDialog(chat: Chat, contact: Contact, chat
             showDeleteConversationNotice(contact)
           }
         }) {
-          Text(generalGetString(MR.strings.only_delete_conversation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.error)
+          Material3Text(generalGetString(MR.strings.only_delete_conversation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
         }
         // Delete contact
         SectionItemView({
           AlertManager.shared.hideAlert()
           deleteActiveContactDialog(chat, contact, chatModel, close)
         }) {
-          Text(generalGetString(MR.strings.button_delete_contact), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.error)
+          Material3Text(generalGetString(MR.strings.button_delete_contact), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
         }
         // Cancel
         SectionItemView({
           AlertManager.shared.hideAlert()
         }) {
-          Text(stringResource(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+          Material3Text(stringResource(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.primary)
         }
       }
     }
@@ -338,7 +340,7 @@ private fun deleteActiveContactDialog(chat: Chat, contact: Contact, chatModel: C
             showDeleteContactNotice(contact)
           }
         }) {
-          Text(generalGetString(MR.strings.delete_without_notification), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.error)
+          Material3Text(generalGetString(MR.strings.delete_without_notification), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
         }
         // Delete contact and notify
         SectionItemView({
@@ -348,13 +350,13 @@ private fun deleteActiveContactDialog(chat: Chat, contact: Contact, chatModel: C
             showDeleteContactNotice(contact)
           }
         }) {
-          Text(generalGetString(MR.strings.delete_and_notify_contact), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.error)
+          Material3Text(generalGetString(MR.strings.delete_and_notify_contact), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
         }
         // Cancel
         SectionItemView({
           AlertManager.shared.hideAlert()
         }) {
-          Text(stringResource(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+          Material3Text(stringResource(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.primary)
         }
       }
     }
@@ -378,11 +380,11 @@ private fun deleteContactWithoutConversation(chat: Chat, chatModel: ChatModel, c
             chatDeleteMode = ContactDeleteMode.Full().toChatDeleteMode(notify = true)
           )
         }) {
-          Text(
+          Material3Text(
             generalGetString(MR.strings.delete_and_notify_contact),
             Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.error
+            color = Material3Theme.colorScheme.error
           )
         }
         // Delete without notification
@@ -395,11 +397,11 @@ private fun deleteContactWithoutConversation(chat: Chat, chatModel: ChatModel, c
             chatDeleteMode = ContactDeleteMode.Full().toChatDeleteMode(notify = false)
           )
         }) {
-          Text(
+          Material3Text(
             generalGetString(MR.strings.delete_without_notification),
             Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.error
+            color = Material3Theme.colorScheme.error
           )
         }
       }
@@ -407,11 +409,11 @@ private fun deleteContactWithoutConversation(chat: Chat, chatModel: ChatModel, c
       SectionItemView({
         AlertManager.shared.hideAlert()
       }) {
-        Text(
+        Material3Text(
           stringResource(MR.strings.cancel_verb),
           Modifier.fillMaxWidth(),
           textAlign = TextAlign.Center,
-          color = MaterialTheme.colors.primary
+          color = Material3Theme.colorScheme.primary
         )
       }
     }
@@ -434,22 +436,22 @@ private fun deleteNotReadyContact(chat: Chat, chatModel: ChatModel, close: (() -
           chatDeleteMode = ContactDeleteMode.Full().toChatDeleteMode(notify = false)
         )
       }) {
-        Text(
+        Material3Text(
           generalGetString(MR.strings.confirm_verb),
           Modifier.fillMaxWidth(),
           textAlign = TextAlign.Center,
-          color = MaterialTheme.colors.error
+          color = Material3Theme.colorScheme.error
         )
       }
       // Cancel
       SectionItemView({
         AlertManager.shared.hideAlert()
       }) {
-        Text(
+        Material3Text(
           stringResource(MR.strings.cancel_verb),
           Modifier.fillMaxWidth(),
           textAlign = TextAlign.Center,
-          color = MaterialTheme.colors.primary
+          color = Material3Theme.colorScheme.primary
         )
       }
     }

@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.*
 import androidx.compose.material3.DropdownMenuItem as Material3DropdownMenuItem
+import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.Text as Material3Text
+import androidx.compose.material3.TextButton as Material3TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -1326,26 +1329,25 @@ fun deleteMessageAlertDialog(chatItem: ChatItem, questionText: String, chatInfo:
       Row(
         Modifier
           .fillMaxWidth()
-          .padding(horizontal = 8.dp, vertical = 2.dp),
-        horizontalArrangement = Arrangement.Center,
+          .padding(horizontal = 16.dp, vertical = 2.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
       ) {
         if (editorial) {
-          TextButton(onClick = {
+          Material3TextButton(onClick = {
             deleteMessage(chatItem.id, CIDeleteMode.cidmHistory)
             AlertManager.shared.hideAlert()
-          }) { Text(stringResource(MR.strings.from_history), color = MaterialTheme.colors.error) }
+          }) { Material3Text(stringResource(MR.strings.from_history), color = Material3Theme.colorScheme.error) }
         } else {
-          TextButton(onClick = {
+          Material3TextButton(onClick = {
             deleteMessage(chatItem.id, CIDeleteMode.cidmInternal)
             AlertManager.shared.hideAlert()
-          }) { Text(stringResource(MR.strings.for_me_only), color = MaterialTheme.colors.error) }
+          }) { Material3Text(stringResource(MR.strings.for_me_only), color = Material3Theme.colorScheme.error) }
         }
         if (canDeleteForEveryone) {
-          Spacer(Modifier.padding(horizontal = 4.dp))
-          TextButton(onClick = {
+          Material3TextButton(onClick = {
             deleteMessage(chatItem.id, CIDeleteMode.cidmBroadcast)
             AlertManager.shared.hideAlert()
-          }) { Text(stringResource(MR.strings.for_everybody), color = MaterialTheme.colors.error) }
+          }) { Material3Text(stringResource(MR.strings.for_everybody), color = Material3Theme.colorScheme.error) }
         }
       }
     }
@@ -1360,19 +1362,19 @@ fun deleteMessagesAlertDialog(itemIds: List<Long>, questionText: String, forAll:
       Row(
         Modifier
           .fillMaxWidth()
-          .padding(horizontal = 8.dp, vertical = 2.dp),
-        horizontalArrangement = Arrangement.Center,
+          .padding(horizontal = 16.dp, vertical = 2.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
       ) {
-        TextButton(onClick = {
+        Material3TextButton(onClick = {
           deleteMessages(itemIds, false)
           AlertManager.shared.hideAlert()
-        }) { Text(stringResource(if (editorial) MR.strings.from_history else MR.strings.for_me_only), color = MaterialTheme.colors.error) }
+        }) { Material3Text(stringResource(if (editorial) MR.strings.from_history else MR.strings.for_me_only), color = Material3Theme.colorScheme.error) }
 
         if (forAll) {
-          TextButton(onClick = {
+          Material3TextButton(onClick = {
             deleteMessages(itemIds, true)
             AlertManager.shared.hideAlert()
-          }) { Text(stringResource(MR.strings.for_everybody), color = MaterialTheme.colors.error) }
+          }) { Material3Text(stringResource(MR.strings.for_everybody), color = Material3Theme.colorScheme.error) }
         }
       }
     }

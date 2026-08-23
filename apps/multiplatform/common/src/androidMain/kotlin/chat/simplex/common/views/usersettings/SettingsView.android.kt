@@ -4,8 +4,8 @@ import SectionItemView
 import SectionView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.Text as Material3Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,19 +51,19 @@ private fun shutdownAppAlert() {
     buttons = {
       Column {
         SectionItemView({ AlertManager.shared.hideAlert() }) {
-          Text(stringResource(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+          Material3Text(stringResource(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
         }
         SectionItemView({
           AlertManager.shared.hideAlert()
           restartApp()
         }) {
-          Text(stringResource(MR.strings.settings_restart_app), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+          Material3Text(stringResource(MR.strings.settings_restart_app), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.primary)
         }
         SectionItemView({
           AlertManager.shared.hideAlert()
           shutdownApp()
         }) {
-          Text(stringResource(MR.strings.settings_shutdown), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.Red)
+          Material3Text(stringResource(MR.strings.settings_shutdown), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
         }
       }
     }

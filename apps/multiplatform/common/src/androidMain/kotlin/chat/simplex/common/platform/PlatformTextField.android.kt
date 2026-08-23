@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.children
 import androidx.core.view.inputmethod.EditorInfoCompat
@@ -139,6 +140,7 @@ actual fun PlatformTextField(
     editText.setTextColor(textColor.toArgb())
     editText.textSize = textStyle.value.fontSize.value * appPrefs.fontScale.get()
     editText.background = ColorDrawable(Color.Transparent.toArgb())
+    ResourcesCompat.getFont(context, MR.fonts.Xwwk.regular.fontResourceId)?.let(editText::setTypeface)
     editText.textDirection = if (isRtl) EditText.TEXT_DIRECTION_LOCALE else EditText.TEXT_DIRECTION_ANY_RTL
     editText.setPaddingRelative(paddingStart, paddingTop, paddingEnd, paddingBottom)
     editText.setText(cs.message.text)

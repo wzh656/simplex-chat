@@ -2,10 +2,10 @@ package chat.simplex.common
 
 import SectionItemView
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.Text as Material3Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.*
@@ -96,11 +96,11 @@ fun ApplicationScope.requestCloseBehavior() {
           pref.set(CloseBehavior.Quit)
           exitApplication()
         }) {
-          Text(
+          Material3Text(
             stringResource(MR.strings.close_behavior_dialog_close),
             Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            color = Color.Red
+            color = Material3Theme.colorScheme.error
           )
         }
         SectionItemView({
@@ -108,11 +108,11 @@ fun ApplicationScope.requestCloseBehavior() {
           pref.set(CloseBehavior.MinimizeToTray)
           simplexWindowState.windowVisible.value = false
         }) {
-          Text(
+          Material3Text(
             stringResource(MR.strings.close_behavior_dialog_minimize),
             Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.primary
+            color = Material3Theme.colorScheme.primary
           )
         }
       }

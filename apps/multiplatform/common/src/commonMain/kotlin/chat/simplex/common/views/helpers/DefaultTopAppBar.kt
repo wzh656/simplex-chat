@@ -2,10 +2,13 @@ package chat.simplex.common.views.helpers
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.HorizontalDivider as Material3HorizontalDivider
+import androidx.compose.material3.IconButton as Material3IconButton
+import androidx.compose.material3.Text as Material3Text
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,7 +72,7 @@ fun DefaultAppBar(
                 alpha = if (fixedTitleText != null) 1f else topTitleAlpha(true, connection)
               }
             ) {
-              Text(
+              Material3Text(
                 titleText.value,
                 style = Material3Theme.typography.titleLarge,
                 maxLines = 1,
@@ -104,7 +107,7 @@ fun CallAppBar(
 
 @Composable
 fun NavigationButtonBack(onButtonClicked: (() -> Unit)?, tintColor: Color = if (onButtonClicked != null) Material3Theme.colorScheme.onSurface else Material3Theme.colorScheme.onSurfaceVariant, height: Dp = 24.dp) {
-  IconButton(onButtonClicked ?: {}, enabled = onButtonClicked != null) {
+  Material3IconButton(onButtonClicked ?: {}, enabled = onButtonClicked != null) {
     Icon(
       Icons.AutoMirrored.Filled.ArrowBack, stringResource(MR.strings.back), Modifier.size(height), tint = tintColor
     )
@@ -112,8 +115,8 @@ fun NavigationButtonBack(onButtonClicked: (() -> Unit)?, tintColor: Color = if (
 }
 
 @Composable
-fun NavigationButtonClose(onButtonClicked: (() -> Unit)?, tintColor: Color = if (onButtonClicked != null) MaterialTheme.colors.primary else MaterialTheme.colors.secondary, height: Dp = 24.dp) {
-  IconButton(onButtonClicked ?: {}, enabled = onButtonClicked != null) {
+fun NavigationButtonClose(onButtonClicked: (() -> Unit)?, tintColor: Color = if (onButtonClicked != null) Material3Theme.colorScheme.primary else Material3Theme.colorScheme.secondary, height: Dp = 24.dp) {
+  Material3IconButton(onButtonClicked ?: {}, enabled = onButtonClicked != null) {
     Icon(
       painterResource(MR.images.ic_close), stringResource(MR.strings.back), Modifier.height(height), tint = tintColor
     )
@@ -122,20 +125,20 @@ fun NavigationButtonClose(onButtonClicked: (() -> Unit)?, tintColor: Color = if 
 
 @Composable
 fun ShareButton(onButtonClicked: () -> Unit) {
-  IconButton(onButtonClicked) {
+  Material3IconButton(onButtonClicked) {
     Icon(
-      painterResource(MR.images.ic_share), stringResource(MR.strings.share_verb), tint = MaterialTheme.colors.primary
+      painterResource(MR.images.ic_share), stringResource(MR.strings.share_verb), tint = Material3Theme.colorScheme.primary
     )
   }
 }
 
 @Composable
 fun NavigationButtonMenu(onButtonClicked: () -> Unit) {
-  IconButton(onClick = onButtonClicked) {
+  Material3IconButton(onClick = onButtonClicked) {
     Icon(
       painterResource(MR.images.ic_menu),
       stringResource(MR.strings.icon_descr_settings),
-      tint = MaterialTheme.colors.primary,
+      tint = Material3Theme.colorScheme.primary,
     )
   }
 }
@@ -144,7 +147,7 @@ fun NavigationButtonMenu(onButtonClicked: () -> Unit) {
 private fun BoxScope.AppBarDivider(onTop: Boolean, fixedAlpha: Boolean, connection: CollapsingAppBarNestedScrollConnection?) {
   val color = Material3Theme.colorScheme.outlineVariant.copy(alpha = 0.65f)
   if (connection != null) {
-    Divider(
+    Material3HorizontalDivider(
       Modifier
         .align(if (onTop) Alignment.BottomStart else Alignment.TopStart)
         .graphicsLayer {
@@ -153,7 +156,7 @@ private fun BoxScope.AppBarDivider(onTop: Boolean, fixedAlpha: Boolean, connecti
       color = color,
     )
   } else {
-    Divider(Modifier.align(if (onTop) Alignment.BottomStart else Alignment.TopStart), color = color)
+    Material3HorizontalDivider(Modifier.align(if (onTop) Alignment.BottomStart else Alignment.TopStart), color = color)
   }
 }
 

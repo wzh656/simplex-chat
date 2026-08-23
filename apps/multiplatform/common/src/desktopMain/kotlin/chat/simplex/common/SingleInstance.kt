@@ -1,5 +1,22 @@
 package chat.simplex.common
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogWindow
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberDialogState
+import chat.simplex.common.platform.isInNightMode
+import chat.simplex.common.ui.theme.*
+import chat.simplex.common.views.helpers.generalGetString
+import chat.simplex.common.views.helpers.AppDialogActions
+import chat.simplex.common.views.helpers.AppDialogBody
+import chat.simplex.common.views.helpers.AppDialogSurface
+import chat.simplex.res.MR
+
 import chat.simplex.common.platform.Log
 import chat.simplex.common.platform.TAG
 import chat.simplex.common.platform.dataDir
@@ -98,14 +115,64 @@ private fun createShowFile() {
 }
 
 private fun showSingleInstanceAlert(): Boolean {
-  val title = chat.simplex.common.views.helpers.generalGetString(chat.simplex.res.MR.strings.another_instance_title)
-  val message = chat.simplex.common.views.helpers.generalGetString(chat.simplex.res.MR.strings.another_instance_not_responding)
-  val result = javax.swing.JOptionPane.showConfirmDialog(
-    null, message, title,
-    javax.swing.JOptionPane.YES_NO_OPTION,
-    javax.swing.JOptionPane.WARNING_MESSAGE
-  )
-  return result == javax.swing.JOptionPane.YES_OPTION
+  val title = generalGetString(MR.strings.another_instance_title)
+  val message = generalGetString(MR.strings.another_instance_not_responding)
+  val cancel = generalGetString(MR.strings.cancel_verb)
+  val continueText = generalGetString(MR.strings.continue_to_next_step)
+  var start = false
+
+  application(exitProcessOnExit = false) {
+    DialogWindow(
+      onCloseRequest = ::exitApplication,
+      title = title,
+      state = rememberDialogState(width = 460.dp, height = 240.dp),
+      undecorated = true,
+      transparent = true,
+      resizable = false,
+    ) {
+      val colorScheme = if (isInNightMode()) {
+        darkColorScheme(
+          primary = PortalVioletLight,
+          surface = Graphite,
+          onSurface = OnGraphite,
+          onSurfaceVariant = SlateDark,
+          error = androidx.compose.ui.graphics.Color(0xFFFFB4AB),
+        )
+      } else {
+        lightColorScheme(
+          primary = PortalViolet,
+          surface = Fog,
+          onSurface = Night,
+          onSurfaceVariant = Slate,
+          error = androidx.compose.ui.graphics.Color(0xFFBA1A1A),
+        )
+      }
+      MaterialTheme(colorScheme = colorScheme, typography = GrayTypography, shapes = GrayShapes) {
+        AppDialogSurface(Modifier.fillMaxSize()) {
+          Text(
+            title,
+            Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+            style = MaterialTheme.typography.titleLarge,
+          )
+          AppDialogBody {
+            Text(
+              message,
+              style = MaterialTheme.typography.bodyLarge,
+              color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+          }
+          AppDialogActions {
+            TextButton(onClick = ::exitApplication) { Text(cancel) }
+            TextButton(onClick = {
+              start = true
+              exitApplication()
+            }) { Text(continueText) }
+          }
+        }
+      }
+    }
+  }
+  return start
 }
 
 private fun startShowFileWatcher() {

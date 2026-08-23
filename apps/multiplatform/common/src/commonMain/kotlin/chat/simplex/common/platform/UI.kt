@@ -2,8 +2,11 @@ package chat.simplex.common.platform
 
 import androidx.compose.runtime.*
 import chat.simplex.common.views.helpers.KeyboardState
+import chat.simplex.common.views.helpers.ToastManager
 
-expect fun showToast(text: String, timeout: Long = 2500L)
+fun showToast(text: String, timeout: Long = 2500L) {
+  ToastManager.show(text, timeout)
+}
 
 @Composable
 expect fun LockToCurrentOrientationUntilDispose()

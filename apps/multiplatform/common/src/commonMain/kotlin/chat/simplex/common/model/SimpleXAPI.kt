@@ -3,10 +3,14 @@ package chat.simplex.common.model
 import SectionItemView
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.Text as Material3Text
+import androidx.compose.material3.TextButton as Material3TextButton
 import chat.simplex.common.views.helpers.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -2210,16 +2214,16 @@ object ChatController {
           Icon(
             painterResource(MR.images.ic_content_copy),
             contentDescription = null,
-            tint = MaterialTheme.colors.primary,
+            tint = Material3Theme.colorScheme.primary,
             modifier = Modifier.padding(end = 8.dp)
           )
-          Text(generalGetString(MR.strings.copy_error), color = MaterialTheme.colors.primary)
+          Material3Text(generalGetString(MR.strings.copy_error), color = Material3Theme.colorScheme.primary)
         }
       }
     }) {
       Row(
-        Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING),
-        horizontalArrangement = Arrangement.SpaceBetween
+        Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
       ) {
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) {
@@ -2227,11 +2231,15 @@ object ChatController {
           delay(200)
           focusRequester.requestFocus()
         }
-        TextButton(onClick = AlertManager.shared::hideAlert) { Text(generalGetString(MR.strings.cancel_verb)) }
-        TextButton(onClick = {
+        Material3TextButton(onClick = AlertManager.shared::hideAlert) {
+          Material3Text(generalGetString(MR.strings.cancel_verb))
+        }
+        Material3TextButton(onClick = {
           approveFiles.invoke()
           AlertManager.shared.hideAlert()
-        }, Modifier.focusRequester(focusRequester)) { Text(generalGetString(MR.strings.download_file)) }
+        }, Modifier.focusRequester(focusRequester)) {
+          Material3Text(generalGetString(MR.strings.download_file))
+        }
       }
     }
   }

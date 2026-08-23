@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.DropdownMenuItem as Material3DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -469,7 +470,7 @@ fun IntSettingRow(title: String, selection: MutableState<Int>, values: List<Int>
           tint = MaterialTheme.colors.secondary
         )
       }
-      androidx.compose.material3.DropdownMenu(
+      DropdownMenu(
         expanded = expanded.value,
         onDismissRequest = { expanded.value = false },
         modifier = Modifier.widthIn(min = 180.dp, max = 280.dp),
@@ -506,7 +507,7 @@ fun TimeoutSettingRow(title: String, selection: MutableState<Long>, values: List
         Spacer(Modifier.size(4.dp))
         Icon(if (!expanded.value) painterResource(MR.images.ic_arrow_drop_down) else painterResource(MR.images.ic_arrow_drop_up), null, Modifier.padding(start = 8.dp), tint = MaterialTheme.colors.secondary)
       }
-      androidx.compose.material3.DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }, modifier = Modifier.widthIn(min = 180.dp, max = 280.dp)) {
+      DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }, modifier = Modifier.widthIn(min = 180.dp, max = 280.dp)) {
         values.forEach { selectionOption ->
           Material3DropdownMenuItem(
             text = { Text("${df.format(selectionOption / 1_000_000.0)} $label", maxLines = 1, overflow = TextOverflow.Ellipsis) },

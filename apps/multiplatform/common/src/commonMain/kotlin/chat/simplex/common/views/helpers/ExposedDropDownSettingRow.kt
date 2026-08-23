@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -58,7 +59,7 @@ fun <T> ExposedDropDownSetting(
         tint = MaterialTheme.colorScheme.onSurfaceVariant
       )
     }
-    androidx.compose.material3.DropdownMenu(
+    DropdownMenu(
       expanded = expanded.value,
       onDismissRequest = { expanded.value = false },
       modifier = Modifier.widthIn(min = minWidth, max = 280.dp),
@@ -111,7 +112,7 @@ fun <T> ExposedDropDownSettingWithIcon(
         Icon(painterResource(choice.second), choice.third, Modifier.padding(boxSize * iconPaddingPercent).fillMaxSize(), tint = iconColor)
       }
     }
-    androidx.compose.material3.DropdownMenu(
+    DropdownMenu(
       expanded = expanded.value,
       onDismissRequest = { expanded.value = false },
       modifier = Modifier.widthIn(min = minWidth, max = 280.dp),

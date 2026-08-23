@@ -237,7 +237,7 @@ fun ChatPreviewView(
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
         style = TextStyle(
-          fontFamily = Inter,
+          fontFamily = AppFont,
           fontSize = 14.sp,
           color = if (isInDarkTheme()) MessagePreviewDark else MessagePreviewLight,
           lineHeight = 20.sp
@@ -291,7 +291,7 @@ fun ChatPreviewView(
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
         style = TextStyle(
-          fontFamily = Inter,
+          fontFamily = AppFont,
           fontSize = 14.sp,
           color = if (isInDarkTheme()) MessagePreviewDark else MessagePreviewLight,
           lineHeight = 20.sp

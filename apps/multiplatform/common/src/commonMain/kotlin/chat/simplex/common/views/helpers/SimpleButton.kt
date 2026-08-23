@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.TextButton as Material3TextButton
 import androidx.compose.material.*
 import dev.icerock.moko.resources.compose.painterResource
 import androidx.compose.runtime.Composable
@@ -86,12 +87,22 @@ fun SimpleButtonIconEnded(
 
 @Composable
 fun SimpleButtonFrame(click: () -> Unit, modifier: Modifier = Modifier, disabled: Boolean = false, content: @Composable RowScope.() -> Unit) {
-  Box(Modifier.clip(RoundedCornerShape(20.dp))) {
-    val modifier = if (disabled) modifier else modifier.clickable { click() }
-    Row(
-      verticalAlignment = Alignment.CenterVertically,
-      modifier = modifier.padding(8.dp)
-    ) { content() }
+  if (LocalAlertDialogSectionStyle.current) {
+    Material3TextButton(
+      onClick = click,
+      modifier = modifier.fillMaxWidth(),
+      enabled = !disabled,
+      contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+      content = content,
+    )
+  } else {
+    Box(Modifier.clip(RoundedCornerShape(20.dp))) {
+      val clickableModifier = if (disabled) modifier else modifier.clickable { click() }
+      Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = clickableModifier.padding(8.dp),
+      ) { content() }
+    }
   }
 }
 

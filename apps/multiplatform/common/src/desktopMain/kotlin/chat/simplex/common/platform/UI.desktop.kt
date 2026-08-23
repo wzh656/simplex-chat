@@ -4,9 +4,6 @@ import androidx.compose.runtime.*
 import chat.simplex.common.simplexWindowState
 import chat.simplex.common.views.helpers.KeyboardState
 
-actual fun showToast(text: String, timeout: Long) {
-  simplexWindowState.toasts.add(text to timeout)
-}
 
 @Composable
 actual fun LockToCurrentOrientationUntilDispose() {}

@@ -530,7 +530,7 @@ fun SimplexLockView(
             }
             LAMode.PASSCODE -> {
               ModalManager.fullscreen.showCustomModal { close ->
-                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+                ModalSurface {
                   SetAppPasscodeView(
                     submit = {
                       laLockDelay.set(30)
@@ -574,7 +574,7 @@ fun SimplexLockView(
       when (laResult) {
         LAResult.Success -> {
           ModalManager.fullscreen.showCustomModal { close ->
-            Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+            ModalSurface {
               SetAppPasscodeView(
                 reason = generalGetString(MR.strings.la_app_passcode),
                 submit = {
@@ -598,7 +598,7 @@ fun SimplexLockView(
       when (laResult) {
         LAResult.Success -> {
           ModalManager.fullscreen.showCustomModal { close ->
-            Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+            ModalSurface {
               SetAppPasscodeView(
                 passcodeKeychain = ksSelfDestructPassword,
                 prohibitedPasscodeKeychain = ksAppPassword,
@@ -633,7 +633,7 @@ fun SimplexLockView(
             }
             LAMode.PASSCODE -> {
               ModalManager.fullscreen.showCustomModal { close ->
-                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+                ModalSurface {
                   SetAppPasscodeView(
                     submit = {
                       laLockDelay.set(30)
@@ -746,7 +746,7 @@ private fun EnableSelfDestruct(
   selfDestruct: SharedPreference<Boolean>,
   close: () -> Unit
 ) {
-  Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+  ModalSurface {
     SetAppPasscodeView(
       passcodeKeychain = ksSelfDestructPassword, prohibitedPasscodeKeychain = ksAppPassword, title = generalGetString(MR.strings.set_passcode), reason = generalGetString(MR.strings.enabled_self_destruct_passcode),
       submit = {

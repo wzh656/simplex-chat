@@ -7,6 +7,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme as Material3Theme
+import androidx.compose.material3.ButtonDefaults as Material3ButtonDefaults
+import androidx.compose.material3.Text as Material3Text
+import androidx.compose.material3.TextButton as Material3TextButton
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -2893,12 +2896,12 @@ private fun DownloadFilesButton(
   forwardConfirmation: ForwardConfirmation.FilesNotAccepted,
   rhId: Long?,
   modifier: Modifier = Modifier,
-  contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding
+  contentPadding: PaddingValues = Material3ButtonDefaults.TextButtonContentPadding
 ) {
   val user = chatModel.currentUser.value
 
   if (user != null) {
-    TextButton(
+    Material3TextButton(
       contentPadding = contentPadding,
       modifier = modifier,
       onClick = {
@@ -2924,7 +2927,7 @@ private fun DownloadFilesButton(
         }
       }
     ) {
-      Text(stringResource(MR.strings.forward_files_not_accepted_receive_files), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+      Material3Text(stringResource(MR.strings.forward_files_not_accepted_receive_files), textAlign = TextAlign.Center)
     }
   }
 }
@@ -2934,9 +2937,9 @@ private fun ForwardButton(
   forwardPlan: CR.ForwardPlan,
   chatInfo: ChatInfo,
   modifier: Modifier = Modifier,
-  contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding
+  contentPadding: PaddingValues = Material3ButtonDefaults.TextButtonContentPadding
 ) {
-  TextButton(
+  Material3TextButton(
     onClick = {
       forwardContent(forwardPlan.chatItemIds, chatInfo)
       AlertManager.shared.hideAlert()
@@ -2944,15 +2947,15 @@ private fun ForwardButton(
     modifier = modifier,
     contentPadding = contentPadding
   ) {
-    Text(stringResource(MR.strings.forward_chat_item), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+    Material3Text(stringResource(MR.strings.forward_chat_item), textAlign = TextAlign.Center)
   }
 }
 
 @Composable
-private fun ButtonRow(horizontalArrangement: Arrangement.Horizontal, content: @Composable() (RowScope.() -> Unit)) {
+private fun ButtonRow(content: @Composable() (RowScope.() -> Unit)) {
   Row(
     Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING),
-    horizontalArrangement = horizontalArrangement
+    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
   ) {
     content()
   }
@@ -3617,15 +3620,15 @@ private fun handleForwardConfirmation(
             Column {
               ForwardButton(forwardPlan, chatInfo, fillMaxWidthModifier, contentPadding)
               DownloadFilesButton(confirmation, rhId, fillMaxWidthModifier, contentPadding)
-              TextButton(onClick = { AlertManager.shared.hideAlert() }, modifier = fillMaxWidthModifier, contentPadding = contentPadding) {
-                Text(stringResource(MR.strings.cancel_verb), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+              Material3TextButton(onClick = { AlertManager.shared.hideAlert() }, modifier = fillMaxWidthModifier, contentPadding = contentPadding) {
+                Material3Text(stringResource(MR.strings.cancel_verb), textAlign = TextAlign.Center)
               }
             }
           }
           else -> {
-            ButtonRow(Arrangement.SpaceBetween) {
-              TextButton(onClick = { AlertManager.shared.hideAlert() }) {
-                Text(stringResource(MR.strings.cancel_verb), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+            ButtonRow {
+              Material3TextButton(onClick = { AlertManager.shared.hideAlert() }) {
+                Material3Text(stringResource(MR.strings.cancel_verb), textAlign = TextAlign.Center)
               }
               ForwardButton(forwardPlan, chatInfo)
             }
@@ -3634,16 +3637,16 @@ private fun handleForwardConfirmation(
       } else {
         when (val confirmation = forwardPlan.forwardConfirmation) {
           is ForwardConfirmation.FilesNotAccepted -> {
-            ButtonRow(Arrangement.SpaceBetween) {
-              TextButton(onClick = { AlertManager.shared.hideAlert() }) {
-                Text(stringResource(MR.strings.cancel_verb), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+            ButtonRow {
+              Material3TextButton(onClick = { AlertManager.shared.hideAlert() }) {
+                Material3Text(stringResource(MR.strings.cancel_verb), textAlign = TextAlign.Center)
               }
               DownloadFilesButton(confirmation, rhId)
             }
           }
-          else -> ButtonRow(Arrangement.Center) {
-            TextButton(onClick = { AlertManager.shared.hideAlert() }) {
-              Text(stringResource(MR.strings.ok), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+          else -> ButtonRow {
+            Material3TextButton(onClick = { AlertManager.shared.hideAlert() }) {
+              Material3Text(stringResource(MR.strings.ok), textAlign = TextAlign.Center)
             }
           }
         }

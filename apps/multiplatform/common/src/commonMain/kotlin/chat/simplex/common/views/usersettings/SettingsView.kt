@@ -433,7 +433,7 @@ fun doWithAuth(title: String, desc: String, block: () -> Unit) {
           runAuth(title, desc, onFinishAuth)
         }
       }
-      Surface(color = MaterialTheme.colors.background.copy(1f), contentColor = LocalContentColor.current) {
+      ModalSurface {
         Box(
           Modifier.fillMaxSize(),
           contentAlignment = Alignment.Center

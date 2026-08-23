@@ -2,12 +2,10 @@ package chat.simplex.common.views.helpers
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,12 +29,13 @@ import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 
+
 class AlertManager {
   // Don't use mutableStateOf() here, because it produces this if showing from SimpleXAPI.startChat():
   // java.lang.IllegalStateException: Reading a state that was created after the snapshot was taken or in a snapshot that has not yet been applied
   private var alertViews = MutableStateFlow(listOf<(@Composable () -> Unit)>())
 
-  fun showAlert(alert: @Composable () -> Unit) {
+  internal fun showAlert(alert: @Composable () -> Unit) {
     Log.d(TAG, "AlertManager.showAlert")
     alertViews.value += alert
   }
@@ -51,21 +50,34 @@ class AlertManager {
 
   fun hasAlertsShown() = alertViews.value.isNotEmpty()
 
+  fun showAlertDialogContent(
+    title: @Composable () -> Unit,
+    onDismissRequest: () -> Unit,
+    content: @Composable () -> Unit,
+  ) {
+    showAlert {
+      AppDialog(
+        onDismissRequest = onDismissRequest,
+        title = title,
+        content = content,
+      )
+    }
+  }
+
   fun showAlertDialogButtons(
     title: String,
     text: String? = null,
     buttons: @Composable () -> Unit,
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = this::hideAlert,
         title = alertTitle(title),
-        buttons = {
+        content = {
           AlertContent(text, null, extraPadding = true) {
             buttons()
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -83,10 +95,10 @@ class AlertManager {
     buttons: @Composable () -> Unit,
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = { onDismissRequest?.invoke(); if (dismissible) hideAlert() },
         title = alertTitle(title),
-        buttons = {
+        content = {
           if (parseHtml) {
             AlertContent(text, hostDevice, extraPadding = true, textAlign = textAlign, belowTextContent = belowTextContent) {
               buttons()
@@ -97,7 +109,6 @@ class AlertManager {
             }
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -110,15 +121,14 @@ class AlertManager {
     buttons: @Composable () -> Unit,
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = { onDismissRequest?.invoke(); hideAlert() },
         title = alertTitle(title),
-        buttons = {
+        content = {
           AlertContent(text, hostDevice, extraPadding = true) {
             buttons()
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -137,14 +147,14 @@ class AlertManager {
     parseHtml: Boolean = true,
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = { onDismissRequest?.invoke(); hideAlert() },
         title = alertTitle(title),
-        buttons = {
+        content = {
           val buttonRow: @Composable () -> Unit = {
             Row(
-              Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING),
-              horizontalArrangement = Arrangement.SpaceBetween
+              Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+              horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
             ) {
               val focusRequester = remember { FocusRequester() }
               LaunchedEffect(Unit) {
@@ -159,7 +169,9 @@ class AlertManager {
               TextButton(onClick = {
                 onConfirm?.invoke()
                 hideAlert()
-              }, Modifier.focusRequester(focusRequester)) { Text(confirmText, color = if (destructive) MaterialTheme.colors.error else Color.Unspecified) }
+              }, Modifier.focusRequester(focusRequester)) {
+                Text(confirmText, color = if (destructive) MaterialTheme.colorScheme.error else Color.Unspecified)
+              }
             }
           }
           if (parseHtml) {
@@ -168,7 +180,6 @@ class AlertManager {
             AlertContent(text?.let { AnnotatedString(it) }, hostDevice, true, content = buttonRow)
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -184,14 +195,14 @@ class AlertManager {
     destructive: Boolean = false
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = { onDismissRequest?.invoke(); hideAlert() },
         title = alertTitle(title),
-        buttons = {
+        content = {
           AlertContent(text, null) {
             Column(
-              Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING_HALF).padding(top = DEFAULT_PADDING, bottom = 2.dp),
-              horizontalAlignment = Alignment.CenterHorizontally
+              Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+              horizontalAlignment = Alignment.End,
             ) {
               TextButton(onClick = {
                 onDismiss?.invoke()
@@ -200,11 +211,12 @@ class AlertManager {
               TextButton(onClick = {
                 onConfirm?.invoke()
                 hideAlert()
-              }) { Text(confirmText, color = if (destructive) Color.Red else Color.Unspecified, textAlign = TextAlign.End) }
+              }) {
+                Text(confirmText, color = if (destructive) MaterialTheme.colorScheme.error else Color.Unspecified)
+              }
             }
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -217,10 +229,10 @@ class AlertManager {
     shareText: Boolean? = null
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = this::hideAlert,
         title = alertTitle(title),
-        buttons = {
+        content = {
           AlertContent(text, hostDevice, extraPadding = true) {
             val focusRequester = remember { FocusRequester() }
             LaunchedEffect(Unit) {
@@ -231,8 +243,8 @@ class AlertManager {
             // Can pass shareText = false to prevent showing Share button if it's needed in a specific case
             val showShareButton = text != null && (shareText == true || (shareText == null && text.length > 500))
             Row(
-              Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING),
-              horizontalArrangement = if (showShareButton) Arrangement.SpaceBetween else Arrangement.Center
+              Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+              horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
             ) {
               val clipboard = LocalClipboardManager.current
               if (showShareButton && text != null) {
@@ -246,14 +258,13 @@ class AlertManager {
                   onConfirm?.invoke()
                   hideAlert()
                 },
-                Modifier.focusRequester(focusRequester)
+                modifier = Modifier.focusRequester(focusRequester),
               ) {
-                Text(confirmText, color = Color.Unspecified)
+                Text(confirmText)
               }
             }
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -263,17 +274,16 @@ class AlertManager {
     text: String? = null,
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = this::hideAlert,
         title = alertTitle(title),
-        buttons = {
+        content = {
           AlertContent(text, null) {
-            Box(Modifier.fillMaxWidth().height(72.dp).padding(bottom = DEFAULT_PADDING * 2), contentAlignment = Alignment.Center) {
-              CircularProgressIndicator(Modifier.size(36.dp).padding(4.dp), color = MaterialTheme.colors.secondary, strokeWidth = 3.dp)
+            Box(Modifier.fillMaxWidth().height(72.dp), contentAlignment = Alignment.Center) {
+              CircularProgressIndicator(Modifier.size(36.dp), strokeWidth = 3.dp)
             }
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -302,12 +312,12 @@ class AlertManager {
     onDismiss: (() -> Unit)? = null,
   ) {
     showAlert {
-      AlertDialog(
+      AppDialog(
         onDismissRequest = {
           onDismiss?.invoke()
           hideAlert()
         },
-        buttons = {
+        content = {
           AlertContent(text = null as String?, null) {
             Column(
               Modifier
@@ -321,7 +331,7 @@ class AlertManager {
               ) {
                 profileImage()
                 Spacer(Modifier.height(DEFAULT_PADDING_HALF))
-                val nameFontSize = MaterialTheme.typography.h4.fontSize
+                val nameFontSize = MaterialTheme.typography.titleSmall.fontSize
                 Text(
                   buildAnnotatedString {
                     append(profileName)
@@ -333,7 +343,7 @@ class AlertManager {
                   inlineContent =
                     if (profileBadge != null) mapOf("nameBadge" to nameBadgeInline(profileBadge, nameFontSize)) else emptyMap(),
                   textAlign = TextAlign.Center,
-                  style = MaterialTheme.typography.h4,
+                  style = MaterialTheme.typography.titleSmall,
                   lineHeight = 20.sp,
                   fontWeight = FontWeight.SemiBold,
                   maxLines = 2,
@@ -345,8 +355,8 @@ class AlertManager {
                   Text(
                     nameCaption,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.secondary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     modifier = Modifier.fillMaxWidth()
                   )
@@ -356,7 +366,7 @@ class AlertManager {
                   Text(
                     profileFullName,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = 2,
                     modifier = Modifier.fillMaxWidth()
                   )
@@ -366,8 +376,8 @@ class AlertManager {
                   Text(
                     subtitle,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.secondary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 3,
                     modifier = Modifier.fillMaxWidth()
                   )
@@ -377,7 +387,7 @@ class AlertManager {
                   Text(
                     information,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = 3,
                     modifier = Modifier.fillMaxWidth()
                   )
@@ -385,8 +395,8 @@ class AlertManager {
               }
 
               Column(
-                Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING_HALF).padding(top = DEFAULT_PADDING, bottom = 2.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.End,
               ) {
                 val focusRequester = remember { FocusRequester() }
                 LaunchedEffect(Unit) {
@@ -420,7 +430,6 @@ class AlertManager {
             }
           }
         },
-        shape = RoundedCornerShape(corner = CornerSize(25.dp))
       )
     }
   }
@@ -436,13 +445,15 @@ class AlertManager {
   }
 }
 
+
+
 private fun alertTitle(title: String): (@Composable () -> Unit)? {
   return {
     Text(
       title,
-      Modifier.fillMaxWidth(),
-      textAlign = TextAlign.Center,
-      fontSize = 20.sp
+      Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+      style = MaterialTheme.typography.titleLarge,
+      textAlign = TextAlign.Start,
     )
   }
 }
@@ -452,39 +463,36 @@ private fun AlertContent(
   text: String?,
   hostDevice: Pair<Long?, String>?,
   extraPadding: Boolean = false,
-  textAlign: TextAlign = TextAlign.Center,
+  textAlign: TextAlign = TextAlign.Start,
   belowTextContent: @Composable (() -> Unit) = {},
   content: @Composable (() -> Unit)
 ) {
   BoxWithConstraints {
-    Column(
-      Modifier
-        .padding(bottom = if (appPlatform.isDesktop) DEFAULT_PADDING else DEFAULT_PADDING_HALF)
-    ) {
-      if (appPlatform.isDesktop) {
+    Column {
+      if (appPlatform.isDesktop && hostDevice != null) {
         HostDeviceTitle(hostDevice, extraPadding = extraPadding)
-      } else {
-        Spacer(Modifier.size(DEFAULT_PADDING_HALF))
       }
-      CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-        if (text != null) {
-          Column(Modifier.heightIn(max = this@BoxWithConstraints.maxHeight * 0.7f)
-            .padding(start = DEFAULT_PADDING, end = DEFAULT_PADDING)
+      if (text != null) {
+        Column(
+          Modifier
+            .heightIn(max = this@BoxWithConstraints.maxHeight * 0.65f)
+            .padding(start = 24.dp, top = 16.dp, end = 24.dp)
             .verticalScroll(rememberScrollState())
-          ) {
-            SelectionContainer {
-              Text(
-                escapedHtmlToAnnotatedString(text, LocalDensity.current),
-                Modifier.fillMaxWidth(),
-                fontSize = 16.sp,
-                textAlign = textAlign,
-                color = MaterialTheme.colors.secondary
-              )
-            }
-            belowTextContent()
-            Spacer(Modifier.height(DEFAULT_PADDING * 1.5f))
+        ) {
+          SelectionContainer {
+            Text(
+              escapedHtmlToAnnotatedString(text, LocalDensity.current),
+              Modifier.fillMaxWidth(),
+              style = MaterialTheme.typography.bodyLarge,
+              textAlign = textAlign,
+              color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
           }
+          belowTextContent()
+          Spacer(Modifier.height(24.dp))
         }
+      } else {
+        Spacer(Modifier.height(8.dp))
       }
       content()
     }
@@ -494,33 +502,30 @@ private fun AlertContent(
 @Composable
 private fun AlertContent(text: AnnotatedString?, hostDevice: Pair<Long?, String>?, extraPadding: Boolean = false, content: @Composable (() -> Unit)) {
   BoxWithConstraints {
-    Column(
-      Modifier
-        .verticalScroll(rememberScrollState())
-        .padding(bottom = if (appPlatform.isDesktop) DEFAULT_PADDING else DEFAULT_PADDING_HALF)
-    ) {
-      if (appPlatform.isDesktop) {
+    Column {
+      if (appPlatform.isDesktop && hostDevice != null) {
         HostDeviceTitle(hostDevice, extraPadding = extraPadding)
-      } else {
-        Spacer(Modifier.size(DEFAULT_PADDING_HALF))
       }
-      CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-        if (text != null) {
-          Column(
-            Modifier.heightIn(max = this@BoxWithConstraints.maxHeight * 0.7f)
-              .verticalScroll(rememberScrollState())
-          ) {
-            SelectionContainer {
-              Text(
-                text,
-                Modifier.fillMaxWidth().padding(start = DEFAULT_PADDING, end = DEFAULT_PADDING, bottom = DEFAULT_PADDING * 1.5f),
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.secondary
-              )
-            }
+      if (text != null) {
+        Column(
+          Modifier
+            .heightIn(max = this@BoxWithConstraints.maxHeight * 0.65f)
+            .padding(start = 24.dp, top = 16.dp, end = 24.dp)
+            .verticalScroll(rememberScrollState())
+        ) {
+          SelectionContainer {
+            Text(
+              text,
+              Modifier.fillMaxWidth(),
+              style = MaterialTheme.typography.bodyLarge,
+              textAlign = TextAlign.Start,
+              color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
           }
+          Spacer(Modifier.height(24.dp))
         }
+      } else {
+        Spacer(Modifier.height(8.dp))
       }
       content()
     }
@@ -538,12 +543,19 @@ fun hostDevice(rhId: Long?): Pair<Long?, String>? = if (rhId == null && chatMode
 @Composable
 private fun HostDeviceTitle(hostDevice: Pair<Long?, String>?, extraPadding: Boolean = false) {
   if (hostDevice != null) {
-    Row(Modifier.fillMaxWidth().padding(top = 5.dp, bottom = if (extraPadding) DEFAULT_PADDING * 2 else DEFAULT_PADDING_HALF), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-      Icon(painterResource(if (hostDevice.first == null) MR.images.ic_desktop else MR.images.ic_smartphone_300), null, Modifier.size(15.dp), tint = MaterialTheme.colors.secondary)
-      Spacer(Modifier.width(10.dp))
-      Text(hostDevice.second, color = MaterialTheme.colors.secondary)
+    Row(
+      Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = if (extraPadding) 16.dp else 8.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.Start,
+    ) {
+      Icon(
+        painterResource(if (hostDevice.first == null) MR.images.ic_desktop else MR.images.ic_smartphone_300),
+        null,
+        Modifier.size(16.dp),
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+      )
+      Spacer(Modifier.width(8.dp))
+      Text(hostDevice.second, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
-  } else {
-    Spacer(Modifier.height(if (extraPadding) DEFAULT_PADDING * 2 else 0.dp))
   }
 }

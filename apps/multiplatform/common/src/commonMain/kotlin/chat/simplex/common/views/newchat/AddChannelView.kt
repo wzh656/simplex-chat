@@ -8,6 +8,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.Text as Material3Text
+import androidx.compose.material3.TextButton as Material3TextButton
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -504,14 +506,14 @@ private fun ProgressStepView(
                   text = alertText,
                   buttons = {
                     Row(Modifier.fillMaxWidth().padding(horizontal = DEFAULT_PADDING, vertical = DEFAULT_PADDING_HALF), horizontalArrangement = Arrangement.SpaceBetween) {
-                      TextButton(onClick = { AlertManager.shared.hideAlert() }) {
-                        Text(generalGetString(MR.strings.wait_verb))
+                      Material3TextButton(onClick = { AlertManager.shared.hideAlert() }) {
+                        Material3Text(generalGetString(MR.strings.wait_verb))
                       }
-                      TextButton(onClick = {
+                      Material3TextButton(onClick = {
                         AlertManager.shared.hideAlert()
                         onLinkReady()
                       }) {
-                        Text(generalGetString(MR.strings.continue_to_next_step))
+                        Material3Text(generalGetString(MR.strings.continue_to_next_step))
                       }
                     }
                   }

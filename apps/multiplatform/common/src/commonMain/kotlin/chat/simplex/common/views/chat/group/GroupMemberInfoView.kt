@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -261,12 +262,12 @@ fun removeMemberDialog(rhId: Long?, groupInfo: GroupInfo, member: GroupMember, c
             AlertManager.shared.hideAlert()
             removeMember(rhId, groupInfo, member, withMessages = false, chatModel, close)
           }) {
-            Text(generalGetString(MR.strings.remove_member_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.Red)
+            Text(generalGetString(MR.strings.remove_member_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
           }
           SectionItemView({
             AlertManager.shared.hideAlert()
           }) {
-            Text(generalGetString(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+            Text(generalGetString(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.primary)
           }
         }
       })
@@ -280,18 +281,18 @@ fun removeMemberDialog(rhId: Long?, groupInfo: GroupInfo, member: GroupMember, c
             AlertManager.shared.hideAlert()
             removeMember(rhId, groupInfo, member, withMessages = false, chatModel, close)
           }) {
-            Text(generalGetString(MR.strings.remove_member_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.Red)
+            Text(generalGetString(MR.strings.remove_member_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
           }
           SectionItemView({
             AlertManager.shared.hideAlert()
             removeMember(rhId, groupInfo, member, withMessages = true, chatModel, close)
           }) {
-            Text(generalGetString(MR.strings.remove_member_delete_messages_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.Red)
+            Text(generalGetString(MR.strings.remove_member_delete_messages_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
           }
           SectionItemView({
             AlertManager.shared.hideAlert()
           }) {
-            Text(generalGetString(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+            Text(generalGetString(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.primary)
           }
         }
       })
@@ -309,18 +310,18 @@ fun removeMemberDialog(rhId: Long?, groupInfo: GroupInfo, member: GroupMember, c
             AlertManager.shared.hideAlert()
             removeMember(rhId, groupInfo, member, withMessages = false, chatModel, close)
           }) {
-            Text(generalGetString(MR.strings.remove_member_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.Red)
+            Text(generalGetString(MR.strings.remove_member_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
           }
           SectionItemView({
             AlertManager.shared.hideAlert()
             removeMember(rhId, groupInfo, member, withMessages = true, chatModel, close)
           }) {
-            Text(generalGetString(MR.strings.remove_member_delete_messages_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Color.Red)
+            Text(generalGetString(MR.strings.remove_member_delete_messages_confirmation), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.error)
           }
           SectionItemView({
             AlertManager.shared.hideAlert()
           }) {
-            Text(generalGetString(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
+            Text(generalGetString(MR.strings.cancel_verb), Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = Material3Theme.colorScheme.primary)
           }
         }
       })

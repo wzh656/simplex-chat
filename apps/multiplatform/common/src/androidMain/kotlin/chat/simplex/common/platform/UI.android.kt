@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo
 import android.os.*
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
@@ -20,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext as LocalContext1
 import chat.simplex.res.MR
 import kotlinx.coroutines.*
 
-actual fun showToast(text: String, timeout: Long) = Toast.makeText(androidAppContext, text, Toast.LENGTH_SHORT).show()
 
 @Composable
 actual fun LockToCurrentOrientationUntilDispose() {
