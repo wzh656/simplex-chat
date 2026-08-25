@@ -59,7 +59,8 @@ android {
             manifestPlaceholders["provider_authorities"] = "com.grayheterotopia.app${rootProject.extra["application_id.suffix"]}.provider"
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -76,11 +77,6 @@ android {
     externalNativeBuild {
         cmake {
             path(File("../common/src/commonMain/cpp/android/CMakeLists.txt"))
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
         }
     }
     buildFeatures {

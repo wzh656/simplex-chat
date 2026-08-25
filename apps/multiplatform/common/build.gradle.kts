@@ -12,7 +12,8 @@ group = "chat.simplex"
 version = extra["android.version_name"] as String
 
 val grayHeterotopiaAssetsDir = rootProject.findProperty("grayheterotopia.assets.dir") as String?
-val grayHeterotopiaAssetsLocal = file("src/commonMain/resources/assets/grayheterotopia")
+val grayHeterotopiaAssetsGenerated = layout.buildDirectory.dir("generated/grayheterotopiaResources").get().asFile
+val grayHeterotopiaAssetsLegacy = file("src/commonMain/resources/assets/grayheterotopia")
 val hasGrayHeterotopiaAssets = grayHeterotopiaAssetsDir != null
 
 if (grayHeterotopiaAssetsDir != null) {
@@ -28,12 +29,16 @@ if (grayHeterotopiaAssetsDir != null) {
   tasks.register<Sync>("copyGrayHeterotopiaAssets") {
     dependsOn(verifyGrayHeterotopiaAssets)
     from(srcImagesDir)
-    into(grayHeterotopiaAssetsLocal.resolve("MR/images"))
+    into(grayHeterotopiaAssetsGenerated.resolve("MR/images"))
   }
 } else {
   tasks.register<Delete>("cleanGrayHeterotopiaAssets") {
-    delete(grayHeterotopiaAssetsLocal)
+    delete(grayHeterotopiaAssetsGenerated)
   }
+}
+
+val cleanLegacyGrayHeterotopiaAssets = tasks.register<Delete>("cleanLegacyGrayHeterotopiaAssets") {
+  delete(grayHeterotopiaAssetsLegacy)
 }
 
 kotlin {
@@ -57,7 +62,7 @@ kotlin {
 
     val commonMain by getting {
       if (hasGrayHeterotopiaAssets) {
-        resources.srcDir(grayHeterotopiaAssetsLocal)
+        resources.srcDir(grayHeterotopiaAssetsGenerated)
       } else {
         resources.srcDir("src/commonMain/resources/assets/default")
       }
@@ -72,7 +77,6 @@ kotlin {
         api("com.charleskorn.kaml:kaml:0.59.0")
         api("org.jetbrains.compose.ui:ui-text:${rootProject.extra["compose.version"] as String}")
         implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
-        implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
         implementation("org.jetbrains.compose.components:components-animatedimage:${rootProject.extra["compose.version"] as String}")
         //Barcode
         api("org.boofcv:boofcv-core:1.1.3")
@@ -81,7 +85,9 @@ kotlin {
         implementation("org.jsoup:jsoup:1.17.2")
         // Resources
         api("dev.icerock.moko:resources:0.23.0")
-        api("dev.icerock.moko:resources-compose:0.23.0")
+        api("dev.icerock.moko:resources-compose:0.23.0") {
+          exclude(group = "org.jetbrains.compose.desktop", module = "desktop-jvm-macos-x64")
+        }
 
         // Markdown
         implementation("com.mikepenz:multiplatform-markdown-renderer:0.27.0")
@@ -198,6 +204,7 @@ buildConfig {
 
 afterEvaluate {
   tasks.named("generateMRcommonMain") {
+    dependsOn(cleanLegacyGrayHeterotopiaAssets)
     dependsOn("adjustFormatting")
     if (hasGrayHeterotopiaAssets) {
       dependsOn("copyGrayHeterotopiaAssets")

@@ -2,8 +2,6 @@ package chat.simplex.common.views.helpers
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme as Material3Theme
 import androidx.compose.material3.HorizontalDivider as Material3HorizontalDivider
 import androidx.compose.material3.IconButton as Material3IconButton
@@ -109,7 +107,7 @@ fun CallAppBar(
 fun NavigationButtonBack(onButtonClicked: (() -> Unit)?, tintColor: Color = if (onButtonClicked != null) Material3Theme.colorScheme.onSurface else Material3Theme.colorScheme.onSurfaceVariant, height: Dp = 24.dp) {
   Material3IconButton(onButtonClicked ?: {}, enabled = onButtonClicked != null) {
     Icon(
-      Icons.AutoMirrored.Filled.ArrowBack, stringResource(MR.strings.back), Modifier.size(height), tint = tintColor
+      ArrowBackFilled, stringResource(MR.strings.back), Modifier.size(height), tint = tintColor
     )
   }
 }

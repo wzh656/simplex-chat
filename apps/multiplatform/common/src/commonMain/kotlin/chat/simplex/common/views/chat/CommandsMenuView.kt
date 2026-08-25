@@ -7,8 +7,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +24,7 @@ import chat.simplex.common.ui.theme.DEFAULT_PADDING
 import chat.simplex.common.ui.theme.DEFAULT_PADDING_HALF
 import chat.simplex.common.views.chat.group.*
 import chat.simplex.common.views.chat.item.sendCommandMsg
+import chat.simplex.common.views.helpers.ArrowBackFilled
 import chat.simplex.common.views.helpers.commandMenuAnimSpec
 import chat.simplex.res.MR
 import dev.icerock.moko.resources.compose.painterResource
@@ -126,7 +125,7 @@ fun CommandsMenuView(
     ) {
       Row(Modifier.padding(horizontal = DEFAULT_PADDING), verticalAlignment = Alignment.CenterVertically) {
         Icon(
-          Icons.AutoMirrored.Filled.ArrowBack,
+          ArrowBackFilled,
           contentDescription = null,
           tint = MaterialTheme.colors.secondary
         )

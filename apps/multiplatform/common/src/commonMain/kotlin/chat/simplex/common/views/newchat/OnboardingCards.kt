@@ -6,8 +6,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -262,7 +260,7 @@ private fun BackButton(modifier: Modifier = Modifier, color: Color = MaterialThe
     horizontalArrangement = Arrangement.spacedBy(4.dp)
   ) {
     Icon(
-      Icons.AutoMirrored.Filled.ArrowBack,
+      ArrowBackFilled,
       contentDescription = stringResource(MR.strings.back),
       tint = color,
       modifier = Modifier.size(24.dp)
