@@ -22,13 +22,19 @@
 - [x] 重构UI风格（使用Material Design 3，参考Telegram等设计风格）
 - [x] 增加表情包功能
 - [x] 打包 Release 版本
+- [x] 支持 Debug/Release 双模式本地构建
 
 ## 本机打包
 
 - 持久化工具链位于仓库根目录 `.local-build/`，已在 `.git/info/exclude` 中排除；不要删除或提交。内含 JDK 17、Android NDK 23.1、WiX 3.14.1 和 NanoHTTPD 本地缓存，其余 Android SDK 组件复用本机 SDK。
-- 构建 Android：`.\.local-build\build.ps1 android`。
-- 构建 Windows：`.\.local-build\build.ps1 windows`。
-- 同时构建：`.\.local-build\build.ps1 all`。
-- APK 输出到 `apps/multiplatform/android/build/outputs/apk/foss/debug/`；MSI 输出到 `apps/multiplatform/release/main/msi/`。
-- 当前 APK 使用 debug 签名，MSI 未签名，只用于开发测试。
+- 默认构建 Release：`.\.local-build\build.ps1 -Target all -Configuration release`。
+- Android Debug：`.\.local-build\build.ps1 -Target android -Configuration debug`。
+- Android Release：`.\.local-build\build.ps1 -Target android -Configuration release`。
+- Windows Debug：`.\.local-build\build.ps1 -Target windows -Configuration debug`，只生成未签名便携目录，不生成 MSI。
+- Windows Release：`.\.local-build\build.ps1 -Target windows -Configuration release`，生成 MSI、便携目录并执行签名验签。
+- 也支持位置参数简写：`\.local-build\build.ps1 android debug`、`\.local-build\build.ps1 all release`。
+- Android Debug APK 输出到 `apps/multiplatform/android/build/outputs/apk/foss/debug/`；Android 签名 Release APK 输出到 `apps/multiplatform/release/android/`。
+- Windows 便携目录输出到 `apps/multiplatform/release/main/app/Gray Heterotopia/`；Windows Release MSI 输出到 `apps/multiplatform/release/main/msi/`。
+- Android Release 使用 `.local-build/signing/grayheterotopia-release.jks`；Windows Release 使用 `.local-build/signing/grayheterotopia-windows-local-signing.pfx`。缺少签名材料时 Release 构建直接失败，不会退回 unsigned 包。
+- 当前 Windows PFX 是本地自签名证书，仅用于开发测试；公开发布前替换为 CA 代码签名证书，并在凭据文件中配置 `timestampUrl`。
 - Windows 使用 `.local-build/windows-native/` 中已修复 XFTP 关闭卡死的原生库；仅 Haskell 核心、simplexmq 版本或 JNI C 源码变化时才需用 GitHub Actions 重编。

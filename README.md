@@ -1,3 +1,17 @@
+# Gray Heterotopia
+
+基于开源项目 [simplex-chat](https://github.com/simplex-chat/simplex-chat) 开发而来
+
+改动了如下内容：
+
+- 要求进入软件前必须填写有效的 SMP 和 XFTP 服务器地址，移除了内置硬编码的 simplex 服务器地址，使其更加通用
+- 增加了表情包功能
+- 修复了 Windows 版本无法连接自建服务器的问题 [issue#4766](https://github.com/simplex-chat/simplex-chat/issues/4766)
+- 去除了音视频通话功能
+- 优化了UI（部分加入 Material Design 3），使其更现代化
+
+---
+
 [![build](https://github.com/simplex-chat/simplex-chat/actions/workflows/build.yml/badge.svg?branch=stable)](https://github.com/simplex-chat/simplex-chat/actions/workflows/build.yml)
 [![GitHub downloads](https://img.shields.io/github/downloads/simplex-chat/simplex-chat/total)](https://github.com/simplex-chat/simplex-chat/releases)
 [![GitHub release](https://img.shields.io/github/v/release/simplex-chat/simplex-chat)](https://github.com/simplex-chat/simplex-chat/releases)
