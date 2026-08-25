@@ -129,8 +129,11 @@ fun ChatItemView(
   val sent = cItem.chatDir.sent
   val alignment = if (sent) Alignment.CenterEnd else Alignment.CenterStart
   val showMenu = remember { mutableStateOf(false) }
+  val menuAnchor = remember { mutableStateOf<Offset?>(null) }
   val fullDeleteAllowed = remember(cInfo) { cInfo.featureEnabled(ChatFeature.FullDelete) }
-  val onLinkLongClick = { _: String -> showMenu.value = true }
+  val onLinkLongClick = { _: String ->
+    showMenu.value = true
+  }
   val live = remember { derivedStateOf { composeState.value.liveMessage != null } }.value
 
   Box(
@@ -335,14 +338,19 @@ fun ChatItemView(
               .clipChatItem(cItem, itemSeparation.largeGap, revealed.value)
               .hoverable(bubbleInteractionSource)
               .combinedClickable(
-                onLongClick = { showMenu.value = true },
+                onLongClick = {
+                  showMenu.value = true
+                },
                 onClick = {
                   if (appPlatform.isAndroid && (searchIsNotBlank.value || cItem.meta.itemForwarded?.chatTypeApiIdMsgId != null)) {
                     hoveredItemId.value = if (hoveredItemId.value == cItem.id) null else cItem.id
                   }
                   onClick()
                 }, interactionSource = bubbleInteractionSource, indication = LocalIndication.current)
-              .onRightClick { showMenu.value = true },
+              .onRightClickAt { offset ->
+                menuAnchor.value = offset
+                showMenu.value = true
+              },
           ) {
             @Composable
             fun framedItemView() {
@@ -425,6 +433,8 @@ fun ChatItemView(
                 cItem.content.msgContent != null && cItem.id >= 0 && !cItem.isReport -> {
                   MessageDropdownMenu(
                     showMenu,
+                    menuAnchor,
+                    alignEnd = sent,
                     reactions = if (
                       cInfo.featureEnabled(ChatFeature.Reactions) &&
                       cItem.allowAddReaction &&

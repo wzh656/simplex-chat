@@ -2,6 +2,7 @@ package chat.simplex.common.platform
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.painter.Painter
 import java.io.File
 
@@ -14,6 +15,8 @@ actual fun Modifier.desktopOnExternalDrag(
 ): Modifier = this
 
 actual fun Modifier.onRightClick(action: () -> Unit): Modifier = this
+
+actual fun Modifier.onRightClickAt(action: (Offset) -> Unit): Modifier = this
 
 actual fun Modifier.desktopPointerHoverIconHand(): Modifier = this
 

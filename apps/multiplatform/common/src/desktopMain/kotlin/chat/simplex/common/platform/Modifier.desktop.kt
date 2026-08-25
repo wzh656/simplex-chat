@@ -5,6 +5,7 @@ import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.*
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.draganddrop.*
 import androidx.compose.ui.draganddrop.DragData
 import androidx.compose.ui.input.pointer.*
@@ -78,6 +79,8 @@ private class DragDataImageImpl(private val transferable: Transferable) {
 }
 
 actual fun Modifier.onRightClick(action: () -> Unit): Modifier = contextMenuOpenDetector { action() }
+
+actual fun Modifier.onRightClickAt(action: (Offset) -> Unit): Modifier = contextMenuOpenDetector(onOpen = action)
 
 actual fun Modifier.desktopPointerHoverIconHand(): Modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,8 @@ expect fun Modifier.desktopOnExternalDrag(
 ): Modifier
 
 expect fun Modifier.onRightClick(action: () -> Unit): Modifier
+
+expect fun Modifier.onRightClickAt(action: (Offset) -> Unit): Modifier
 
 expect fun Modifier.desktopPointerHoverIconHand(): Modifier
 
