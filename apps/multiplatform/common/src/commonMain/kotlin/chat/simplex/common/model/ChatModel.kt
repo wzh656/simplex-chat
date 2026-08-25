@@ -3117,6 +3117,7 @@ data class ChatItem (
   fun text(isChannel: Boolean): String {
     val mc = content.msgContent
     return when {
+      mc is MsgContent.MCSticker -> generalGetString(MR.strings.sticker)
       content.text(isChannel) == "" && file != null && mc is MsgContent.MCVoice -> String.format(generalGetString(MR.strings.voice_message_with_duration), durationText(mc.duration))
       content.text(isChannel) == "" && file != null -> file.fileName
       else -> content.text(isChannel)
@@ -4020,11 +4021,7 @@ sealed class CIContent: ItemContent {
     }
 
   val hasMsgContent: Boolean get() =
-    if (msgContent != null) {
-      (msgContent as MsgContent).text.trim().isNotEmpty()
-    } else {
-      false
-    }
+    msgContent is MsgContent.MCSticker || msgContent?.text?.trim()?.isNotEmpty() == true
 
   val showMemberName: Boolean get() =
     when (this) {
@@ -4514,6 +4511,9 @@ sealed class FileError {
   }
 }
 
+private val STICKER_MIME_TYPES = setOf("image/png", "image/jpeg", "image/gif", "image/webp")
+private val STICKER_PREVIEW_PATTERN = Regex("^data:image/(png|jpg);base64,[A-Za-z0-9+/]+={0,2}$")
+
 @Suppress("SERIALIZER_TYPE_INCOMPATIBLE")
 @Serializable(with = MsgContentSerializer::class)
 sealed class MsgContent {
@@ -4522,6 +4522,16 @@ sealed class MsgContent {
   @Serializable(with = MsgContentSerializer::class) class MCText(override val text: String): MsgContent()
   @Serializable(with = MsgContentSerializer::class) class MCLink(override val text: String, val preview: LinkPreview): MsgContent()
   @Serializable(with = MsgContentSerializer::class) class MCImage(override val text: String, val image: String): MsgContent()
+  @Serializable(with = MsgContentSerializer::class) class MCSticker(
+    override val text: String,
+    val image: String,
+    val sha256: String,
+    val mime: String,
+    val animated: Boolean,
+    val width: Int,
+    val height: Int,
+    val version: Int = 1
+  ): MsgContent()
   @Serializable(with = MsgContentSerializer::class) class MCVideo(override val text: String, val image: String, val duration: Int): MsgContent()
   @Serializable(with = MsgContentSerializer::class) class MCVoice(override val text: String, val duration: Int): MsgContent()
   @Serializable(with = MsgContentSerializer::class) class MCFile(override val text: String): MsgContent()
@@ -4538,6 +4548,7 @@ sealed class MsgContent {
   val isMediaOrFileAttachment: Boolean get() =
     when (this) {
       is MCImage -> true
+      is MCSticker -> true
       is MCVideo -> true
       is MCFile -> true
       else -> false
@@ -4595,6 +4606,16 @@ object MsgContentSerializer : KSerializer<MsgContent> {
       element<String>("text")
       element<String>("image")
     })
+    element("MCSticker", buildClassSerialDescriptor("MCSticker") {
+      element<String>("text")
+      element<String>("image")
+      element<String>("sha256")
+      element<String>("mime")
+      element<Boolean>("animated")
+      element<Int>("width")
+      element<Int>("height")
+      element<Int>("version")
+    })
     element("MCVideo", buildClassSerialDescriptor("MCVideo") {
       element<String>("text")
       element<String>("image")
@@ -4630,6 +4651,20 @@ object MsgContentSerializer : KSerializer<MsgContent> {
           "image" -> {
             val image = json["image"]?.jsonPrimitive?.content ?: "unknown message format"
             MsgContent.MCImage(text, image)
+          }
+          "sticker" -> {
+            val image = json["image"]?.jsonPrimitive?.content.orEmpty()
+            val sha256 = json["sha256"]?.jsonPrimitive?.content.orEmpty()
+            val mime = json["mime"]?.jsonPrimitive?.content.orEmpty()
+            val animated = json["animated"]?.jsonPrimitive?.booleanOrNull ?: false
+            val width = json["width"]?.jsonPrimitive?.intOrNull ?: 0
+            val height = json["height"]?.jsonPrimitive?.intOrNull ?: 0
+            val version = json["version"]?.jsonPrimitive?.intOrNull ?: 1
+            if (version == 1 && image.length <= 20_000 && STICKER_PREVIEW_PATTERN.matches(image) && sha256.length == 64 && sha256.all { it in '0'..'9' || it in 'a'..'f' } && mime in STICKER_MIME_TYPES && width in 1..512 && height in 1..512) {
+              MsgContent.MCSticker(text, image, sha256, mime, animated, width, height, version)
+            } else {
+              MsgContent.MCUnknown(t, text, json)
+            }
           }
           "video" -> {
             val image = json["image"]?.jsonPrimitive?.content ?: "unknown message format"
@@ -4680,6 +4715,18 @@ object MsgContentSerializer : KSerializer<MsgContent> {
           put("text", value.text)
           put("image", value.image)
         }
+      is MsgContent.MCSticker ->
+        buildJsonObject {
+          put("type", "sticker")
+          put("version", value.version)
+          put("text", value.text)
+          put("image", value.image)
+          put("sha256", value.sha256)
+          put("mime", value.mime)
+          put("animated", value.animated)
+          put("width", value.width)
+          put("height", value.height)
+        }
       is MsgContent.MCVideo ->
         buildJsonObject {
           put("type", "video")
@@ -4722,6 +4769,7 @@ sealed class MsgContentTag {
   @Serializable @SerialName("text") object Text: MsgContentTag()
   @Serializable @SerialName("link") object Link: MsgContentTag()
   @Serializable @SerialName("image") object Image: MsgContentTag()
+  @Serializable @SerialName("sticker") object Sticker: MsgContentTag()
   @Serializable @SerialName("video") object Video: MsgContentTag()
   @Serializable @SerialName("voice") object Voice: MsgContentTag()
   @Serializable @SerialName("file") object File: MsgContentTag()
@@ -4733,6 +4781,7 @@ sealed class MsgContentTag {
     is Text -> "text"
     is Link -> "link"
     is Image -> "image"
+    is Sticker -> "sticker"
     is Video -> "video"
     is Voice -> "voice"
     is File -> "file"
@@ -4750,6 +4799,7 @@ object MsgContentTagSerializer : KSerializer<MsgContentTag> {
       "text" -> MsgContentTag.Text
       "link" -> MsgContentTag.Link
       "image" -> MsgContentTag.Image
+      "sticker" -> MsgContentTag.Sticker
       "video" -> MsgContentTag.Video
       "voice" -> MsgContentTag.Voice
       "file" -> MsgContentTag.File

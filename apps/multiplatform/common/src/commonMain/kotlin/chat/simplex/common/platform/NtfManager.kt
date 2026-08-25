@@ -138,11 +138,10 @@ abstract class NtfManager {
       }
       res
     } else {
-      val mc = cItem.content.msgContent
-      if (mc is MsgContent.MCReport) {
-        generalGetString(MR.strings.notification_group_report).format(cItem.text(isChannel).ifEmpty { mc.reason.text })
-      } else {
-        cItem.text(isChannel)
+      when (val mc = cItem.content.msgContent) {
+        is MsgContent.MCSticker -> generalGetString(MR.strings.sticker)
+        is MsgContent.MCReport -> generalGetString(MR.strings.notification_group_report).format(cItem.text(isChannel).ifEmpty { mc.reason.text })
+        else -> cItem.text(isChannel)
       }
     }
   }

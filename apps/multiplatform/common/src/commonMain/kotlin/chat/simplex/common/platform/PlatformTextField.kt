@@ -22,5 +22,6 @@ expect fun PlatformTextField(
   onUpArrow: () -> Unit,
   onFilesPasted: (List<URI>) -> Unit,
   focusRequester: FocusRequester? = null,
+  onFocus: () -> Unit = {},
   onDone: () -> Unit,
 )

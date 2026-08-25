@@ -223,68 +223,16 @@ Desktop users cannot send voice messages. The record button either does nothing 
 Several other Desktop features are also marked with `LALAL` placeholders:
 - **QR Code Scanner** (`QRCodeScanner.desktop.kt:12`) -- scanning QR codes is not implemented on Desktop
 - **Animated Drawables** (`Utils.desktop.kt:179`) -- animated image support (e.g., GIF in-line rendering) is not implemented
-- **Animated Chat Images** (`CIImageView.desktop.kt:19`) -- animated image rendering in chat items
 - **isImage detection** (`Images.desktop.kt:168`) -- image type detection (implemented but marked as incomplete)
 
 ---
 
-## GAP-07: Desktop: Cryptor Not Implemented
+## GAP-07: Desktop Cryptor
 
-**Severity:** Critical
+**Status:** Resolved for the supported Windows client
 **Category:** Security / Platform
-**Platform:** Desktop only
+**Platform:** Windows
 
-### Description
+The desktop `CryptorInterface` now protects binary and text payloads with Windows DPAPI via JNA `Crypt32Util`. Ciphertext can only be unprotected by the same Windows user account. The sticker manifest uses this implementation, and existing database-passphrase storage no longer writes plaintext through the former placeholder.
 
-The `CryptorInterface` implementation on Desktop is a non-functional placeholder. All three methods are stubbed:
-
-```kotlin
-// common/src/desktopMain/kotlin/chat/simplex/common/platform/Cryptor.desktop.kt
-actual val cryptor: CryptorInterface = object : CryptorInterface {
-  override fun decryptData(data: ByteArray, iv: ByteArray, alias: String): String? {
-    return String(data) // LALAL
-  }
-
-  override fun encryptText(text: String, alias: String): Pair<ByteArray, ByteArray> {
-    return text.toByteArray() to text.toByteArray() // LALAL
-  }
-
-  override fun deleteKey(alias: String) {
-    // LALAL
-  }
-}
-```
-
-- `decryptData` returns the data as-is (no decryption)
-- `encryptText` returns the plaintext as both "encrypted data" and "IV"
-- `deleteKey` is a no-op
-
-### Affected Locations
-
-- `common/src/desktopMain/kotlin/chat/simplex/common/platform/Cryptor.desktop.kt`
-- `common/src/commonMain/kotlin/chat/simplex/common/platform/Cryptor.kt` -- `CryptorInterface`
-- `common/src/commonMain/kotlin/chat/simplex/common/views/helpers/DatabaseUtils.kt` -- uses `cryptor` for passphrase encryption
-
-### Impact
-
-**This is a critical security gap.** On Desktop:
-- The database passphrase is stored **in plaintext** in the preferences file. Anyone with read access to the user's home directory can extract the passphrase and decrypt the database.
-- The self-destruct passphrase is similarly stored in plaintext.
-- The app passphrase (for local authentication) provides no real protection.
-- Key deletion is a no-op, so "deleting" a key has no effect.
-
-This directly undermines RULE-02 (Database Encryption at Rest) and RULE-04 (Self-Destruct Profile) on the Desktop platform.
-
-### Recommendation
-
-1. **Priority: Critical.** Implement proper key storage on Desktop using one of:
-   - **OS Keychain integration:** macOS Keychain, Windows Credential Manager, Linux Secret Service (via `libsecret`/GNOME Keyring/KWallet)
-   - **Java Cryptography Architecture (JCA)** with a PKCS#12 keystore file protected by a master password
-   - **Bouncy Castle** library for platform-independent key management
-2. Until a real implementation exists, display a prominent warning to Desktop users that their database passphrase is not securely stored.
-3. Consider requiring the user to enter their passphrase on each app launch (do not store it) as an interim measure.
-
-### Related
-
-- GAP-03 (Database Passphrase Not Enforced) is compounded by this gap on Desktop.
-- The `testCrypto()` function referenced in `AppCommon.desktop.kt:39` is commented out with a `// LALAL` marker, suggesting crypto testing was planned but never completed.
+`deleteKey` remains a no-op on Windows because DPAPI does not create an alias-scoped key entry; deleting the protected payload removes the stored secret. Other desktop operating systems are outside this fork's supported platforms.

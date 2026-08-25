@@ -44,6 +44,9 @@ fun SendMsgView(
   sendButtonEnabled: Boolean,
   sendToConnect: (() -> Unit)? = null,
   hideSendButton: Boolean = false,
+  showAttachmentButton: Boolean = false,
+  attachmentEnabled: Boolean = false,
+  onAttachmentClick: () -> Unit = {},
   nextConnect: Boolean,
   needToAllowVoiceToContact: Boolean,
   allowedVoiceByPrefs: Boolean,
@@ -64,6 +67,7 @@ fun SendMsgView(
   onMessageChange: (ComposeMessage) -> Unit,
   textStyle: MutableState<TextStyle>,
   focusRequester: FocusRequester? = null,
+  onTextFieldFocus: () -> Unit = {},
   ) {
   val showCustomDisappearingMessageDialog = remember { mutableStateOf(false) }
   val padding = PaddingValues(vertical = 6.dp)
@@ -92,20 +96,22 @@ fun SendMsgView(
       textStyle,
       showDeleteTextButton,
       if (clicksOnTextFieldDisabled) "" else placeholder,
-      showVoiceButton,
+      showVoiceButton || showAttachmentButton,
       onMessageChange,
       editPrevMessage,
       onFilesPasted,
-      focusRequester
-    ) {
-      if (!cs.inProgress) {
-        if (sendToConnect != null) {
-          sendToConnect()
-        } else {
-          sendMessage(null)
+      focusRequester,
+      onFocus = onTextFieldFocus,
+      onDone = {
+        if (!cs.inProgress) {
+          if (sendToConnect != null) {
+            sendToConnect()
+          } else {
+            sendMessage(null)
+          }
         }
       }
-    }
+    )
     if (clicksOnTextFieldDisabled) {
       if (userCantSendReason != null) {
         Box(
@@ -128,8 +134,13 @@ fun SendMsgView(
     if (showDeleteTextButton.value) {
       DeleteTextButton(composeState)
     }
-    Box(Modifier.align(Alignment.CenterEnd)) {
-      val sendButtonSize = remember { Animatable(36f) }
+    Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically) {
+      if (showAttachmentButton) {
+        AttachmentActionButton(attachmentEnabled, onAttachmentClick)
+        Spacer(Modifier.width(4.dp))
+      }
+      Box {
+        val sendButtonSize = remember { Animatable(36f) }
       val sendButtonAlpha = remember { Animatable(1f) }
       val scope = rememberCoroutineScope()
       LaunchedEffect(Unit) {
@@ -160,18 +171,6 @@ fun SendMsgView(
                 VoiceButtonWithoutPermissionByPlatform()
               else ->
                 RecordVoiceView(recState, stopRecOnNextClick)
-            }
-            if (sendLiveMessage != null
-              && updateLiveMessage != null
-              && (cs.preview !is ComposePreview.VoicePreview || !stopRecOnNextClick.value)
-              && cs.contextItem is ComposeContextItem.NoContextItem
-            ) {
-              Spacer(Modifier.width(12.dp))
-              StartLiveMessageButton {
-                if (composeState.value.preview is ComposePreview.NoPreview) {
-                  startLiveMessage(scope, sendLiveMessage, updateLiveMessage, sendButtonSize, sendButtonAlpha, composeState, liveMessageAlertShown)
-                }
-              }
             }
           }
         }
@@ -267,6 +266,7 @@ fun SendMsgView(
         }
       }
     }
+      }
   }
 }
 
@@ -316,6 +316,18 @@ private fun CustomDisappearingMessageDialog(
         cancel = { showMenu.value = false }
       )
     }
+  }
+}
+
+@Composable
+private fun AttachmentActionButton(enabled: Boolean, onClick: () -> Unit) {
+  IconButton(onClick, Modifier.size(36.dp), enabled = enabled) {
+    Icon(
+      painterResource(MR.images.ic_attach_file_filled_500),
+      stringResource(MR.strings.attach),
+      tint = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
+      modifier = Modifier.size(30.dp).padding(3.dp)
+    )
   }
 }
 
@@ -503,30 +515,6 @@ private fun SendMsgButton(
   }
 }
 
-@Composable
-private fun StartLiveMessageButton(onClick: () -> Unit) {
-  val interactionSource = remember { MutableInteractionSource() }
-  val ripple = remember { ripple(bounded = false, radius = 24.dp) }
-  Box(
-    modifier = Modifier.requiredSize(36.dp)
-      .clickable(
-        onClick = onClick,
-        role = Role.Button,
-        interactionSource = interactionSource,
-        indication = ripple
-      ),
-    contentAlignment = Alignment.Center
-  ) {
-    Icon(
-      BoltFilled,
-      stringResource(MR.strings.icon_descr_send_message),
-      tint = MaterialTheme.colors.primary,
-      modifier = Modifier
-        .size(36.dp)
-        .padding(4.dp)
-    )
-  }
-}
 
 private fun startLiveMessage(
   scope: CoroutineScope,

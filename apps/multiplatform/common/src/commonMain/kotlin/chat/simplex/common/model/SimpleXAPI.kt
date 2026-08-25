@@ -30,6 +30,7 @@ import chat.simplex.common.model.SMPProxyFallback.AllowProtected
 import chat.simplex.common.model.SMPProxyMode.Always
 import dev.icerock.moko.resources.compose.painterResource
 import chat.simplex.common.platform.*
+import chat.simplex.common.stickers.*
 import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.call.*
 import chat.simplex.common.views.chat.item.contentModerationPostLink
@@ -1129,7 +1130,7 @@ object ChatController {
         val mc = cmd.composedMessages.last().msgContent
         AlertManager.shared.showAlertMsg(
           generalGetString(MR.strings.maximum_message_size_title),
-          if (mc is MsgContent.MCImage || mc is MsgContent.MCVideo || mc is MsgContent.MCLink) {
+          if (mc is MsgContent.MCImage || mc is MsgContent.MCSticker || mc is MsgContent.MCVideo || mc is MsgContent.MCLink) {
             generalGetString(MR.strings.maximum_message_size_reached_non_text)
           } else {
             generalGetString(MR.strings.maximum_message_size_reached_text)
@@ -1210,7 +1211,7 @@ object ChatController {
         val mc = updatedMessage.msgContent
         AlertManager.shared.showAlertMsg(
           generalGetString(MR.strings.maximum_message_size_title),
-          if (mc is MsgContent.MCImage || mc is MsgContent.MCVideo || mc is MsgContent.MCLink) {
+          if (mc is MsgContent.MCImage || mc is MsgContent.MCSticker || mc is MsgContent.MCVideo || mc is MsgContent.MCLink) {
             generalGetString(MR.strings.maximum_message_size_reached_non_text)
           } else {
             generalGetString(MR.strings.maximum_message_size_reached_text)
@@ -2931,9 +2932,15 @@ object ChatController {
           }
           val file = cItem.file
           val mc = cItem.content.msgContent
-          if (file != null &&
+          val stickerCached = if (mc is MsgContent.MCSticker) {
+            StickerRepository.matchingBytes(StickerOwner(rhId, r.user.userId), mc.sha256, mc.mime, mc.animated, mc.width, mc.height) != null
+          } else {
+            false
+          }
+          if (file != null && !stickerCached &&
             appPrefs.privacyAcceptImages.get() &&
             ((mc is MsgContent.MCImage && file.fileSize <= MAX_IMAGE_SIZE_AUTO_RCV)
+                || (mc is MsgContent.MCSticker && file.fileSize <= MAX_STICKER_AUTO_RECEIVE_SIZE)
                 || (mc is MsgContent.MCVideo && file.fileSize <= MAX_VIDEO_SIZE_AUTO_RCV)
                 || (mc is MsgContent.MCVoice && file.fileSize <= MAX_VOICE_SIZE_AUTO_RCV && file.fileStatus !is CIFileStatus.RcvAccepted))
           ) {
@@ -3224,8 +3231,23 @@ object ChatController {
         }
       is CR.RcvFileStart ->
         chatItemSimpleUpdate(rhId, r.user, r.chatItem)
-      is CR.RcvFileComplete ->
+      is CR.RcvFileComplete -> {
         chatItemSimpleUpdate(rhId, r.user, r.chatItem)
+        val item = r.chatItem.chatItem
+        val mc = item.content.msgContent
+        val file = item.file
+        if (mc is MsgContent.MCSticker && file != null && file.fileSize <= MAX_STICKER_FILE_SIZE) {
+          withContext(Dispatchers.IO) {
+            val bytes = getLoadedImage(file)?.second
+            if (bytes != null && validateStickerContent(bytes, mc.sha256, mc.mime, mc.animated, mc.width, mc.height)) {
+              StickerRepository.cacheReceived(
+                StickerOwner(rhId, r.user.userId),
+                ProcessedSticker(bytes, mc.sha256, mc.mime, mc.animated, mc.width, mc.height, mc.image)
+              )
+            }
+          }
+        }
+      }
       is CR.RcvFileSndCancelled -> {
         chatItemSimpleUpdate(rhId, r.user, r.chatItem)
         cleanupFile(r.chatItem)

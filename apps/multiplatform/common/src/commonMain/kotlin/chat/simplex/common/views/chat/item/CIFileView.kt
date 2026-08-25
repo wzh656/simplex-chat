@@ -231,13 +231,14 @@ fun CIFileView(
 // Whether a received file is within the size accepted by this client.
 fun fileSizeValid(file: CIFile): Boolean = file.fileSize <= getMaxFileSize(file.fileProtocol)
 
-fun receiveFileIfValidSize(file: CIFile, receiveFile: (Long) -> Unit) {
-  if (fileSizeValid(file)) {
+fun receiveFileIfValidSize(file: CIFile, receiveFile: (Long) -> Unit, maxFileSize: Long = getMaxFileSize(file.fileProtocol)) {
+  val acceptedSize = minOf(maxFileSize, getMaxFileSize(file.fileProtocol))
+  if (file.fileSize <= acceptedSize) {
     receiveFile(file.fileId)
   } else {
     AlertManager.shared.showAlertMsg(
       generalGetString(MR.strings.large_file),
-      String.format(generalGetString(MR.strings.contact_sent_large_file), formatBytes(getMaxFileSize(file.fileProtocol)))
+      String.format(generalGetString(MR.strings.contact_sent_large_file), formatBytes(acceptedSize))
     )
   }
 }

@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.*
+import chat.simplex.common.stickers.StickerOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import chat.simplex.common.model.*
@@ -625,7 +626,13 @@ fun ChatView(
             },
             forwardItem = { cInfo, cItem ->
               chatModel.chatId.value = null
-              chatModel.sharedContent.value = SharedContent.Forward(listOf(cItem), cInfo)
+              val sticker = cItem.content.msgContent as? MsgContent.MCSticker
+              val user = chatModel.currentUser.value
+              chatModel.sharedContent.value = if (sticker != null && user != null) {
+                SharedContent.Sticker(sticker, StickerOwner(chatRh, user.userId), cInfo)
+              } else {
+                SharedContent.Forward(listOf(cItem), cInfo)
+              }
             },
             updateContactStats = { contact ->
               withBGApi {
@@ -3881,14 +3888,14 @@ enum class ContentFilter(
   val iconFilled: ImageResource
 ) {
   Images(MsgContentTag.Image, MR.strings.content_filter_images, MR.strings.placeholder_search_images, MR.images.ic_image, MR.images.ic_image_filled),
+  Stickers(MsgContentTag.Sticker, MR.strings.content_filter_stickers, MR.strings.placeholder_search_stickers, MR.images.ic_add_reaction, MR.images.ic_add_reaction_filled),
   Videos(MsgContentTag.Video, MR.strings.content_filter_videos, MR.strings.placeholder_search_videos, MR.images.ic_videocam, MR.images.ic_videocam_filled),
   Voice(MsgContentTag.Voice, MR.strings.content_filter_voice_messages, MR.strings.placeholder_search_voice_messages, MR.images.ic_mic, MR.images.ic_mic_filled),
   Files(MsgContentTag.File, MR.strings.content_filter_files, MR.strings.placeholder_search_files, MR.images.ic_draft, MR.images.ic_draft_filled),
   Links(MsgContentTag.Link, MR.strings.content_filter_links, MR.strings.placeholder_search_links, MR.images.ic_link, MR.images.ic_link);
 
   companion object {
-    val alwaysShow: Set<MsgContentTag> = setOf(MsgContentTag.Image, MsgContentTag.Link)
-
-    val initialList: List<ContentFilter> = listOf(ContentFilter.Images, ContentFilter.Files, ContentFilter.Links)
+    val alwaysShow: Set<MsgContentTag> = setOf(MsgContentTag.Image, MsgContentTag.Sticker, MsgContentTag.Link)
+    val initialList: List<ContentFilter> = listOf(ContentFilter.Images, ContentFilter.Stickers, ContentFilter.Files, ContentFilter.Links)
   }
 }

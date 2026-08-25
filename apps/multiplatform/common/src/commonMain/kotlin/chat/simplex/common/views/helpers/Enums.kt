@@ -3,6 +3,7 @@ package chat.simplex.common.views.helpers
 
 import androidx.compose.runtime.saveable.Saver
 import chat.simplex.common.model.*
+import chat.simplex.common.stickers.StickerOwner
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
@@ -15,6 +16,7 @@ sealed class SharedContent {
   data class Media(val text: String, val uris: List<URI>): SharedContent()
   data class File(val text: String, val uri: URI): SharedContent()
   data class Forward(val chatItems: List<ChatItem>, val fromChatInfo: ChatInfo): SharedContent()
+  data class Sticker(val content: MsgContent.MCSticker, val owner: StickerOwner, val fromChatInfo: ChatInfo): SharedContent()
   data class ChatLink(val groupInfo: GroupInfo): SharedContent()
   object MyAddress: SharedContent()
 }

@@ -120,6 +120,8 @@ kotlin {
         // GIFs support
         implementation("io.coil-kt:coil-compose:2.6.0")
         implementation("io.coil-kt:coil-gif:2.6.0")
+        implementation("com.github.penfeizhou.android.animation:awebp:3.0.5")
+        implementation("androidx.vectordrawable:vectordrawable-animated:1.2.0")
 
         // Emojis
         implementation("androidx.emoji2:emoji2-emojipicker:1.4.0")

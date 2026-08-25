@@ -34,6 +34,7 @@ import chat.simplex.common.model.*
 import chat.simplex.common.model.ChatModel.controller
 import chat.simplex.common.model.ChatModel.currentUser
 import chat.simplex.common.platform.*
+import chat.simplex.common.stickers.*
 import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.chat.*
 import chat.simplex.common.views.chatlist.openChat
@@ -42,6 +43,11 @@ import chat.simplex.res.MR
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import kotlinx.datetime.Clock
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayInputStream
+import java.io.File
+import java.util.UUID
 import kotlin.math.*
 
 // TODO refactor so that FramedItemView can show all CIContent items if they're deleted (see Swift code)
@@ -390,6 +396,20 @@ fun ChatItemView(
             @Composable
             fun MsgContentItemDropdownMenu() {
               val saveFileLauncher = rememberSaveFileLauncher(ciFile = cItem.file)
+              val stickerContent = cItem.content.msgContent as? MsgContent.MCSticker
+              val stickerOwner = chatModel.currentUser.value?.let { StickerOwner(rhId, it.userId) }
+              val stickerState = stickerOwner?.let { StickerRepository.state(it).collectAsState().value }
+              val cachedSticker = stickerContent?.sha256?.let { stickerState?.library?.assets?.get(it) }
+              LaunchedEffect(stickerOwner) { stickerOwner?.let { StickerRepository.load(it) } }
+              val stickerSaveLauncher = rememberFileChooserLauncher(false, cachedSticker) { target ->
+                if (target != null && stickerOwner != null && cachedSticker != null) {
+                  withBGApi {
+                    StickerRepository.verifiedBytes(stickerOwner, cachedSticker.sha256)?.let { bytes ->
+                      copyBytesToFile(ByteArrayInputStream(bytes), target) {}
+                    }
+                  }
+                }
+              }
               when {
                 // cItem.id check is a special case for live message chat item which has negative ID while not sent yet
                 cItem.isReport && cItem.meta.itemDeleted == null && cInfo is ChatInfo.Group -> {
@@ -428,9 +448,28 @@ fun ChatItemView(
                     val clipboard = LocalClipboardManager.current
                     val cachedRemoteReqs = remember { CIFile.cachedRemoteFileRequests }
                     val copyAndShareAllowed = when {
+                      stickerContent != null -> false
                       cItem.content.text.isNotEmpty() -> true
                       cItem.file?.forwardingAllowed() == true -> true
                       else -> false
+                    }
+                    if (cachedSticker != null && stickerOwner != null) {
+                      ItemAction(stringResource(MR.strings.share_verb), painterResource(MR.images.ic_share), onClick = {
+                        showMenu.value = false
+                        withBGApi {
+                          val bytes = StickerRepository.verifiedBytes(stickerOwner, cachedSticker.sha256) ?: return@withBGApi
+                          val ext = cachedSticker.fileExtension ?: return@withBGApi
+                          val temp = File(tmpDir, "STK_${UUID.randomUUID()}.$ext")
+                          temp.writeBytes(bytes)
+                          chatModel.filesToDelete.add(temp)
+                          shareFile("", CryptoFile.plain(temp.absolutePath))
+                        }
+                      })
+                      ItemAction(stringResource(MR.strings.save_verb), painterResource(MR.images.ic_download), onClick = {
+                        showMenu.value = false
+                        val ext = cachedSticker.fileExtension ?: return@ItemAction
+                        withBGApi { stickerSaveLauncher.launch("sticker.$ext") }
+                      })
                     }
 
                     if (copyAndShareAllowed) {
@@ -458,9 +497,9 @@ fun ChatItemView(
                         showMenu.value = false
                       })
                     }
-                    if (cItem.file != null && (getLoadedFilePath(cItem.file) != null || (chatModel.connectedToRemote() && cachedRemoteReqs[cItem.file.fileSource] != false && cItem.file.loaded))) {
+                    if (stickerContent == null && cItem.file != null && (getLoadedFilePath(cItem.file) != null || (chatModel.connectedToRemote() && cachedRemoteReqs[cItem.file.fileSource] != false && cItem.file.loaded))) {
                       SaveContentItemAction(cItem, saveFileLauncher, showMenu)
-                    } else if (cItem.file != null && cItem.file.fileStatus is CIFileStatus.RcvInvitation && fileSizeValid(cItem.file)) {
+                    } else if (cachedSticker == null && cItem.file != null && cItem.file.fileStatus is CIFileStatus.RcvInvitation && fileSizeValid(cItem.file) && (stickerContent == null || cItem.file.fileSize <= MAX_STICKER_FILE_SIZE)) {
                       ItemAction(stringResource(MR.strings.download_file), painterResource(MR.images.ic_arrow_downward), onClick = {
                         withBGApi {
                           Log.d(TAG, "ChatItemView downloadFileAction")
@@ -472,14 +511,54 @@ fun ChatItemView(
                         showMenu.value = false
                       })
                     }
-                    if (cItem.meta.editable && cItem.content.msgContent !is MsgContent.MCVoice && !live) {
+                    val sticker = cItem.content.msgContent as? MsgContent.MCSticker
+                    val image = cItem.content.msgContent as? MsgContent.MCImage
+                    if (sticker != null || image != null) {
+                      ItemAction(stringResource(MR.strings.add_to_sticker_pack), painterResource(MR.images.ic_add_reaction_filled), onClick = {
+                        showMenu.value = false
+                        withBGApi {
+                          val user = chatModel.currentUser.value ?: return@withBGApi
+                          val owner = StickerOwner(rhId, user.userId)
+                          val loadedBytes = getLoadedImage(cItem.file)?.second
+                          val asset = if (sticker != null) {
+                            val bytes = StickerRepository.verifiedBytes(owner, sticker.sha256) ?: loadedBytes
+                            if (bytes == null || sha256Hex(bytes) != sticker.sha256) null else {
+                              StickerRepository.cacheReceived(
+                                owner,
+                                ProcessedSticker(bytes, sticker.sha256, sticker.mime, sticker.animated, sticker.width, sticker.height, sticker.image)
+                              )
+                            }
+                          } else if (loadedBytes != null) {
+                            when (val processed = processStickerBytes(loadedBytes)) {
+                              is StickerProcessingResult.Success -> StickerRepository.cacheReceived(owner, processed.sticker)
+                              is StickerProcessingResult.Error -> null
+                            }
+                          } else null
+                          if (asset == null) {
+                            AlertManager.shared.showAlertMsg(
+                              generalGetString(MR.strings.sticker_unavailable),
+                              generalGetString(MR.strings.download_sticker_before_adding)
+                            )
+                            return@withBGApi
+                          }
+                          withContext(Dispatchers.Main) {
+                            ModalManager.end.showCustomModal { close ->
+                              ModalView(close, showAppBar = false, cardScreen = false) {
+                                AddStickerToPackView(owner, asset.sha256, close)
+                              }
+                            }
+                          }
+                        }
+                      })
+                    }
+                    if (cItem.meta.editable && cItem.content.msgContent !is MsgContent.MCVoice && cItem.content.msgContent !is MsgContent.MCSticker && !live) {
                       ItemAction(stringResource(MR.strings.edit_verb), painterResource(MR.images.ic_edit_filled), onClick = {
                         composeState.value = ComposeState(editingItem = cItem, useLinkPreviews = useLinkPreviews)
                         showMenu.value = false
                       })
                     }
                     if (cItem.meta.itemDeleted == null &&
-                      (cItem.file == null || cItem.file.forwardingAllowed()) &&
+                      (cItem.content.msgContent is MsgContent.MCSticker || cItem.file == null || cItem.file.forwardingAllowed()) &&
                       !cItem.isLiveDummy && !live
                     ) {
                       ItemAction(stringResource(MR.strings.forward_chat_item), painterResource(MR.images.ic_forward), onClick = {

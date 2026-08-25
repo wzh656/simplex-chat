@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import chat.simplex.common.model.*
 import chat.simplex.common.model.ChatModel.controller
 import chat.simplex.common.platform.*
+import chat.simplex.common.stickers.StickerOwner
+import chat.simplex.common.stickers.StickerRepository
 import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.chat.item.ItemAction
 import chat.simplex.common.views.chatlist.UserProfilePickerItem
@@ -366,6 +368,7 @@ private suspend fun doRemoveUser(m: ChatModel, user: User, users: List<User>, de
         m.controller.apiDeleteUser(user, delSMPQueues, viewPwd)
       }
     }
+    StickerRepository.clear(StickerOwner(user.remoteHostId, user.userId))
     removeWallpaperFilesFromTheme(user.uiThemes)
     m.removeUser(user)
     ntfManager.cancelNotificationsForUser(user.userId)

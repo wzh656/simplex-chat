@@ -81,6 +81,7 @@ fun ContextItemView(
     return when (mc) {
       is MsgContent.MCFile -> if (fileIsLoaded) MR.images.ic_draft_filled else null
       is MsgContent.MCImage -> MR.images.ic_image
+      is MsgContent.MCSticker -> MR.images.ic_add_reaction_filled
       is MsgContent.MCVoice ->  if (fileIsLoaded) MR.images.ic_play_arrow_filled else null
       is MsgContent.MCChat -> mc.chatLink.smallIconRes
       else -> null

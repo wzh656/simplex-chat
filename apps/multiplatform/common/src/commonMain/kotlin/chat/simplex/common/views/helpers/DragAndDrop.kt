@@ -6,6 +6,7 @@ package chat.simplex.common.views.helpers
  */
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Column
@@ -22,12 +23,25 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
 @Composable
-fun rememberDragDropState(lazyListState: LazyListState, onMove: (Int, Int) -> Unit): DragDropState {
+fun rememberDragDropState(
+  lazyListState: LazyListState,
+  canDrag: (index: Int) -> Boolean = { true },
+  onDragFinished: (cancelled: Boolean) -> Unit = {},
+  onMove: (Int, Int) -> Unit
+): DragDropState {
   val scope = rememberCoroutineScope()
-  val state =
-    remember(lazyListState) {
-      DragDropState(state = lazyListState, onMove = onMove, scope = scope)
-    }
+  val currentCanDrag = rememberUpdatedState(canDrag)
+  val currentOnMove = rememberUpdatedState(onMove)
+  val currentOnDragFinished = rememberUpdatedState(onDragFinished)
+  val state = remember(lazyListState) {
+    DragDropState(
+      state = lazyListState,
+      canDrag = { index -> currentCanDrag.value(index) },
+      onMove = { from, to -> currentOnMove.value(from, to) },
+      onDragFinished = { cancelled -> currentOnDragFinished.value(cancelled) },
+      scope = scope
+    )
+  }
   LaunchedEffect(state) {
     while (true) {
       val diff = state.scrollChannel.receive()
@@ -41,6 +55,8 @@ class DragDropState
 internal constructor(
   private val state: LazyListState,
   private val scope: CoroutineScope,
+  private val canDrag: (index: Int) -> Boolean,
+  private val onDragFinished: (cancelled: Boolean) -> Unit,
   private val onMove: (Int, Int) -> Unit
 ) {
   var draggingItemIndex by mutableStateOf<Int?>(null)
@@ -67,20 +83,23 @@ internal constructor(
 
   internal fun onDragStart(offset: Offset) {
     val touchY = offset.y.toInt()
-    val item = state.layoutInfo.visibleItemsInfo.minByOrNull {
-      val itemCenter = (it.offset - state.layoutInfo.viewportStartOffset) + it.size / 2
-      kotlin.math.abs(touchY - itemCenter) // Find the item closest to the touch position, needs to take viewportStartOffset into account
-    }
-
-    if (item != null) {
-      draggingItemIndex = item.index
-      draggingItemInitialOffset = item.offset
-    }
+    state.layoutInfo.visibleItemsInfo
+      .firstOrNull { canDrag(it.index) && touchY in it.offset until it.offsetEnd }
+      ?.let(::startDragging)
   }
 
+  internal fun onDragStart(index: Int) {
+    if (canDrag(index)) state.layoutInfo.visibleItemsInfo.firstOrNull { it.index == index }?.let(::startDragging)
+  }
 
-  internal fun onDragInterrupted() {
-    if (draggingItemIndex != null) {
+  private fun startDragging(item: LazyListItemInfo) {
+    draggingItemIndex = item.index
+    draggingItemInitialOffset = item.offset
+  }
+
+  internal fun onDragInterrupted(cancelled: Boolean) {
+    val wasDragging = draggingItemIndex != null
+    if (wasDragging) {
       previousIndexOfDraggedItem = draggingItemIndex
       val startOffset = draggingItemOffset
       scope.launch {
@@ -95,6 +114,7 @@ internal constructor(
     draggingItemDraggedDelta = 0f
     draggingItemIndex = null
     draggingItemInitialOffset = 0
+    if (wasDragging) onDragFinished(cancelled)
   }
 
   internal fun onDrag(offset: Offset) {
@@ -107,7 +127,7 @@ internal constructor(
 
     val targetItem =
       state.layoutInfo.visibleItemsInfo.find { item ->
-        middleOffset.toInt() in item.offset..item.offsetEnd &&
+        canDrag(item.index) && middleOffset.toInt() in item.offset..item.offsetEnd &&
             draggingItem.index != item.index
       }
     if (targetItem != null) {
@@ -149,8 +169,22 @@ fun Modifier.dragContainer(dragDropState: DragDropState): Modifier {
         dragDropState.onDrag(offset = offset)
       },
       onDragStart = { offset -> dragDropState.onDragStart(offset) },
-      onDragEnd = { dragDropState.onDragInterrupted() },
-      onDragCancel = { dragDropState.onDragInterrupted() }
+      onDragEnd = { dragDropState.onDragInterrupted(cancelled = false) },
+      onDragCancel = { dragDropState.onDragInterrupted(cancelled = true) }
+    )
+  }
+}
+
+fun Modifier.dragHandle(dragDropState: DragDropState, itemIndex: Int): Modifier {
+  return pointerInput(dragDropState, itemIndex) {
+    detectDragGestures(
+      onDrag = { change, offset ->
+        change.consume()
+        dragDropState.onDrag(offset = offset)
+      },
+      onDragStart = { dragDropState.onDragStart(itemIndex) },
+      onDragEnd = { dragDropState.onDragInterrupted(cancelled = false) },
+      onDragCancel = { dragDropState.onDragInterrupted(cancelled = true) }
     )
   }
 }

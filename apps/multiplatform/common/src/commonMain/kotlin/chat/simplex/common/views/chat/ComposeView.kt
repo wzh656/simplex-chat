@@ -1,6 +1,12 @@
 @file:UseSerializers(UriSerializer::class, ComposeMessageSerializer::class)
 package chat.simplex.common.views.chat
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.core.tween
 import SectionItemView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,12 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -33,6 +41,7 @@ import chat.simplex.common.model.*
 import chat.simplex.common.model.ChatModel.controller
 import chat.simplex.common.model.ChatModel.filesToDelete
 import chat.simplex.common.platform.*
+import chat.simplex.common.stickers.*
 import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.chat.group.hostFromRelayLink
 import chat.simplex.common.views.chat.group.relayConnStatus
@@ -265,6 +274,7 @@ fun chatItemPreview(chatItem: ChatItem): ComposePreview {
     is MsgContent.MCLink -> ComposePreview.CLinkPreview(linkPreview = mc.preview)
     // TODO: include correct type
     is MsgContent.MCImage -> ComposePreview.MediaPreview(images = listOf(mc.image), listOf(UploadContent.SimpleImage(getAppFileUri(fileName))))
+    is MsgContent.MCSticker -> ComposePreview.NoPreview
     is MsgContent.MCVideo -> ComposePreview.MediaPreview(images = listOf(mc.image), listOf(UploadContent.SimpleImage(getAppFileUri(fileName))))
     is MsgContent.MCVoice -> ComposePreview.VoicePreview(voice = fileName, mc.duration / 1000, true)
     is MsgContent.MCFile -> ComposePreview.FilePreview(fileName, getAppFileUri(fileName))
@@ -443,10 +453,18 @@ fun ComposeView(
   val pendingLinkUrl = rememberSaveable { mutableStateOf<String?>(null) }
   val useLinkPreviews = true
   val saveLastDraft = chatModel.controller.appPrefs.privacySaveLastDraft.get()
-  val smallFont = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground)
+  val smallFont = MaterialTheme.typography.body1.copy(
+    color = MaterialTheme.colors.onBackground,
+    fontSize = 16.sp,
+    lineHeight = 22.sp
+  )
   val textStyle = remember(MaterialTheme.colors.isLight) { mutableStateOf(smallFont) }
   val recState: MutableState<RecordingState> = remember { mutableStateOf(RecordingState.NotStarted) }
   AttachmentSelection(composeState, attachmentOption, composeState::processPickedFile) { uris, text -> CoroutineScope(Dispatchers.IO).launch { composeState.processPickedMedia(uris, text) } }
+  var showStickerPanel by rememberSaveable(chat.id) { mutableStateOf(false) }
+  val platformView = LocalMultiplatformView()
+  val focusManager = LocalFocusManager.current
+  BackHandler(showStickerPanel) { showStickerPanel = false }
 
   suspend fun fetchAndUpdateLinkPreview(url: String) {
     composeState.value = composeState.value.copy(preview = ComposePreview.CLinkPreview(null))
@@ -552,6 +570,7 @@ fun ComposeView(
         is SharedContent.File -> listOf(shared.uri.toString())
         is SharedContent.Text -> emptyList()
         is SharedContent.Forward -> emptyList()
+        is SharedContent.Sticker -> emptyList()
         is SharedContent.ChatLink -> emptyList()
         is SharedContent.MyAddress -> emptyList()
       }
@@ -597,6 +616,34 @@ fun ComposeView(
     }
     if (file != null) removeFile(file.filePath)
     return null
+  }
+
+  fun sendSticker(asset: StickerAsset) {
+    if (composeState.value.attachmentDisabled || !chat.chatInfo.sendMsgEnabled) return
+    if (chatsCtx.secondaryContextFilter == null && chat.chatInfo is ChatInfo.Group && !chat.chatInfo.groupInfo.fullGroupPreferences.files.on(chat.chatInfo.groupInfo.membership)) {
+      AlertManager.shared.showAlertMsg(
+        generalGetString(MR.strings.files_and_media_prohibited),
+        generalGetString(MR.strings.only_owners_can_enable_files_and_media)
+      )
+      return
+    }
+    val user = chatModel.currentUser.value ?: return
+    val owner = StickerOwner(user.remoteHostId, user.userId)
+    withBGApi {
+      val bytes = StickerRepository.verifiedBytes(owner, asset.sha256) ?: return@withBGApi
+      val file = createStickerMessageFile(asset, bytes, chatModel.currentRemoteHost.value != null) ?: return@withBGApi
+      val mc = MsgContent.MCSticker("", asset.preview, asset.sha256, asset.mime, asset.animated, asset.width, asset.height)
+      val quoted = (composeState.value.contextItem as? ComposeContextItem.QuotedItem)?.chatItem?.id
+      val sent = send(chat, mc, quoted = quoted, file = file, ttl = null, mentions = emptyMap())
+      if (sent != null && quoted != null) {
+        withContext(Dispatchers.Main) {
+          val context = composeState.value.contextItem
+          if (context is ComposeContextItem.QuotedItem && context.chatItem.id == quoted) {
+            composeState.value = composeState.value.copy(contextItem = ComposeContextItem.NoContextItem)
+          }
+        }
+      }
+    }
   }
 
   // TODO [short links] connectCheckLinkPreview
@@ -764,6 +811,7 @@ fun ComposeView(
         is MsgContent.MCText -> checkLinkPreview(cs)
         is MsgContent.MCLink -> checkLinkPreview(cs)
         is MsgContent.MCImage -> MsgContent.MCImage(msgText, image = msgContent.image)
+        is MsgContent.MCSticker -> msgContent
         is MsgContent.MCVideo -> MsgContent.MCVideo(msgText, image = msgContent.image, duration = msgContent.duration)
         is MsgContent.MCVoice -> MsgContent.MCVoice(msgText, duration = msgContent.duration)
         is MsgContent.MCFile -> MsgContent.MCFile(msgText)
@@ -1068,23 +1116,19 @@ fun ComposeView(
     } else {
       composeState.value = composeState.value.copy(message = s, parsedMessage = parsedMessage ?: FormattedText.plain(s.text))
     }
-    if (isShortEmoji(s.text)) {
-      textStyle.value = if (s.text.codePoints().count() < 4) largeEmojiFont else mediumEmojiFont
-    } else {
-      textStyle.value = smallFont
-      if (composeState.value.linkPreviewAllowed && chatModel.controller.appPrefs.privacyLinkPreviews.get()) {
-        if (s.text.isNotEmpty()) {
-          showLinkPreview(parsedMessage)
-        } else {
-          resetLinkPreview()
-          hasSimplexLink.value = false
-          composeState.value = composeState.value.copy(preview = ComposePreview.NoPreview)
-        }
+    textStyle.value = smallFont
+    if (composeState.value.linkPreviewAllowed && chatModel.controller.appPrefs.privacyLinkPreviews.get()) {
+      if (s.text.isNotEmpty()) {
+        showLinkPreview(parsedMessage)
       } else {
         resetLinkPreview()
-        hasSimplexLink.value = s.text.isNotEmpty() && !chat.groupFeatureEnabled(GroupFeature.SimplexLinks) && getMessageLinks(parsedMessage).second
-        if (composeState.value.linkPreviewAllowed) composeState.value = composeState.value.copy(preview = ComposePreview.NoPreview)
+        hasSimplexLink.value = false
+        composeState.value = composeState.value.copy(preview = ComposePreview.NoPreview)
       }
+    } else {
+      resetLinkPreview()
+      hasSimplexLink.value = s.text.isNotEmpty() && !chat.groupFeatureEnabled(GroupFeature.SimplexLinks) && getMessageLinks(parsedMessage).second
+      if (composeState.value.linkPreviewAllowed) composeState.value = composeState.value.copy(preview = ComposePreview.NoPreview)
     }
   }
 
@@ -1295,44 +1339,54 @@ fun ComposeView(
     }
   }
 
-  @Composable
-  fun AttachmentButton() {
-    val isGroupAndProhibitedFiles =
-      chatsCtx.secondaryContextFilter == null
-          && chat.chatInfo is ChatInfo.Group
-          && !chat.chatInfo.groupInfo.fullGroupPreferences.files.on(chat.chatInfo.groupInfo.membership)
-    val attachmentClicked = if (isGroupAndProhibitedFiles) {
-      {
-        AlertManager.shared.showAlertMsg(
-          title = generalGetString(MR.strings.files_and_media_prohibited),
-          text = generalGetString(MR.strings.only_owners_can_enable_files_and_media)
-        )
-      }
-    } else {
-      showChooseAttachment
+  val isGroupAndProhibitedFiles =
+    chatsCtx.secondaryContextFilter == null
+        && chat.chatInfo is ChatInfo.Group
+        && !chat.chatInfo.groupInfo.fullGroupPreferences.files.on(chat.chatInfo.groupInfo.membership)
+
+  val attachmentClicked: () -> Unit = if (isGroupAndProhibitedFiles) {
+    {
+      AlertManager.shared.showAlertMsg(
+        title = generalGetString(MR.strings.files_and_media_prohibited),
+        text = generalGetString(MR.strings.only_owners_can_enable_files_and_media)
+      )
     }
-    val attachmentEnabled =
-      !composeState.value.attachmentDisabled
-          && sendMsgEnabled.value
-          && !isGroupAndProhibitedFiles
-          && !nextSendGrpInv.value
+  } else {
+    {
+      showStickerPanel = false
+      showChooseAttachment()
+    }
+  }
+
+  fun showAttachmentButton(): Boolean {
+    val cInfo = chat.chatInfo
+    return cInfo !is ChatInfo.Direct || cInfo.contact.profile.peerType != ChatPeerType.Bot || cInfo.featureEnabled(ChatFeature.Files)
+  }
+
+  @Composable
+  fun StickerButton() {
+    val enabled = !composeState.value.attachmentDisabled && sendMsgEnabled.value && !nextSendGrpInv.value
     IconButton(
-      attachmentClicked,
-      enabled = attachmentEnabled
+      onClick = {
+        showStickerPanel = !showStickerPanel
+        if (showStickerPanel && appPlatform.isAndroid) {
+          focusManager.clearFocus()
+          hideKeyboard(platformView, clearFocus = true)
+        }
+      },
+      enabled = enabled
     ) {
       Icon(
-        painterResource(MR.images.ic_attach_file_filled_500),
-        contentDescription = stringResource(MR.strings.attach),
-        tint = if (attachmentEnabled) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
-        modifier = Modifier
-          .size(28.dp)
-          .clip(CircleShape)
+        painterResource(if (showStickerPanel) MR.images.ic_add_reaction_filled else MR.images.ic_add_reaction),
+        contentDescription = stringResource(MR.strings.stickers),
+        tint = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
+        modifier = Modifier.size(28.dp).clip(CircleShape)
       )
     }
   }
 
   @Composable
-  fun AttachmentAndCommandsButtons() {
+  fun StickerAndCommandsButtons() {
     val cInfo = chat.chatInfo
     Row(
       Modifier.padding(start = 2.dp),
@@ -1340,13 +1394,9 @@ fun ComposeView(
       verticalAlignment = Alignment.CenterVertically,
     ) {
       val msg = composeState.value.message.text.trim()
-      val showAttachment = cInfo !is ChatInfo.Direct || cInfo.contact.profile.peerType != ChatPeerType.Bot || cInfo.featureEnabled(ChatFeature.Files)
-      if (cInfo.useCommands && (!showAttachment || msg.isEmpty() || msg.startsWith("/"))) {
-        CommandsButton()
-      }
-      if (showAttachment) {
-        AttachmentButton()
-      }
+      val showAttachment = showAttachmentButton()
+      if (cInfo.useCommands && (!showAttachment || msg.isEmpty() || msg.startsWith("/"))) CommandsButton()
+      if (showAttachment) StickerButton()
     }
   }
 
@@ -1481,6 +1531,9 @@ fun ComposeView(
       sendButtonEnabled = sendMsgEnabled.value && !disableSendButton,
       sendToConnect = sendToConnect,
       hideSendButton = chat.chatInfo.nextConnect && !nextSendGrpInv.value && composeState.value.whitespaceOnly,
+      showAttachmentButton = showAttachmentButton(),
+      attachmentEnabled = !composeState.value.attachmentDisabled && sendMsgEnabled.value && !isGroupAndProhibitedFiles && !nextSendGrpInv.value,
+      onAttachmentClick = attachmentClicked,
       nextConnect = chat.chatInfo.nextConnect,
       needToAllowVoiceToContact = needToAllowVoiceToContact,
       allowedVoiceByPrefs = allowedVoiceByPrefs,
@@ -1510,6 +1563,7 @@ fun ComposeView(
       onMessageChange = ::onMessageChange,
       textStyle = textStyle,
       focusRequester = focusRequester,
+      onTextFieldFocus = { if (appPlatform.isAndroid) showStickerPanel = false },
     )
   }
 
@@ -1625,6 +1679,11 @@ fun ComposeView(
         contextItem = ComposeContextItem.ForwardingItems(shared.chatItems, shared.fromChatInfo),
         preview = if (composeState.value.preview is ComposePreview.CLinkPreview) composeState.value.preview else ComposePreview.NoPreview
       )
+      is SharedContent.Sticker -> {
+        val library = StickerRepository.load(shared.owner).library
+        val asset = library.assets[shared.content.sha256]
+        if (asset != null) sendSticker(asset)
+      }
       is SharedContent.ChatLink -> {
         val cInfo = chat.chatInfo
         val sendAsGroup = cInfo.sendAsGroup
@@ -1777,7 +1836,7 @@ fun ComposeView(
           ContextSendMessageToConnect(generalGetString(MR.strings.compose_send_direct_message_to_connect))
           Divider()
           Row(Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            AttachmentAndCommandsButtons()
+            StickerAndCommandsButtons()
             SendMsgView_(
               disableSendButton = disableSendButton,
               sendToConnect = { withApi { sendMemberContactInvitation() } }
@@ -1832,13 +1891,41 @@ fun ComposeView(
         )
       } else {
         Row(Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-          AttachmentAndCommandsButtons()
+          StickerAndCommandsButtons()
           val broadcastPlaceholder = (chat.chatInfo as? ChatInfo.Group)?.groupInfo?.let { gi ->
             if (gi.useRelays && gi.membership.memberRole >= GroupMemberRole.Owner && chat.chatInfo.groupChatScope() == null) generalGetString(MR.strings.compose_view_broadcast)
             else null
           }
           SendMsgView_(disableSendButton = disableSendButton, placeholder = broadcastPlaceholder)
         }
+      }
+    }
+    AnimatedVisibility(
+      visible = showStickerPanel,
+      enter = expandVertically(expandFrom = Alignment.Top, animationSpec = tween(220)) + fadeIn(tween(160)),
+      exit = shrinkVertically(shrinkTowards = Alignment.Top, animationSpec = tween(180)) + fadeOut(tween(120))
+    ) {
+      val user = chatModel.currentUser.value
+      if (user != null) {
+        val owner = StickerOwner(user.remoteHostId, user.userId)
+        StickerPanel(
+          owner = owner,
+          onSend = ::sendSticker,
+          onEmoji = { emoji ->
+            val message = composeState.value.message
+            val from = minOf(message.selection.start, message.selection.end).coerceIn(0, message.text.length)
+            val to = maxOf(message.selection.start, message.selection.end).coerceIn(from, message.text.length)
+            val text = message.text.replaceRange(from, to, emoji)
+            onMessageChange(ComposeMessage(text, TextRange(from + emoji.length)))
+          },
+          onManage = {
+            ModalManager.end.showCustomModal { close ->
+              ModalView(close, showAppBar = false, cardScreen = false) {
+                StickerPackManagementView(owner, close)
+              }
+            }
+          }
+        )
       }
     }
   }

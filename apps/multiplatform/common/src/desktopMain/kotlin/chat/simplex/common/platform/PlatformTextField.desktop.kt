@@ -54,6 +54,7 @@ actual fun PlatformTextField(
   onUpArrow: () -> Unit,
   onFilesPasted: (List<URI>) -> Unit,
   focusRequester: FocusRequester?,
+  onFocus: () -> Unit,
   onDone: () -> Unit,
 ) {
 
@@ -120,6 +121,7 @@ actual fun PlatformTextField(
       .offset(y = (-5).dp)
       .fillMaxWidth()
       .focusRequester(focusReq)
+      .onFocusChanged { if (it.isFocused) onFocus() }
       .onPreviewKeyEvent {
         if ((it.key == Key.Enter || it.key == Key.NumPadEnter) && it.type == KeyEventType.KeyDown) {
           if (it.isShiftPressed) {

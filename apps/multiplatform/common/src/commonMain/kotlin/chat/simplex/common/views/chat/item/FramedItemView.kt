@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
 import chat.simplex.common.model.*
+import chat.simplex.common.stickers.StickerOwner
 import chat.simplex.common.platform.*
 import chat.simplex.common.ui.theme.*
 import chat.simplex.common.views.chat.*
@@ -155,6 +156,18 @@ fun FramedItemView(
             modifier = Modifier.size(68.dp).clipToBounds()
           )
         }
+        is MsgContent.MCSticker -> {
+          Box(Modifier.fillMaxWidth().weight(1f)) {
+            ciQuotedMsgView(qi)
+          }
+          val imageBitmap = remember(qi.content.image) { base64ToBitmap(qi.content.image) }
+          Image(
+            imageBitmap,
+            contentDescription = stringResource(MR.strings.sticker),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(68.dp).padding(4.dp)
+          )
+        }
         is MsgContent.MCVideo -> {
           Box(Modifier.fillMaxWidth().weight(1f)) {
             ciQuotedMsgView(qi)
@@ -207,7 +220,9 @@ fun FramedItemView(
     }
   }
 
-  val transparentBackground = (ci.content.msgContent is MsgContent.MCImage || ci.content.msgContent is MsgContent.MCVideo) &&
+  val transparentBackground = (ci.content.msgContent is MsgContent.MCImage ||
+      ci.content.msgContent is MsgContent.MCSticker ||
+      ci.content.msgContent is MsgContent.MCVideo) &&
       !ci.meta.isLive && ci.content.text.isEmpty() && ci.quotedItem == null && ci.meta.itemForwarded == null
 
   val sentColor = MaterialTheme.appColors.sentMessage
@@ -323,6 +338,17 @@ fun FramedItemView(
                   CIMarkdownText(chatsCtx, ci, chat, chatTTL, linkMode, uriHandler, showViaProxy = showViaProxy, showTimestamp = showTimestamp)
                 }
               }
+              is MsgContent.MCSticker -> {
+                metaColor = Color.White
+                val user = chatModel.currentUser.value
+                CIStickerView(
+                  sticker = mc,
+                  file = ci.file,
+                  owner = user?.let { StickerOwner(it.remoteHostId, it.userId) },
+                  showMenu = showMenu,
+                  receiveFile = receiveFile
+                )
+              }
               is MsgContent.MCVideo -> {
                 CIVideoView(image = mc.image, mc.duration, file = ci.file, imageProvider ?: return@PriorityLayout, showMenu, smallView = false, receiveFile = receiveFile)
                 if (mc.text == "" && !ci.meta.isLive) {
@@ -380,11 +406,10 @@ fun FramedItemView(
         }
       }
       Box(
-        Modifier
-          .padding(
-            bottom = 6.dp,
-            end = 12.dp + if (tailRendered && sent) msgTailWidthDp else 0.dp,
-          )
+        Modifier.padding(
+          bottom = 6.dp,
+          end = 12.dp + if (tailRendered && sent) msgTailWidthDp else 0.dp
+        )
       ) {
         CIMetaView(ci, chatTTL, metaColor, showViaProxy = showViaProxy, showTimestamp = showTimestamp)
       }

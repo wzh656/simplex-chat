@@ -62,6 +62,7 @@ actual fun PlatformTextField(
   onUpArrow: () -> Unit,
   onFilesPasted: (List<URI>) -> Unit,
   focusRequester: FocusRequester?,
+  onFocus: () -> Unit,
   onDone: () -> Unit,
 ) {
   val cs = composeState.value
@@ -163,6 +164,7 @@ actual fun PlatformTextField(
       // it still produce weird animation of closing/opening keyboard but the solution is to replace this Android EditText with Compose BasicTextField
       if (hasFocus) {
         showKeyboard = true
+        onFocus()
       }
     }
     editText.doOnTextChanged { text, _, _, _ ->

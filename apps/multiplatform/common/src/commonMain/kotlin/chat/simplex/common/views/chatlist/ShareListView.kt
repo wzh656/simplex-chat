@@ -41,6 +41,7 @@ fun ShareListView(chatModel: ChatModel, stopped: Boolean) {
         isMediaOrFileAttachment = true
         hasSimplexLink = hasSimplexLink(sharedContent.text)
       }
+      is SharedContent.Sticker -> isMediaOrFileAttachment = true
       is SharedContent.Forward -> {
         sharedContent.chatItems.forEach { ci ->
           val mc = ci.content.msgContent
@@ -102,7 +103,7 @@ private fun ShareListToolbar(chatModel: ChatModel, stopped: Boolean, onSearchVal
     val sharedContent = remember { chatModel.sharedContent }.value
     when {
       showSearch -> NavigationButtonBack(hideSearchOnBack)
-      (users.size > 1 || chatModel.remoteHosts.isNotEmpty()) && sharedContent !is SharedContent.Forward && sharedContent !is SharedContent.ChatLink && sharedContent !is SharedContent.MyAddress -> {
+      (users.size > 1 || chatModel.remoteHosts.isNotEmpty()) && sharedContent !is SharedContent.Forward && sharedContent !is SharedContent.Sticker && sharedContent !is SharedContent.ChatLink && sharedContent !is SharedContent.MyAddress -> {
         val allRead = users
           .filter { u -> !u.user.activeUser && !u.user.hidden }
           .all { u -> u.unreadCount == 0 }
@@ -130,10 +131,11 @@ private fun ShareListToolbar(chatModel: ChatModel, stopped: Boolean, onSearchVal
       else -> NavigationButtonBack(onButtonClicked = {
         // Drop shared content
         chatModel.sharedContent.value = null
-        if (sharedContent is SharedContent.Forward) {
-          chatModel.chatId.value = sharedContent.fromChatInfo.id
-        } else if (sharedContent is SharedContent.ChatLink) {
-          chatModel.chatId.value = sharedContent.groupInfo.id
+        when (sharedContent) {
+          is SharedContent.Forward -> chatModel.chatId.value = sharedContent.fromChatInfo.id
+          is SharedContent.Sticker -> chatModel.chatId.value = sharedContent.fromChatInfo.id
+          is SharedContent.ChatLink -> chatModel.chatId.value = sharedContent.groupInfo.id
+          else -> Unit
         }
       })
     }
@@ -149,6 +151,7 @@ private fun ShareListToolbar(chatModel: ChatModel, stopped: Boolean, onSearchVal
             is SharedContent.Media -> stringResource(MR.strings.share_image)
             is SharedContent.File -> stringResource(MR.strings.share_file)
             is SharedContent.Forward -> if (v.chatItems.size > 1) stringResource(MR.strings.forward_multiple) else stringResource(MR.strings.forward_message)
+            is SharedContent.Sticker -> stringResource(MR.strings.forward_message)
             is SharedContent.ChatLink -> stringResource(MR.strings.share_channel)
             is SharedContent.MyAddress -> stringResource(MR.strings.share_address)
             null -> stringResource(MR.strings.share_message)

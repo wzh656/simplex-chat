@@ -255,11 +255,13 @@ fun ChatPreviewView(
           val descr = chatLink.shortDescription?.let { "\n$it" } ?: ""
           (chatLink.displayName + descr) to null
         }
+        ci.content.msgContent is MsgContent.MCSticker -> stringResource(MR.strings.sticker) to null
         else -> ci.text(chat.chatInfo.isChannel) to null
       }
       val formattedText: List<FormattedText>? = when {
         ci.meta.itemDeleted != null -> null
         ci.content.msgContent is MsgContent.MCChat -> null
+        ci.content.msgContent is MsgContent.MCSticker -> null
         else -> ci.formattedText
       }
       val prefix = when (ci.content.msgContent) {
@@ -321,6 +323,14 @@ fun ChatPreviewView(
         Box(Modifier.align(Alignment.TopEnd).size(15.sp.toDp()).background(Color.Black.copy(0.25f), CircleShape), contentAlignment = Alignment.Center) {
           Icon(painterResource(MR.images.ic_arrow_outward), null, Modifier.size(13.sp.toDp()), tint = Color.White)
         }
+      }
+      is MsgContent.MCSticker -> SmallContentPreview {
+        Image(
+          bitmap = base64ToBitmap(mc.image),
+          contentDescription = stringResource(MR.strings.sticker),
+          contentScale = ContentScale.Fit,
+          modifier = Modifier.padding(3.dp)
+        )
       }
       is MsgContent.MCImage -> SmallContentPreview {
         CIImageView(image = mc.image, file = ci.file, provider, remember { mutableStateOf(false) }, smallView = true) {

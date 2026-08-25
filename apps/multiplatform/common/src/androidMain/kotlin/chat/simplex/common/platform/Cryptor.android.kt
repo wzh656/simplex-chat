@@ -17,11 +17,13 @@ internal class Cryptor: CryptorInterface {
   private var keyStore: KeyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
   private var warningShown = false
 
+  override fun decryptBytes(data: ByteArray, iv: ByteArray, alias: String): ByteArray? =
+    decrypt(data, iv, alias)
+
   override fun decryptData(data: ByteArray, iv: ByteArray, alias: String): String? {
     val secretKey = getSecretKey(alias)
     if (secretKey == null) {
       if (!warningShown) {
-        // Repeated calls will not show the alert again
         warningShown = true
         AlertManager.shared.showAlertMsg(
           title = generalGetString(MR.strings.wrong_passphrase),
@@ -31,36 +33,37 @@ internal class Cryptor: CryptorInterface {
       return null
     }
 
-    try {
-      val cipher: Cipher = Cipher.getInstance(TRANSFORMATION)
-      val spec = GCMParameterSpec(128, iv)
-      cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
-      return String(cipher.doFinal(data))
+    return try {
+      String(decrypt(data, iv, alias) ?: return null, Charsets.UTF_8)
     } catch (e: Throwable) {
       Log.e(TAG, "cipher.init: ${e.stackTraceToString()}")
       val randomPassphrase = appPreferences.initialRandomDBPassphrase.get()
       AlertManager.shared.showAlertMsg(
         title = generalGetString(MR.strings.error_reading_passphrase),
-        text = generalGetString(if (randomPassphrase) {
-          MR.strings.restore_passphrase_can_not_be_read_desc
-        } else {
-          MR.strings.restore_passphrase_can_not_be_read_enter_manually_desc
-        }
-        )
-          .plus("\n\n").plus(e.stackTraceToString())
+        text = generalGetString(
+          if (randomPassphrase) {
+            MR.strings.restore_passphrase_can_not_be_read_desc
+          } else {
+            MR.strings.restore_passphrase_can_not_be_read_enter_manually_desc
+          }
+        ).plus("\n\n").plus(e.stackTraceToString())
       )
-      if (randomPassphrase) {
-        // do not allow to override initial random passphrase in case of such error
-        throw e
-      }
-      return null
+      if (randomPassphrase) throw e
+      null
     }
   }
 
-  override fun encryptText(text: String, alias: String): Pair<ByteArray, ByteArray> {
-    val cipher: Cipher = Cipher.getInstance(TRANSFORMATION)
+  override fun encryptBytes(data: ByteArray, alias: String): Pair<ByteArray, ByteArray> {
+    val cipher = Cipher.getInstance(TRANSFORMATION)
     cipher.init(Cipher.ENCRYPT_MODE, createSecretKey(alias))
-    return Pair(cipher.doFinal(text.toByteArray(charset("UTF-8"))), cipher.iv)
+    return cipher.doFinal(data) to cipher.iv
+  }
+
+  private fun decrypt(data: ByteArray, iv: ByteArray, alias: String): ByteArray? {
+    val secretKey = getSecretKey(alias) ?: return null
+    val cipher = Cipher.getInstance(TRANSFORMATION)
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, GCMParameterSpec(128, iv))
+    return cipher.doFinal(data)
   }
 
   override fun deleteKey(alias: String) {
